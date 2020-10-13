@@ -31,4 +31,15 @@ public class Inventory {
         this.ring = null;
     }
 
+    public int getStarterPotions() {
+        return this.starterPotions;
+    }
+
+    public int getHealthPotions() {
+        return this.healthPotions;
+    }
+
+    public int getManaPotions() {
+        return this.manaPotions;
+    }
 }

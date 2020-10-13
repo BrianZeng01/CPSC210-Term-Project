@@ -66,8 +66,8 @@ public abstract class Hero {
 
     // REQUIRES: Must have mana potion in inventory
     // MODIFIES: this
-    // EFFECTS: Increments mana by healthAndManaPotion value, removes one mana
-    //          potion from inventory, and returns true. If no mana potions
+    // EFFECTS: Increments mana by healthAndManaPotionValue up to maxMana(Still consumes potion)
+    //          , removes one mana potion from inventory, and returns true. If no mana potions
     //          in inventory returns false.
     public Boolean drinkManaPotion() {
         return true;
@@ -75,7 +75,7 @@ public abstract class Hero {
 
     // REQUIRES: Must have health potion in inventory
     // MODIFIES: this
-    // EFFECTS: Increments health by healthAndManaPotion value, removes one health
+    // EFFECTS: Increments health by healthAndManaPotionValue up to maxHealth, removes one health
     //          potion from inventory, and returns true. If no health potions
     //          in inventory returns false.
     public Boolean drinkHealthPotion() {

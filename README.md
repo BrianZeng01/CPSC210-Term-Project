@@ -20,7 +20,7 @@ them *permanently*. There will also be 3 difficulties that user's can choose fro
 <br>
 
 
-##User Stories:<br>
+## User Stories:
 As a user, I want to be able to...
 - Create a new world
 - Delete a world

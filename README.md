@@ -18,9 +18,15 @@ characters. The world will be saved upon each round.
 User's may create up to three different worlds and have the option to delete 
 them *permanently*. There will also be 3 difficulties that user's can choose from.
 <br>
+<br>
+This game is for anyone who wants to relive the 2D RPG era of 
+the 2000s. I chose to create this out of nostalgia and in honour of 
+what I spent many of my childhood hours playing. The topic of 
+Game Development has always peaked my interest so I thought this would 
+be a great opportunity to give it a shot.
 
 
-##User Stories:<br>
+## User Stories:
 As a user, I want to be able to...
 - Create a new world
 - Delete a world
@@ -28,5 +34,6 @@ As a user, I want to be able to...
 - View my world's progress
 - Change the difficulty for my world
 - Increase my character's stats
+- View what different stats do
 - Add an item to my inventory
 

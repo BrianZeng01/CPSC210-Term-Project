@@ -28,7 +28,7 @@ public class Worlds {
     }
 
     // EFFECTS: Checks if worlds list is full returns true if full
-    //          othewise false
+    //          otherwise false
     protected Boolean worldsFull() {
         return this.worlds.size() >= this.max_worlds;
     }

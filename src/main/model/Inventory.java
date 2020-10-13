@@ -7,6 +7,8 @@ import model.items.Ring;
 
 // Basic Inventory system for character
 public class Inventory {
+
+    private final int starterPotions = 5;
     public int healthPotions;
     public int manaPotions;
     public Accessory slot1;
@@ -17,10 +19,10 @@ public class Inventory {
     public Bracelet bracelet;
 
     // EFFECTS: Creates a new inventory with all empty slots except for
-    //          5 health and mana potions
+    //          starter health and mana potions
     public Inventory() {
-        this.healthPotions = 5;
-        this.manaPotions = 5;
+        this.healthPotions = starterPotions;
+        this.manaPotions = starterPotions;
         this.slot1 = null;
         this.slot2 = null;
         this.slot3 = null;

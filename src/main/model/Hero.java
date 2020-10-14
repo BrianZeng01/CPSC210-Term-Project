@@ -1,14 +1,13 @@
 package model;
 
 // Abstract for possible Characters
-public abstract class Hero {
+public abstract class Hero extends Entity {
 
     private static final int BASE_STATS = 1;
     private static final int BASE_HEALTH_AND_MANA = 100;
     private static final int HEALTH_AND_MANA_POTION_VALUE = 25;
     private static final int MAX_HEALTH_AND_MANA_INCREMENT = 10;
     private static final int SKILL_POINTS_GRANTED_PER_LEVEL = 5;
-    private static final int ATTACK_MULTIPLIER = 5;
     protected static String heroClass;
     protected static final int SPECIAL_BASE_STAT = 5;
     protected String name;
@@ -28,6 +27,7 @@ public abstract class Hero {
     public Hero(String name) {
         this.name = name;
         this.inventory = new Inventory();
+        this.attackMultiplier = 5;
         this.maxHealth = BASE_HEALTH_AND_MANA;
         this.maxMana = BASE_HEALTH_AND_MANA;
         this.health = BASE_HEALTH_AND_MANA;
@@ -212,7 +212,7 @@ public abstract class Hero {
         return this.MAX_HEALTH_AND_MANA_INCREMENT;
     }
 
-    public int getAttackMultiplier() {
-        return this.ATTACK_MULTIPLIER;
+    public String getHeroClass() {
+        return this.heroClass;
     }
 }

@@ -8,5 +8,6 @@ public class MageHero extends Hero {
     public MageHero(String name) {
         super(name);
         this.intelligence = SPECIAL_BASE_STAT;
+        this.heroClass = "mage";
     }
 }

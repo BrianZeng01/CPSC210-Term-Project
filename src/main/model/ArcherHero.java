@@ -8,5 +8,6 @@ public class ArcherHero extends Hero {
     public ArcherHero(String name) {
         super(name);
         this.agility = SPECIAL_BASE_STAT;
+        this.heroClass = "archer";
     }
 }

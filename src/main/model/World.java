@@ -28,7 +28,7 @@ public class World {
     // MODIFIES: this
     // EFFECTS: Change's the difficulty of the World
     public void changeDifficulty(String newDifficulty) {
-        //stub
+        this.difficulty = newDifficulty;
     }
 
     // MODIFIES: this

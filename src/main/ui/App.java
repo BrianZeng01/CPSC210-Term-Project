@@ -48,7 +48,6 @@ public class App {
         while (true) {
             mainMenuOptions();
             command = input.next();
-            System.out.println(command);
             if (command.equals("q")) {
                 break;
             } else if (validWorldCommand(command)) {
@@ -92,7 +91,7 @@ public class App {
             if (command.equals("f")) {
                 return;
             } else if (command.equals("c")) {
-                return;
+                characterMenu(w.getHero());
             } else if (command.equals("b")) {
                 break;
             } else {
@@ -111,6 +110,130 @@ public class App {
         System.out.println("Round:" + w.getRound());
         System.out.println("Difficulty:" + w.getDifficulty());
 
+    }
+
+    // EFFECTS: Processes given inputs in hero menu
+    public void characterMenu(Hero hero) {
+        characterStats(hero);
+        System.out.println("--------------");
+
+        while (true) {
+            characterMenuOptions(hero);
+            command = input.next();
+
+            if (command.equals("i")) {
+                inventoryMenu(hero);
+            } else if (hero.hasSkillPoints() && command.equals("s")) {
+                statsMenu(hero);
+            } else if (command.equals("b")) {
+                break;
+            } else {
+                invalidInput();
+            }
+        }
+    }
+
+    // EFFECTS: Displays hero menu options
+    public void characterMenuOptions(Hero hero) {
+        menuHeader("Hero Menu");
+        System.out.println("i => Open Inventory");
+        if (hero.hasSkillPoints()) {
+            System.out.println("s => Increase Stats");
+        }
+        System.out.println("b => Go back");
+
+    }
+
+    // EFFECTS: Displays given heros stats
+    public void characterStats(Hero hero) {
+        System.out.println("HERO STATS");
+        System.out.println("LEVEL: " + hero.getLevel());
+        System.out.println("CLASS: " + hero.getHeroClass());
+        System.out.println("NAME: " + hero.getName());
+        System.out.println("STRENGTH: " + hero.getStrength());
+        System.out.println("DEFENCE: " + hero.getDefence());
+        System.out.println("AGILITY: " + hero.getAgility());
+        System.out.println("INTELLIGENCE: " + hero.getIntelligence());
+        System.out.println("MAX HEALTH: " + hero.getMaxHealth());
+        System.out.println("MAX MANA: " + hero.getMaxMana());
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Processes input in Hero Menu and increases chosen stats
+    public void statsMenu(Hero hero) {
+        characterStats(hero);
+        statsMenuOptions(hero);
+
+        while (true) {
+            command = input.next();
+
+            if (!hero.hasSkillPoints()) {
+                System.out.println("No more Skill Points");
+                break;
+            } else if (command.equals("s")) {
+                hero.increaseStrength();
+            } else if (command.equals("d")) {
+                hero.increaseDefence();
+            } else if (command.equals("a")) {
+                hero.increaseAgility();
+            } else if (command.equals("i")) {
+                hero.increaseIntelligence();
+            } else if (command.equals("b")) {
+                break;
+            } else {
+                invalidInput();
+            }
+        }
+    }
+
+    public void statsMenuOptions(Hero hero) {
+        menuHeader("Increase Hero's Stats");
+        System.out.println("SKILL POINTS REMAINING: " + hero.getSkillPoints());
+        System.out.println("s => Increase Strength +1");
+        System.out.println("d => Increase Defence +1");
+        System.out.println("a => Increase Agility +1");
+        System.out.println("i => Increase Intelligence +1");
+        System.out.printf("b => Go back");
+    }
+
+    // EFFECTS: Processes given input in inventory menu
+    public void inventoryMenu(Hero hero) {
+
+        while (true) {
+            menuHeader("Inventory");
+            System.out.println("b -> Go back");
+            System.out.println("---------------");
+            inventoryDisplay(hero.getInventory());
+            command = input.next();
+            if (command.equals("b")) {
+                break;
+            } else {
+                invalidInput();
+            }
+        }
+    }
+
+    // EFFECTS: Displays items in inventory
+    public void inventoryDisplay(Inventory inv) {
+        System.out.println("<<INVENTORYSLOTS>>");
+        for (Accessory a: inv.getInventorySlots()) {
+            accessoryDisplay(a);
+        }
+
+        System.out.println("<<EQUIPMENTSLOTS>>");
+        for (Accessory a: inv.getEquipmentSlots()) {
+            accessoryDisplay(a);
+        }
+    }
+
+    // EFFECTS: Displays given accessory
+    public void accessoryDisplay(Accessory a) {
+        System.out.println(a.getAccessoryName() + ": "
+                + "+" + a.getAddedStrength() + "Strength, "
+                + "+" + a.getAddedDefence() + "Defence, "
+                + "+" + a.getAddedAgility() + "Agility, "
+                + "+" + a.getAddedIntelligence() + "Intelligence, "
+        );
     }
 
     // MODIFIES; this

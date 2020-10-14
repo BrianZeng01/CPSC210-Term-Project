@@ -161,18 +161,22 @@ public abstract class Hero extends Entity {
 
     public void increaseStrength() {
         this.strength++;
+        this.skillPoints--;
     }
 
     public void increaseDefence() {
         this.defence++;
+        this.skillPoints--;
     }
 
     public void increaseAgility() {
         this.agility++;
+        this.skillPoints--;
     }
 
     public void increaseIntelligence() {
         this.intelligence++;
+        this.skillPoints--;
     }
 
     public Inventory getInventory() {

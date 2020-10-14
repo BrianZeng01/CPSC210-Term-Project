@@ -8,8 +8,11 @@ public abstract class Entity {
     public int health;
     public int strength;
 
+    // EFFECTS: Entity takes damage, calculated differently
+    //          for different entities
     public abstract Boolean takeDamage(int damage);
 
+    // EFFECTS: The basic attack of entites, different calculations
     public abstract int basicAttack();
 
     // EFFECTS: Checks if Character is dead, returns true if dead, otherwise false

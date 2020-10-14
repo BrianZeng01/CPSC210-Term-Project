@@ -2,6 +2,7 @@ package model;
 
 // World for application
 public class World {
+    protected int worldNumber;
     protected Hero hero;
     protected String difficulty;
     protected int round;
@@ -10,7 +11,7 @@ public class World {
     // EFFECTS: Constructs a world with character of attributes name and
     //          heroClass. Sets given difficulty and starts at round 1.
     public World(String worldName, String heroName,
-                 String heroClass, String difficulty) {
+                 String heroClass, String difficulty, int worldNumber) {
         if (heroClass == "warrior") {
             this.hero = new WarriorHero(heroName);
         } else if (heroClass == "archer") {
@@ -18,13 +19,14 @@ public class World {
         } else {
             this.hero = new MageHero(heroName);
         }
+        this.worldNumber = worldNumber;
         this.difficulty = difficulty;
         this.worldName = worldName;
         this.round = 1;
     }
 
     // MODIFIES: this
-    // EFFECTS: Change's the difficulty
+    // EFFECTS: Change's the difficulty of the World
     public void changeDifficulty(String newDifficulty) {
         //stub
     }
@@ -49,5 +51,9 @@ public class World {
 
     public String getDifficulty() {
         return this.difficulty;
+    }
+
+    public int getWorldNumber() {
+        return this.worldNumber;
     }
 }

@@ -11,7 +11,7 @@ but to fight until you are rescued, will you survive?
 <br>
 This is a classic Role-Playing Game in which users will select one of three
 basic heroes to play as; mage, warrior, or archer. It is *round-based*, and the
-user will have free rein in a small map as they battle the monsters. 
+user will take turns attacking the monsters. 
 Each Hero will have *unique skills/traits* and access to a *basic inventory system*. 
 Upon the end of each round users are able to *level up the abilities* of their 
 characters. The world will be saved upon each round. 
@@ -28,12 +28,13 @@ be a great opportunity to give it a shot.
 
 ## User Stories:
 As a user, I want to be able to...
-- Create a new world *
+- Create a new world * Mark
+- Fight a monster * Mark
 - Delete a world *
 - View my character's stats *
 - View my world's progress *
 - Change the difficulty for my world
-- Increase my character's stats/level up *
+- Increase my character's stats/level up * Mark
 - View what different stats do
-- Add an item to my inventory *
+- Add an item to my inventory * Mark
 

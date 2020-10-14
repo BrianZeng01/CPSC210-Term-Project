@@ -1,5 +1,7 @@
 package model.items;
 
+import model.Accessory;
+
 // Ring Accessory
 public class Ring extends Accessory {
 

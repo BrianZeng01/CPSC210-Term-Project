@@ -1,7 +1,7 @@
-package model.items;
+package model;
 
 // Abstract class for accessories
-public abstract class Accessory {
+public class Accessory {
     public String accessoryName;
     public int addedStrength;
     public int addedDefence;

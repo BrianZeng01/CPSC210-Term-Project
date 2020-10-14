@@ -1,17 +1,16 @@
 package model;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-
 // Abstract for possible Characters
 public abstract class Hero {
 
-    // Checkstyle confusion on final field
-    private final int baseStats = 1;
-    private final int baseHealthAndMana = 100;
-    private final int healthAndManaPotionValue = 25;
-    private final int maxHealthAndManaIncrement = 10;
-    private final int skillPointsGrantedPerLevel = 5;
-    protected final int specialBaseStat = 5;
+    private static final int BASE_STATS = 1;
+    private static final int BASE_HEALTH_AND_MANA = 100;
+    private static final int HEALTH_AND_MANA_POTION_VALUE = 25;
+    private static final int MAX_HEALTH_AND_MANA_INCREMENT = 10;
+    private static final int SKILL_POINTS_GRANTED_PER_LEVEL = 5;
+    private static final int ATTACK_MULTIPLIER = 5;
+    protected static String heroClass;
+    protected static final int SPECIAL_BASE_STAT = 5;
     protected String name;
     protected Inventory inventory;
     protected int maxHealth;
@@ -29,38 +28,51 @@ public abstract class Hero {
     public Hero(String name) {
         this.name = name;
         this.inventory = new Inventory();
-        this.maxHealth = baseHealthAndMana;
-        this.maxMana = baseHealthAndMana;
-        this.health = baseHealthAndMana;
-        this.mana = baseHealthAndMana;
+        this.maxHealth = BASE_HEALTH_AND_MANA;
+        this.maxMana = BASE_HEALTH_AND_MANA;
+        this.health = BASE_HEALTH_AND_MANA;
+        this.mana = BASE_HEALTH_AND_MANA;
         this.level = 1;
         this.skillPoints = 0;
-        this.strength = baseStats;
-        this.defence = baseStats;
-        this.agility = baseStats;
-        this.intelligence = baseStats;
+        this.strength = BASE_STATS;
+        this.defence = BASE_STATS;
+        this.agility = BASE_STATS;
+        this.intelligence = BASE_STATS;
     }
 
     // MODIFIES: this
     // EFFECTS: Increase level by one and grants 5 skill points
     public void levelUp() {
         this.level++;
-        this.skillPoints += this.skillPointsGrantedPerLevel;
-        this.maxHealth += this.maxHealthAndManaIncrement;
-        this.maxMana += this.maxHealthAndManaIncrement;
+        this.skillPoints += this.getSkillPointsGrantedPerLevel();
+        this.maxHealth += this.getMaxHealthAndManaIncrement();
+        this.maxMana += this.getMaxHealthAndManaIncrement();
+    }
+
+    // EFFECTS: Returns a value calculated off hero's strength
+    public int basicAttack() {
+        return this.getStrength() * this.getAttackMultiplier();
     }
 
     // MODIFIES: this
-    // EFFECTS: Decrease health by damage and return true if character
-    //          still alive, otherwise false
+    // EFFECTS: Decrease health by based on damage
+    // and return true if character still alive, otherwise false
     public Boolean takeDamage(int damage) {
-        return false;
+        this.health -= damage;
+        if (this.isDead()) {
+            return false;
+        }
+        return true;
     }
 
     // MODIFIES: this
     // EFFECTS: Decrease mana by manaNeeded if sufficient mana and return true,
     //          otherwise false.
     public Boolean spendMana(int manaNeeded) {
+        if (this.getMana() >= manaNeeded) {
+            this.mana -= manaNeeded;
+            return true;
+        }
         return false;
     }
 
@@ -70,7 +82,17 @@ public abstract class Hero {
     //          , removes one mana potion from inventory, and returns true. If no mana potions
     //          in inventory returns false.
     public Boolean drinkManaPotion() {
-        return true;
+        if (this.getInventory().getManaPotions() > 0) {
+            this.getInventory().useManaPotion();
+            int possibleNewMana = this.mana + this.getHealthAndManaPotionValue();
+            if (possibleNewMana > maxMana) {
+                this.mana = maxMana;
+            } else {
+                this.mana = possibleNewMana;
+            }
+            return true;
+        }
+        return false;
     }
 
     // REQUIRES: Must have health potion in inventory
@@ -79,12 +101,22 @@ public abstract class Hero {
     //          potion from inventory, and returns true. If no health potions
     //          in inventory returns false.
     public Boolean drinkHealthPotion() {
-        return true;
+        if (this.getInventory().getHealthPotions() > 0) {
+            this.getInventory().useHealthPotion();
+            int possibleNewHealth = this.getHealth() + this.getHealthAndManaPotionValue();
+            if (possibleNewHealth > maxHealth) {
+                this.health = maxHealth;
+            } else {
+                this.health = possibleNewHealth;
+            }
+            return true;
+        }
+        return false;
     }
 
     // EFFECTS: Checks if Character is dead, returns true if dead, otherwise false
     public Boolean isDead() {
-        return this.health > 0;
+        return this.health <= 0;
     }
 
     // EFFECTS: Returns true if character has skill points, else false.
@@ -117,11 +149,11 @@ public abstract class Hero {
     }
 
     public int getSkillPointsGrantedPerLevel() {
-        return this.skillPointsGrantedPerLevel;
+        return this.SKILL_POINTS_GRANTED_PER_LEVEL;
     }
 
     public int getSpecialBaseStat() {
-        return this.specialBaseStat;
+        return this.SPECIAL_BASE_STAT;
     }
 
     public int getMana() {
@@ -157,15 +189,15 @@ public abstract class Hero {
     }
 
     public int getBaseStats() {
-        return this.baseStats;
+        return this.BASE_STATS;
     }
 
     public int getBaseHealthAndMana() {
-        return this.baseHealthAndMana;
+        return this.BASE_HEALTH_AND_MANA;
     }
 
     public int getHealthAndManaPotionValue() {
-        return this.healthAndManaPotionValue;
+        return this.HEALTH_AND_MANA_POTION_VALUE;
     }
 
     public int getMaxHealth() {
@@ -177,6 +209,10 @@ public abstract class Hero {
     }
 
     public int getMaxHealthAndManaIncrement() {
-        return this.maxHealthAndManaIncrement;
+        return this.MAX_HEALTH_AND_MANA_INCREMENT;
+    }
+
+    public int getAttackMultiplier() {
+        return this.ATTACK_MULTIPLIER;
     }
 }

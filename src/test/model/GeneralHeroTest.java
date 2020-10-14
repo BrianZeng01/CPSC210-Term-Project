@@ -26,8 +26,8 @@ public class GeneralHeroTest {
         hero.levelUp();
         assertEquals(hero.getSkillPointsGrantedPerLevel(), hero.getSkillPoints());
         assertEquals(2, hero.getLevel());
-        assertEquals(hero.getMaxHealthAndManaIncrement() + hero.getBaseHealthAndMana(), hero.getHealth());
-        assertEquals(hero.getMaxHealthAndManaIncrement() + hero.getBaseHealthAndMana(), hero.getMana());
+        assertEquals(hero.getMaxHealthAndManaIncrement() + hero.getBaseHealthAndMana(), hero.getMaxHealth());
+        assertEquals(hero.getMaxHealthAndManaIncrement() + hero.getBaseHealthAndMana(), hero.getMaxMana());
     }
 
     @Test
@@ -36,8 +36,23 @@ public class GeneralHeroTest {
         hero.levelUp();
         assertEquals(2*hero.getSkillPointsGrantedPerLevel(), hero.getSkillPoints());
         assertEquals(3, hero.getLevel());
-        assertEquals(2*hero.getMaxHealthAndManaIncrement() + hero.getBaseHealthAndMana(), hero.getHealth());
-        assertEquals(2*hero.getMaxHealthAndManaIncrement() + hero.getBaseHealthAndMana(), hero.getMana());
+        assertEquals(2*hero.getMaxHealthAndManaIncrement() + hero.getBaseHealthAndMana(), hero.getMaxHealth());
+        assertEquals(2*hero.getMaxHealthAndManaIncrement() + hero.getBaseHealthAndMana(), hero.getMaxMana());
+    }
+
+    @Test
+    public void increaseStatsTest() {
+        hero.levelUp();
+        hero.increaseStrength();
+        hero.increaseAgility();
+        hero.increaseDefence();
+        hero.increaseIntelligence();
+        assertEquals(2, hero.getStrength());
+        assertEquals(2, hero.getAgility());
+        assertEquals(1 + hero.getSpecialBaseStat(), hero.getDefence());
+        assertEquals(2, hero.getIntelligence());
+        hero.increaseStrength();
+        assertEquals(3, hero.getStrength());
     }
 
     @Test
@@ -81,9 +96,9 @@ public class GeneralHeroTest {
 
     @Test
     public void spendManaInsufficientTest() {
-        int spend = hero.getBaseHealthAndMana();
+        int spend = hero.getBaseHealthAndMana() + 1;
         assertFalse(hero.spendMana(spend));
-        assertEquals(0, hero.getMana());
+        assertEquals(hero.getBaseHealthAndMana(), hero.getMana());
     }
 
     @Test
@@ -96,16 +111,16 @@ public class GeneralHeroTest {
 
     @Test
     public void drinkManaPotionSufficientUsedManaTest() {
-        int spend = hero.maxMana - hero.getHealthAndManaPotionValue() - 1;
-        hero.spendMana(spend);
+        int spend = hero.getMaxMana();
+        assertTrue(hero.spendMana(spend));
         assertTrue(hero.drinkManaPotion());
-        assertEquals(hero.getMaxMana() - spend + hero.getHealthAndManaPotionValue(), hero.getMana());
+        assertEquals( hero.getHealthAndManaPotionValue(), hero.getMana());
         assertEquals(4, hero.getInventory().manaPotions);
     }
 
     @Test
     public void drinkManaPotionInsufficientTest() {
-        for (int i = 0 ; i < hero.getInventory().getStarterPotions() ; i--) {
+        for (int i = 0 ; i < hero.getInventory().getStarterPotions() ; i++) {
             hero.drinkManaPotion();
         }
         assertEquals(0, hero.getInventory().manaPotions);
@@ -122,16 +137,16 @@ public class GeneralHeroTest {
 
     @Test
     public void drinkHealthPotionSufficientTakenDamageTest() {
-        int damage = hero.maxHealth - hero.getHealthAndManaPotionValue() - 1;
+        int damage = hero.getMaxHealth()/2 ;
         hero.takeDamage(damage);
         assertTrue(hero.drinkHealthPotion());
-        assertEquals(hero.getMaxHealth() - damage + hero.getHealthAndManaPotionValue(), hero.getHealth());
+        assertEquals( hero.getMaxHealth()/2 + hero.getHealthAndManaPotionValue(), hero.getHealth());
         assertEquals(4, hero.getInventory().healthPotions);
     }
 
     @Test
     public void drinkHealthPotionInsufficientTest() {
-        for (int i = 0 ; i < hero.getInventory().getStarterPotions() ; i--) {
+        for (int i = 0 ; i < hero.getInventory().getStarterPotions() ; i++) {
             hero.drinkHealthPotion();
         }
         assertEquals(0, hero.getInventory().healthPotions);

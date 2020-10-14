@@ -1,5 +1,7 @@
 package model.items;
 
+import model.Accessory;
+
 // Necklace Accessory
 public class Necklace extends Accessory {
 

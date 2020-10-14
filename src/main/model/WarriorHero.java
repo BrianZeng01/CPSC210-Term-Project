@@ -7,6 +7,7 @@ public class WarriorHero extends Hero {
     // EFFECTS: Creates new warrior hero with base defence 5
     public WarriorHero(String name) {
         super(name);
-        this.defence = specialBaseStat;
+        this.defence = SPECIAL_BASE_STAT;
+        this.heroClass = "warrior";
     }
 }

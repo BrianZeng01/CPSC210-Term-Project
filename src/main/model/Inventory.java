@@ -1,38 +1,55 @@
 package model;
 
-import model.items.Accessory;
-import model.items.Bracelet;
-import model.items.Necklace;
-import model.items.Ring;
+import java.util.ArrayList;
+import java.util.List;
 
 // Basic Inventory system for character
 public class Inventory {
 
-    private final int starterPotions = 5;
+    private static final int MAX_INVENTORY_SLOTS = 3;
+    private static final int MAX_EQUIPMENT_SLOTS = 3;
+    private static final int STARTER_POTIONS = 5;
     public int healthPotions;
     public int manaPotions;
-    public Accessory slot1;
-    public Accessory slot2;
-    public Accessory slot3;
-    public Necklace necklace;
-    public Ring ring;
-    public Bracelet bracelet;
+    public List<Accessory> inventorySlots;
+    public List<Accessory> equipmentSlots;
 
     // EFFECTS: Creates a new inventory with all empty slots except for
     //          starter health and mana potions
     public Inventory() {
-        this.healthPotions = starterPotions;
-        this.manaPotions = starterPotions;
-        this.slot1 = null;
-        this.slot2 = null;
-        this.slot3 = null;
-        this.necklace = null;
-        this.bracelet = null;
-        this.ring = null;
+        this.healthPotions = STARTER_POTIONS;
+        this.manaPotions = STARTER_POTIONS;
+        this.inventorySlots = new ArrayList<Accessory>(MAX_INVENTORY_SLOTS);
+        this.equipmentSlots = new ArrayList<Accessory>(MAX_EQUIPMENT_SLOTS);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Returns true if accessory added to slots with room,
+    //          otherwise false due to full inventory.
+    public Boolean addAccessory(Accessory accessory) {
+        return false;
+    }
+
+    public void useManaPotion() {
+        this.manaPotions--;
+    }
+
+    public void useHealthPotion() {
+        this.healthPotions--;
+    }
+
+    // EFFECTS: Returns true if inventory slots are full
+    public Boolean inventorySlotsIsFull() {
+        return false;
+    }
+
+    // EFFECTS: Returns true if equipment slots are full
+    public Boolean equipmentSlotsIsFull() {
+        return false;
     }
 
     public int getStarterPotions() {
-        return this.starterPotions;
+        return this.STARTER_POTIONS;
     }
 
     public int getHealthPotions() {
@@ -41,5 +58,13 @@ public class Inventory {
 
     public int getManaPotions() {
         return this.manaPotions;
+    }
+
+    public int getMaxInventorySlots() {
+        return this.MAX_INVENTORY_SLOTS;
+    }
+
+    public int getMaxEquipmentSlots() {
+        return this.MAX_EQUIPMENT_SLOTS;
     }
 }

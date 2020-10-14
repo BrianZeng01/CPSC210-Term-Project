@@ -89,5 +89,16 @@ public class WorldsTest {
         assertEquals("Test World2", worlds.getWorld(2).getWorldName());
     }
 
+    @Test
+    public void getNumberOfWorldsTest() {
+        assertEquals(0, worlds.getNumberOfWorlds());
+    }
+
+    @Test
+    public void getUsedWorldNumbers() {
+        worlds.createWorld("Test World", "Test Hero",
+                "warrior", "easy" );
+        assertEquals(1, worlds.getUsedWorldNumbers().get(0));
+    }
 }
 

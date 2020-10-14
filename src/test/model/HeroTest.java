@@ -57,6 +57,11 @@ public class HeroTest {
     }
 
     @Test
+    public void basicAttackTest() {
+        assertEquals(hero.getStrength()* hero.getAttackMultiplier(), hero.basicAttack());
+    }
+
+    @Test
     public void equipAccessoryEnoughRoomTest() {
         Accessory accessory = new Accessory("Pendant", 1,2,3,4);
         hero.getInventory().pickUpAccessory(accessory);

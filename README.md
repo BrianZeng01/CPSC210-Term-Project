@@ -28,13 +28,13 @@ be a great opportunity to give it a shot.
 
 ## User Stories:
 As a user, I want to be able to...
-- Create a new world * Mark
+- Create a new world which will be added to worlds * Mark
 - Fight a monster * Mark
-- Delete a world * Mark
-- View my character's stats * 
+- Delete a world from worlds * Mark
+- View my character's stats 
 - View my world's progress 
 - Change the difficulty for my world
-- Increase my character's stats/level up * Mark
+- Increase stats/level up of hero * Mark
 - View what different stats do
-- Add an item to my inventory * 
+- Add an item to my inventory  
 

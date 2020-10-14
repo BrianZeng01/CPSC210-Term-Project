@@ -77,7 +77,7 @@ public class Worlds {
     }
 
     public List<Integer> getUsedWorldNumbers() {
-        return this.getUsedWorldNumbers();
+        return this.usedWorldNumbers;
     }
 
     public int getNumberOfWorlds() {

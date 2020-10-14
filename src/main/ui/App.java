@@ -28,6 +28,8 @@ public class App {
         worlds.createWorld("My World", "My Hero",
                 "warrior", "easy");
         worlds.getWorld(1).getHero().levelUp();
+        Accessory a = new Accessory("Pendant",3,2,1,4);
+        worlds.getWorld(1).getHero().getInventory().pickUpAccessory(a);
     }
 
     // MODIFIES: this
@@ -56,7 +58,7 @@ public class App {
             } else if (validDeleteWorldCommand(command)) {
                 int worldNumber = Integer.parseInt(command.substring(1, 2));
                 deleteWorld(worldNumber);
-            } else if (command.equals("c")) {
+            } else if (command.equals("c") && !worlds.worldsIsFull()) {
                 createWorldMenu();
             } else {
                 invalidInput();
@@ -105,7 +107,7 @@ public class App {
         menuHeader("World Menu for " + w.getWorldName());
         System.out.println("f => Fight a monster");
         System.out.println("c => Modifiy/View Character");
-        System.out.println("b => go back to Main Menu");
+        System.out.println("b => Go Back to Main Menu");
         System.out.println("------------------");
         System.out.println("Round:" + w.getRound());
         System.out.println("Difficulty:" + w.getDifficulty());
@@ -114,10 +116,9 @@ public class App {
 
     // EFFECTS: Processes given inputs in hero menu
     public void characterMenu(Hero hero) {
-        characterStats(hero);
-        System.out.println("--------------");
-
         while (true) {
+            characterStats(hero);
+            System.out.println("--------------");
             characterMenuOptions(hero);
             command = input.next();
 
@@ -135,12 +136,12 @@ public class App {
 
     // EFFECTS: Displays hero menu options
     public void characterMenuOptions(Hero hero) {
-        menuHeader("Hero Menu");
+        menuHeader("Character Menu");
         System.out.println("i => Open Inventory");
         if (hero.hasSkillPoints()) {
             System.out.println("s => Increase Stats");
         }
-        System.out.println("b => Go back");
+        System.out.println("b => Go Back to World Menu");
 
     }
 
@@ -165,6 +166,7 @@ public class App {
         statsMenuOptions(hero);
 
         while (true) {
+            System.out.println("SKILL POINTS REMAINING: " + hero.getSkillPoints());
             command = input.next();
 
             if (!hero.hasSkillPoints()) {
@@ -188,12 +190,11 @@ public class App {
 
     public void statsMenuOptions(Hero hero) {
         menuHeader("Increase Hero's Stats");
-        System.out.println("SKILL POINTS REMAINING: " + hero.getSkillPoints());
         System.out.println("s => Increase Strength +1");
         System.out.println("d => Increase Defence +1");
         System.out.println("a => Increase Agility +1");
         System.out.println("i => Increase Intelligence +1");
-        System.out.printf("b => Go back");
+        System.out.printf("b => Go Back to Character Menu");
     }
 
     // EFFECTS: Processes given input in inventory menu
@@ -201,7 +202,7 @@ public class App {
 
         while (true) {
             menuHeader("Inventory");
-            System.out.println("b -> Go back");
+            System.out.println("b -> Go Back to Character Menu");
             System.out.println("---------------");
             inventoryDisplay(hero.getInventory());
             command = input.next();
@@ -358,10 +359,7 @@ public class App {
     public Boolean validWorld(String command) {
         try {
             int num = Integer.parseInt(command.substring(1,2));
-            if (worlds.getWorld(num) != null) {
-                return true;
-            }
-            return false;
+            return worlds.getWorld(num) != null;
         } catch (NumberFormatException e) {
             return false;
         }

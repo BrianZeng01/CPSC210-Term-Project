@@ -8,7 +8,7 @@ public abstract class Hero extends Entity {
     private static final int HEALTH_AND_MANA_POTION_VALUE = 25;
     private static final int MAX_HEALTH_AND_MANA_INCREMENT = 10;
     private static final int SKILL_POINTS_GRANTED_PER_LEVEL = 5;
-    protected static String heroClass;
+    protected String heroClass;
     protected static final int SPECIAL_BASE_STAT = 5;
     protected String name;
     protected Inventory inventory;

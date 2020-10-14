@@ -30,11 +30,11 @@ be a great opportunity to give it a shot.
 As a user, I want to be able to...
 - Create a new world * Mark
 - Fight a monster * Mark
-- Delete a world *
-- View my character's stats *
-- View my world's progress *
+- Delete a world * Mark
+- View my character's stats * 
+- View my world's progress 
 - Change the difficulty for my world
 - Increase my character's stats/level up * Mark
 - View what different stats do
-- Add an item to my inventory * Mark
+- Add an item to my inventory * 
 

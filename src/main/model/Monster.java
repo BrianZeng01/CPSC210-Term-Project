@@ -1,7 +1,10 @@
 package model;
 
+// A monster in the game
 public class Monster extends Entity {
 
+    // EFFECTS: Creates a monster with given name, health,
+    //          strength, and sets attackMultipler.
     public Monster(String name, int health, int strength) {
         this.name = name;
         this.health = health;

@@ -23,7 +23,8 @@ public abstract class Hero extends Entity {
     protected int agility;
     protected int intelligence;
 
-    // EFFECTS: Construct a hero with given name and base stats
+    // EFFECTS: Construct a hero with given name, an inventory,
+    //          and predetermined base stats
     public Hero(String name) {
         this.name = name;
         this.inventory = new Inventory();

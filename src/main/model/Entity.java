@@ -1,5 +1,6 @@
 package model;
 
+// Abstraction of entities in the game such as monster and hero
 public abstract class Entity {
 
     protected int attackMultiplier;

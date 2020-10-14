@@ -3,12 +3,15 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents all the worlds that user has
 public class Worlds {
     private static final int MAX_WORLDS = 3;
 
     protected List<World> worlds;
     protected List<Integer> usedWorldNumbers;
 
+    // EFFECTS: Constructs a new worlds object without
+    //          any worlds or used world numbers
     public Worlds() {
         this.worlds = new ArrayList<World>();
         this.usedWorldNumbers = new ArrayList<Integer>();
@@ -17,8 +20,9 @@ public class Worlds {
     // REQUIRES: worlds list to not be full
     // MODIFIES: this
     // EFFECTS: Creates a new world with given attributes, returns true
-    //          if world created, otherwise it's full and return false
-    protected Boolean createWorld(String worldName, String heroName,
+    //          if world created, otherwise it's full and return false.
+    //          The world will have a unique worldNumber.
+    public Boolean createWorld(String worldName, String heroName,
                                 String heroClass, String difficulty) {
         if (worldsIsFull()) {
             return false;
@@ -39,25 +43,25 @@ public class Worlds {
     // EFFECTS: Deletes the given world permenantly and removes it's
     //          world number from usedWorldNumbers, returns true if deleted
     //          otherwise false.
-    protected Boolean deleteWorld(int worldNumber) {
+    public Boolean deleteWorld(int worldNumber) {
         World deletedWorld = this.getWorld(worldNumber);
         if (deletedWorld == null) {
             return false;
         }
-        this.usedWorldNumbers.remove(Integer.valueOf(2));
+        this.usedWorldNumbers.remove(Integer.valueOf(worldNumber));
         this.worlds.remove(deletedWorld);
         return true;
     }
 
     // EFFECTS: Checks if worlds list is full returns true if full
     //          otherwise false
-    protected Boolean worldsIsFull() {
+    public Boolean worldsIsFull() {
         return this.getNumberOfWorlds() >= this.MAX_WORLDS;
     }
 
     // REQUIRES: world with given number must exist
     // EFFECTS: Returns the world with given world number
-    protected World getWorld(int worldNumber) {
+    public World getWorld(int worldNumber) {
         World world = null;
         for (World w :this.worlds) {
             if (w.getWorldNumber() == worldNumber) {
@@ -68,11 +72,19 @@ public class Worlds {
         return world;
     }
 
-    protected int getNumberOfWorlds() {
+    public List<World> getWorlds() {
+        return this.worlds;
+    }
+
+    public List<Integer> getUsedWorldNumbers() {
+        return this.getUsedWorldNumbers();
+    }
+
+    public int getNumberOfWorlds() {
         return this.worlds.size();
     }
 
-    protected int getMaxWorlds() {
+    public int getMaxWorlds() {
         return this.MAX_WORLDS;
     }
 }

@@ -8,7 +8,7 @@ public class Accessory {
     public int addedAgility;
     public int addedIntelligence;
 
-    // EFFECTS: Constructs accessory
+    // EFFECTS: Constructs accessory with name and given attributes
     public Accessory(String name, int strength,
                      int defence, int agility, int intelligence) {
         this.accessoryName = name;

@@ -1,6 +1,6 @@
 package model;
 
-// World for application
+// A world for the application
 public class World {
     protected int worldNumber;
     protected Hero hero;
@@ -8,13 +8,13 @@ public class World {
     protected int round;
     protected final String worldName;
 
-    // EFFECTS: Constructs a world with character of attributes name and
-    //          heroClass. Sets given difficulty and starts at round 1.
+    // EFFECTS: Constructs a world with a name, a hero of given heroClass,
+    //          and heroName. Sets given difficulty and starts at round 1.
     public World(String worldName, String heroName,
                  String heroClass, String difficulty, int worldNumber) {
-        if (heroClass == "warrior") {
+        if (heroClass.equals("warrior")) {
             this.hero = new WarriorHero(heroName);
-        } else if (heroClass == "archer") {
+        } else if (heroClass.equals("archer")) {
             this.hero = new ArcherHero(heroName);
         } else {
             this.hero = new MageHero(heroName);

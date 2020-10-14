@@ -90,6 +90,20 @@ public class WorldsTest {
     }
 
     @Test
+    public void getWorldsNoneTest() {
+        assertEquals(0, worlds.getWorlds().size());
+    }
+
+    @Test
+    public void getWorldsSomeTest() {
+        worlds.createWorld("Test World", "Test Hero",
+                "warrior", "easy" );
+        worlds.createWorld("Test World2", "Test Hero",
+                "warrior", "easy" );
+        assertEquals(2, worlds.getWorlds().size());
+    }
+
+    @Test
     public void getNumberOfWorldsTest() {
         assertEquals(0, worlds.getNumberOfWorlds());
     }

@@ -56,6 +56,12 @@ public class GeneralHeroTest {
     }
 
     @Test
+    public void equipAccessoryTest() {
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
+
+    }
+
+    @Test
     public void takeDamageAliveTest() {
         int damage = hero.getBaseHealthAndMana() - 1;
         assertTrue(hero.takeDamage(damage));

@@ -18,4 +18,24 @@ public class Accessory {
         this.addedIntelligence = intelligence;
     }
 
+    public String getAccessoryName() {
+        return this.accessoryName;
+    }
+
+    public int getAddedStrength() {
+        return this.addedStrength;
+    }
+
+    public int getAddedDefence() {
+        return this.addedDefence;
+    }
+
+    public int getAddedAgility() {
+        return this.addedAgility;
+    }
+
+    public int getAddedIntelligence() {
+        return this.addedIntelligence;
+    }
+
 }

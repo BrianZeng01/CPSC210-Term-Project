@@ -66,6 +66,40 @@ public abstract class Hero extends Entity {
     }
 
     // MODIFIES: this
+    // EFFECTS: Equips the given accessory if sufficient room in
+    //          equipmentSlots and increases stats, then returns true
+    //          false, otherwise
+    public Boolean equipAccessory(Accessory accessory) {
+        if (this.getInventory().equipmentSlotsIsFull()) {
+            return false;
+        } else {
+            this.getInventory().moveToEquipmentSlots(accessory);
+            this.strength += accessory.getAddedStrength();
+            this.defence += accessory.getAddedDefence();
+            this.agility += accessory.getAddedAgility();
+            this.intelligence += accessory.getAddedIntelligence();
+            return true;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Unequips the given accessory if sufficient room in
+    //          inventorySlots and decreases stats, then returns true.
+    //          Otherwise false.
+    public Boolean unequipAccessory(Accessory accessory) {
+        if (this.getInventory().inventorySlotsIsFull()) {
+            return false;
+        } else {
+            this.getInventory().moveToInventorySlots(accessory);
+            this.strength -= accessory.getAddedStrength();
+            this.defence -= accessory.getAddedDefence();
+            this.agility -= accessory.getAddedAgility();
+            this.intelligence -= accessory.getAddedIntelligence();
+            return true;
+        }
+    }
+
+    // MODIFIES: this
     // EFFECTS: Decrease mana by manaNeeded if sufficient mana and return true,
     //          otherwise false.
     public Boolean spendMana(int manaNeeded) {

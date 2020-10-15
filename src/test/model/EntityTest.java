@@ -14,6 +14,11 @@ public class EntityTest {
     }
 
     @Test
+    public void getNameTest() {
+        assertEquals("Golem", entity.getName());
+    }
+
+    @Test
     public void takeDamageDeadTest() {
         entity.takeDamage(150);
         assertTrue(entity.isDead());

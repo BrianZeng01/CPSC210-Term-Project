@@ -62,6 +62,15 @@ public class HeroTest {
     }
 
     @Test
+    public void recoverTest() {
+        hero.takeDamage(5);
+        hero.spendMana(10);
+        hero.recover();
+        assertEquals(hero.getMaxHealth(), hero.getHealth());
+        assertEquals(hero.getMaxMana(), hero.getMana());
+    }
+
+    @Test
     public void equipAccessoryEnoughRoomTest() {
         Accessory accessory = new Accessory("Pendant", 1,2,3,4);
         hero.getInventory().pickUpAccessory(accessory);

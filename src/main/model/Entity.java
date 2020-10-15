@@ -20,6 +20,10 @@ public abstract class Entity {
         return this.getHealth() <= 0;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public int getHealth() {
         return this.health;
     }

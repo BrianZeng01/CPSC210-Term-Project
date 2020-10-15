@@ -2,6 +2,7 @@ package ui;
 
 import model.*;
 
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -91,7 +92,13 @@ public class App {
             command = input.next();
 
             if (command.equals("f")) {
-                return;
+                Random random = new Random();
+                int str = random.nextInt(20 - 10) + 10;
+                Monster monster = new Monster("Slime", 20, str);
+                System.out.println(w.getHero().getName()
+                        + ", you've encountered" + " a " + monster.getName() + "!");
+                startFight(w.getHero(), monster);
+                w.getHero().recover();
             } else if (command.equals("c")) {
                 characterMenu(w.getHero());
             } else if (command.equals("b")) {
@@ -112,6 +119,69 @@ public class App {
         System.out.println("Round:" + w.getRound());
         System.out.println("Difficulty:" + w.getDifficulty());
 
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Simulates a fight a against a monster
+    public void startFight(Hero hero, Monster monster) {
+        int turn = 1;
+        while (true) {
+            if (isFightOver(hero, monster)) {
+                break;
+            }
+            fightOptions(turn, hero, monster);
+
+            command = input.next();
+            if (command.equals("a")) {
+                monster.takeDamage(hero.basicAttack());
+            } else if (command.equals("h") && hero.getInventory().getHealthPotions() > 0) {
+                hero.drinkHealthPotion();
+            } else if (command.equals("m") && hero.getInventory().getManaPotions() > 0) {
+                hero.drinkManaPotion();
+            } else if (command.equals("f")) {
+                System.out.println("Running away!");
+                break;
+            } else {
+                invalidInput();
+                continue;
+            }
+            hero.takeDamage(monster.basicAttack());
+            turn++;
+        }
+    }
+
+    // EFFECTS: Displays options during fight
+    public void fightOptions(int turn, Hero hero, Monster monster) {
+        Inventory inv = hero.getInventory();
+        System.out.println("TURN " + turn);
+        System.out.println(hero.getName() + " Health: " + hero.getHealth());
+        System.out.println(monster.getName() + " Health : " + monster.getHealth());
+        System.out.println("------------");
+        System.out.println("a => Basic Attack");
+        if (inv.getHealthPotions() > 0) {
+            System.out.println("h => Drink Health Potion: "
+                    + inv.getHealthPotions() + "Remaining");
+        }
+        if (inv.getManaPotions() > 0) {
+            System.out.println("m => Drink Mana Potion: "
+                    + inv.getManaPotions() + "Remaining");
+        }
+        System.out.println("f => Flee");
+
+    }
+
+    // EFFECTS: Returns true if either monster or hero is head
+    //          and prints relevant statement, else false
+    public Boolean isFightOver(Hero hero, Monster monster) {
+        if (monster.isDead()) {
+            System.out.println("You've won the fight");
+            return true;
+        }
+        if (hero.isDead()) {
+            System.out.println("You've died!");
+            return true;
+        }
+        return false;
     }
 
     // EFFECTS: Processes given inputs in hero menu
@@ -166,13 +236,14 @@ public class App {
         statsMenuOptions(hero);
 
         while (true) {
-            System.out.println("SKILL POINTS REMAINING: " + hero.getSkillPoints());
-            command = input.next();
-
             if (!hero.hasSkillPoints()) {
                 System.out.println("No more Skill Points");
                 break;
-            } else if (command.equals("s")) {
+            }
+            System.out.println("SKILL POINTS REMAINING: " + hero.getSkillPoints());
+            command = input.next();
+
+            if (command.equals("s")) {
                 hero.increaseStrength();
             } else if (command.equals("d")) {
                 hero.increaseDefence();
@@ -194,7 +265,7 @@ public class App {
         System.out.println("d => Increase Defence +1");
         System.out.println("a => Increase Agility +1");
         System.out.println("i => Increase Intelligence +1");
-        System.out.printf("b => Go Back to Character Menu");
+        System.out.println("b => Go Back to Character Menu");
     }
 
     // EFFECTS: Processes given input in inventory menu
@@ -363,6 +434,6 @@ public class App {
         } catch (NumberFormatException e) {
             return false;
         }
-
     }
+
 }

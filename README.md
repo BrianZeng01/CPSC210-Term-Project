@@ -29,7 +29,7 @@ be a great opportunity to give it a shot.
 ## User Stories:
 As a user, I want to be able to...
 - Create a new world which will be added to worlds * Mark
-- Fight a monster * Mark
+- Fight a monster with my hero in a selected world * Mark
 - Delete a world from worlds * Mark
 - View my character's stats 
 - View my world's progress 

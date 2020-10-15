@@ -48,6 +48,8 @@ public abstract class Hero extends Entity {
         this.skillPoints += this.getSkillPointsGrantedPerLevel();
         this.maxHealth += this.getMaxHealthAndManaIncrement();
         this.maxMana += this.getMaxHealthAndManaIncrement();
+        this.health = this.getMaxHealth();
+        this.mana = this.getMaxMana();
     }
 
     // EFFECTS: Returns a value calculated off hero's strength
@@ -81,6 +83,13 @@ public abstract class Hero extends Entity {
             this.intelligence += accessory.getAddedIntelligence();
             return true;
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets hero health and mana back to max
+    public void recover() {
+        this.health = this.getMaxHealth();
+        this.mana = this.getMaxMana();
     }
 
     // MODIFIES: this

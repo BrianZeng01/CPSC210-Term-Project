@@ -8,6 +8,13 @@ public abstract class Hero extends Entity {
     private static final int HEALTH_AND_MANA_POTION_VALUE = 25;
     private static final int MAX_HEALTH_AND_MANA_INCREMENT = 10;
     private static final int SKILL_POINTS_GRANTED_PER_LEVEL = 5;
+    private static final double DEFENCE_MULTIPLIER = 2.75;
+    private static final int FIRST_SKILL_COOL_DOWN = 2;
+    private static final int SECOND_SKILL_COOL_DOWN = 3;
+    private static final int THIRD_SKILL_COOL_DOWN = 4;
+    private static final int FIRST_SKILL_MANA_COST = 50;
+    private static final int SECOND_SKILL_MANA_COST = 75;
+    private static final int THIRD_SKILL_MANA_COST = 100;
     protected int experience;
     protected String heroClass;
     protected static final int SPECIAL_BASE_STAT = 5;
@@ -23,6 +30,9 @@ public abstract class Hero extends Entity {
     protected int defence;
     protected int agility;
     protected int intelligence;
+    protected int firstSkillCoolDown;
+    protected int secondSkillCoolDown;
+    protected int thirdSkillCoolDown;
 
     // EFFECTS: Construct a hero with given name, an inventory,
     //          and predetermined base stats
@@ -41,6 +51,47 @@ public abstract class Hero extends Entity {
         this.defence = BASE_STATS;
         this.agility = BASE_STATS;
         this.intelligence = BASE_STATS;
+        this.firstSkillCoolDown = 0;
+        this.secondSkillCoolDown = 0;
+        this.thirdSkillCoolDown = 0;
+    }
+
+    // REQUIRES: Sufficient Mana
+    // MODIFIES: this
+    // EFFECTS: Uses mana and sets the cooldown.
+    public void firstSkill() {
+        this.mana -= this.getFirstSkillManaCost();
+        this.firstSkillCoolDown = this.getFirstSkillCoolDown();
+    }
+
+    // REQUIRES: Sufficient Mana
+    // MODIFIES: this
+    // EFFECTS: Uses mana and sets the cooldown.
+    public void secondSkill() {
+        this.mana -= this.getSecondSkillManaCost();
+        this.firstSkillCoolDown = this.getSecondSkillCoolDown();
+    }
+
+    // REQUIRES: Sufficient Mana
+    // MODIFIES: this
+    // EFFECTS: Uses mana and sets the cooldown.
+    public void thirdSkill() {
+        this.mana -= this.getThirdSkillManaCost();
+        this.firstSkillCoolDown = this.getThirdSkillCoolDown();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Decrease all skills cooldowns by one due to next turn
+    public void decreaseCoolDowns() {
+        if (this.firstSkillCoolDown > 0) {
+            this.firstSkillCoolDown -= 1;
+        }
+        if (this.secondSkillCoolDown > 0) {
+            this.secondSkillCoolDown -= 1;
+        }
+        if (this.thirdSkillCoolDown > 0) {
+            this.thirdSkillCoolDown -= 1;
+        }
     }
 
     // MODIFIES: this
@@ -54,16 +105,23 @@ public abstract class Hero extends Entity {
         this.mana = this.getMaxMana();
     }
 
-    // EFFECTS: Returns a value calculated off hero's strength
+    // EFFECTS: Returns a semi random value calculated off hero's strength
     public int basicAttack() {
-        return this.getStrength() * this.getAttackMultiplier();
+        int baseDamage = Math.round(this.getStrength() * ((100 - this.getStrength()) / 100)
+                * this.getAttackMultiplier());
+        int minDamage = (int) Math.round(baseDamage * 0.75);
+        int maxDamage = (int) Math.round(baseDamage * 1.25);
+        return (int) (Math.random() * (maxDamage - minDamage + 1) + minDamage);
+
     }
 
     // MODIFIES: this
     // EFFECTS: Decrease health by based on damage
     // and return true if character still alive, otherwise false
     public Boolean takeDamage(int damage) {
-        this.health -= damage;
+        int damageAfterDefence = (int)
+                Math.round(damage * (100 / (100 + (this.getDefenceMultiplier() * this.getDefence()))));
+        this.health -= damageAfterDefence;
         if (this.isDead()) {
             return false;
         }
@@ -272,5 +330,33 @@ public abstract class Hero extends Entity {
 
     public String getHeroClass() {
         return this.heroClass;
+    }
+
+    public static int getFirstSkillCoolDown() {
+        return FIRST_SKILL_COOL_DOWN;
+    }
+
+    public static int getSecondSkillCoolDown() {
+        return SECOND_SKILL_COOL_DOWN;
+    }
+
+    public static int getThirdSkillCoolDown() {
+        return THIRD_SKILL_COOL_DOWN;
+    }
+
+    public static int getFirstSkillManaCost() {
+        return FIRST_SKILL_MANA_COST;
+    }
+
+    public static int getSecondSkillManaCost() {
+        return SECOND_SKILL_MANA_COST;
+    }
+
+    public static int getThirdSkillManaCost() {
+        return THIRD_SKILL_MANA_COST;
+    }
+
+    public static double getDefenceMultiplier() {
+        return DEFENCE_MULTIPLIER;
     }
 }

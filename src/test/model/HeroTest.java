@@ -58,7 +58,12 @@ public class HeroTest {
 
     @Test
     public void basicAttackTest() {
-        assertEquals(hero.getStrength()* hero.getAttackMultiplier(), hero.basicAttack());
+        int baseDamage = Math.round(hero.getStrength() * ((100 - hero.getStrength()) / 100)
+                * hero.getAttackMultiplier());
+        int minDamage = (int) Math.round(baseDamage * 0.75);
+        int maxDamage = (int) Math.round(baseDamage * 1.25);
+        int basicAttackDamage = hero.basicAttack();
+        assertTrue(basicAttackDamage >= minDamage && basicAttackDamage <= maxDamage);
     }
 
     @Test
@@ -163,24 +168,26 @@ public class HeroTest {
     @Test
     public void takeDamageAliveTest() {
         int damage = hero.getBaseHealthAndMana() - 1;
+        int damageAfterDefence = (int) Math.round(damage * (100 / (100 + (2.75 * hero.getDefence()))));
         assertTrue(hero.takeDamage(damage));
-        assertEquals(hero.getBaseHealthAndMana()-damage, hero.getHealth());
+        assertEquals(hero.getBaseHealthAndMana()-damageAfterDefence, hero.getHealth());
     }
 
 
     @Test
     public void takeDamageTwiceAliveTest() {
         int damage = hero.getBaseHealthAndMana()/2 - 1;
+        int damageAfterDefence = (int)
+                Math.round(damage * (100 / (100 + (hero.getDefenceMultiplier() * hero.getDefence()))));
         assertTrue(hero.takeDamage(damage));
-        assertEquals(hero.getBaseHealthAndMana()-damage, hero.getHealth());
+        assertEquals(hero.getBaseHealthAndMana()-damageAfterDefence, hero.getHealth());
         assertTrue(hero.takeDamage(damage));
-        assertEquals(hero.getBaseHealthAndMana()-2*damage, hero.getHealth());
+        assertEquals(hero.getBaseHealthAndMana()-2*damageAfterDefence, hero.getHealth());
     }
 
     @Test
     public void takeDamageDieTest() {
-        int damage = hero.getBaseHealthAndMana();
-        assertFalse(hero.takeDamage(damage));
+        assertFalse(hero.takeDamage(10000));
     }
 
     @Test
@@ -243,9 +250,10 @@ public class HeroTest {
     @Test
     public void drinkHealthPotionSufficientTakenDamageTest() {
         int damage = hero.getMaxHealth()/2 ;
+        int damageAfterDefence = (int) Math.round(damage * (100 / (100 + (hero.getDefenceMultiplier() * hero.getDefence()))));
         hero.takeDamage(damage);
         assertTrue(hero.drinkHealthPotion());
-        assertEquals( hero.getMaxHealth()/2 + hero.getHealthAndManaPotionValue(), hero.getHealth());
+        assertEquals( hero.getMaxHealth() - damageAfterDefence + hero.getHealthAndManaPotionValue(), hero.getHealth());
         assertEquals(4, hero.getInventory().healthPotions);
     }
 
@@ -260,8 +268,7 @@ public class HeroTest {
 
     @Test
     public void isDeadTrue() {
-        int damage = hero.getBaseHealthAndMana();
-        hero.takeDamage(damage);
+        hero.takeDamage(1000);
         assertTrue(hero.isDead());
     }
 

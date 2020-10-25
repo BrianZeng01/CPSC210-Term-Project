@@ -8,6 +8,7 @@ public abstract class Hero extends Entity {
     private static final int HEALTH_AND_MANA_POTION_VALUE = 25;
     private static final int MAX_HEALTH_AND_MANA_INCREMENT = 10;
     private static final int SKILL_POINTS_GRANTED_PER_LEVEL = 5;
+    protected int experience;
     protected String heroClass;
     protected static final int SPECIAL_BASE_STAT = 5;
     protected String name;
@@ -27,6 +28,7 @@ public abstract class Hero extends Entity {
     //          and predetermined base stats
     public Hero(String name) {
         this.name = name;
+        this.experience = 0;
         this.inventory = new Inventory();
         this.attackMultiplier = 5;
         this.maxHealth = BASE_HEALTH_AND_MANA;
@@ -168,21 +170,29 @@ public abstract class Hero extends Entity {
         return this.skillPoints > 0;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Increases Strength by 1 and uses one skillPoint
     public void increaseStrength() {
         this.strength++;
         this.skillPoints--;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Increases Defence by 1 and uses one skillPoint
     public void increaseDefence() {
         this.defence++;
         this.skillPoints--;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Increases Agility by 1 and uses one skillPoint
     public void increaseAgility() {
         this.agility++;
         this.skillPoints--;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Increases Intelligence by 1 and uses one skillPoint
     public void increaseIntelligence() {
         this.intelligence++;
         this.skillPoints--;

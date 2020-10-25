@@ -37,4 +37,7 @@ As a user, I want to be able to...
 - Increase stats/level up of hero * Mark
 - View what different stats do
 - Add an item to my inventory  
+- "Quit & Save" world upon going back to main menu * Phase 2
+- World auto-saves after each round * Phase 2
+- Reload the worlds I have created * Phase 2
 

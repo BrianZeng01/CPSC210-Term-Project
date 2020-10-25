@@ -50,7 +50,7 @@ public class App {
     public void mainMenu() {
         while (true) {
             mainMenuOptions();
-            command = input.next();
+            command = input.nextLine();
             if (command.equals("q")) {
                 break;
             } else if (validWorldCommand(command)) {
@@ -89,7 +89,7 @@ public class App {
     public void worldMenu(World w) {
         while (true) {
             worldMenuOptions(w);
-            command = input.next();
+            command = input.nextLine();
 
             if (command.equals("f")) {
                 Random random = new Random();
@@ -131,7 +131,7 @@ public class App {
             }
             fightOptions(turn, hero, monster);
 
-            command = input.next();
+            command = input.nextLine();
             if (command.equals("a")) {
                 monster.takeDamage(hero.basicAttack());
             } else if (command.equals("h") && hero.getInventory().getHealthPotions() > 0) {
@@ -190,7 +190,7 @@ public class App {
             characterStats(hero);
             System.out.println("--------------");
             characterMenuOptions(hero);
-            command = input.next();
+            command = input.nextLine();
 
             if (command.equals("i")) {
                 inventoryMenu(hero);
@@ -241,7 +241,7 @@ public class App {
                 break;
             }
             System.out.println("SKILL POINTS REMAINING: " + hero.getSkillPoints());
-            command = input.next();
+            command = input.nextLine();
 
             if (command.equals("s")) {
                 hero.increaseStrength();
@@ -276,7 +276,7 @@ public class App {
             System.out.println("b -> Go Back to Character Menu");
             System.out.println("---------------");
             inventoryDisplay(hero.getInventory());
-            command = input.next();
+            command = input.nextLine();
             if (command.equals("b")) {
                 break;
             } else {
@@ -323,7 +323,7 @@ public class App {
 
         while (parameterTracker <= worldParameters) {
             createWorldOptions(parameterTracker);
-            command = input.next();
+            command = input.nextLine();
 
             if (parameterTracker == 0) {
                 worldData.add(command);

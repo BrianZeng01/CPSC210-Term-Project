@@ -15,6 +15,43 @@ public class HeroTest {
     }
 
     @Test
+    public void gainExpTest() {
+        hero.gainExp(50);
+        assertEquals(50, hero.getExperience());
+        hero.gainExp(100);
+        assertEquals(150, hero.getExperience());
+    }
+
+    @Test
+    public void incrementExperienceRequiredToLevelTest() {
+        int initialNeeded = hero.getExperienceRequiredToLevel();
+        hero.gainExp(hero.getExperienceRequiredToLevel());
+        assertEquals(initialNeeded * hero.getExperienceMultiplier(), hero.getExperienceRequiredToLevel());
+    }
+
+    @Test
+    public void incrementExperienceRequiredToLevelTwiceTest() {
+        int initialNeeded = hero.getExperienceRequiredToLevel();
+        int multiplier = hero.getExperienceMultiplier();
+        hero.gainExp(hero.getExperienceRequiredToLevel());
+        hero.gainExp(hero.getExperienceRequiredToLevel());
+        assertEquals(initialNeeded * multiplier * multiplier, hero.getExperienceRequiredToLevel());
+    }
+
+    @Test
+    public void incrementExperienceRequiredMaxLevelTest() {
+        for (int i = 1; i < hero.getMaxLevel(); i++) {
+            hero.gainExp(hero.getExperienceRequiredToLevel());
+        }
+        int experienceRequired = hero.getExperienceRequiredToLevel();
+        int maxExp = hero.getExperience();
+        hero.gainExp(hero.getExperienceRequiredToLevel());
+        assertEquals(maxExp, hero.getExperience());
+        assertEquals(experienceRequired, hero.getExperienceRequiredToLevel());
+
+    }
+
+    @Test
     public void constructorTest() {
         assertEquals("MyHero", hero.getName());
         assertEquals(hero.getSpecialBaseStat(), hero.getDefence());
@@ -58,8 +95,8 @@ public class HeroTest {
 
     @Test
     public void basicAttackTest() {
-        int baseDamage = Math.round(hero.getStrength() * ((100 - hero.getStrength()) / 100)
-                * hero.getAttackMultiplier());
+        int baseDamage = (int) Math.round(hero.getStrength() * ((100 - hero.getStrength()) / 100.01))
+                * hero.getAttackMultiplier();
         int minDamage = (int) Math.round(baseDamage * 0.75);
         int maxDamage = (int) Math.round(baseDamage * 1.25);
         int basicAttackDamage = hero.basicAttack();

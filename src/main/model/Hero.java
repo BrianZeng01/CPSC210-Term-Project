@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+
 // Abstract for possible Characters
 public abstract class Hero extends Entity {
 
@@ -15,6 +17,12 @@ public abstract class Hero extends Entity {
     private static final int FIRST_SKILL_MANA_COST = 50;
     private static final int SECOND_SKILL_MANA_COST = 75;
     private static final int THIRD_SKILL_MANA_COST = 100;
+    private static final int FIRST_SKILL_LEVEL_REQUIREMENT = 1;
+    private static final int SECOND_SKILL_LEVEL_REQUIREMENT = 2;
+    private static final int THIRD_SKILL_LEVEL_REQUIREMENT = 3;
+    private static final int MAX_LEVEL = 5;
+    private static final int EXPERIENCE_MULTIPLIER = 3;
+    protected int experienceRequiredToLevel;
     protected int experience;
     protected String heroClass;
     protected static final int SPECIAL_BASE_STAT = 5;
@@ -39,6 +47,7 @@ public abstract class Hero extends Entity {
     public Hero(String name) {
         this.name = name;
         this.experience = 0;
+        this.experienceRequiredToLevel = 100;
         this.inventory = new Inventory();
         this.attackMultiplier = 5;
         this.maxHealth = BASE_HEALTH_AND_MANA;
@@ -56,28 +65,57 @@ public abstract class Hero extends Entity {
         this.thirdSkillCoolDown = 0;
     }
 
-    // REQUIRES: Sufficient Mana
+    // REQUIRES: experienceGained >= 0
     // MODIFIES: this
-    // EFFECTS: Uses mana and sets the cooldown.
-    public void firstSkill() {
-        this.mana -= this.getFirstSkillManaCost();
-        this.firstSkillCoolDown = this.getFirstSkillCoolDown();
+    // EFFECTS: Increase experience, if sufficient experience then level up hero
+    //          and increase experience cap to level. Do nothing if already max level
+    public void gainExp(int experienceGained) {
+        if (this.getLevel() >= this.MAX_LEVEL) {
+            return;
+        }
+        this.experience += experienceGained;
+        if (this.experience >= this.experienceRequiredToLevel) {
+            this.levelUp();
+            this.incrementExperienceRequiredToLevel();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Increases experience required to level by some multiplier
+    public void incrementExperienceRequiredToLevel() {
+        this.experienceRequiredToLevel =
+                this.experienceRequiredToLevel * getExperienceMultiplier();
     }
 
     // REQUIRES: Sufficient Mana
     // MODIFIES: this
-    // EFFECTS: Uses mana and sets the cooldown.
-    public void secondSkill() {
-        this.mana -= this.getSecondSkillManaCost();
-        this.firstSkillCoolDown = this.getSecondSkillCoolDown();
-    }
+    // EFFECTS: Uses skill and returns damage output, or -1 if insufficient mana
+    public abstract int firstSkill();
 
     // REQUIRES: Sufficient Mana
     // MODIFIES: this
-    // EFFECTS: Uses mana and sets the cooldown.
-    public void thirdSkill() {
-        this.mana -= this.getThirdSkillManaCost();
-        this.firstSkillCoolDown = this.getThirdSkillCoolDown();
+    // EFFECTS: Uses skill and returns damage output, or -1 if insufficient mana
+    public abstract int secondSkill();
+
+
+    // REQUIRES: Sufficient Mana
+    // MODIFIES: this
+    // EFFECTS: Uses skill and returns damage output, or -1 if insufficient mana
+    public abstract int thirdSkill();
+
+    // MODIFIES: this
+    // EFFECTS: Uses mana and sets cooldown for skill used
+    public void usedSkill(int skillNumber) {
+        if (skillNumber == 1) {
+            this.mana -= this.getFirstSkillManaCost();
+            this.firstSkillCoolDown = this.getFirstSkillCoolDown();
+        } else if (skillNumber == 2) {
+            this.mana -= this.getSecondSkillManaCost();
+            this.firstSkillCoolDown = this.getSecondSkillCoolDown();
+        } else {
+            this.mana -= this.getThirdSkillManaCost();
+            this.firstSkillCoolDown = this.getThirdSkillCoolDown();
+        }
     }
 
     // MODIFIES: this
@@ -107,11 +145,13 @@ public abstract class Hero extends Entity {
 
     // EFFECTS: Returns a semi random value calculated off hero's strength
     public int basicAttack() {
-        int baseDamage = Math.round(this.getStrength() * ((100 - this.getStrength()) / 100)
-                * this.getAttackMultiplier());
+        int baseDamage = (int) Math.round(this.getStrength() * ((100 - this.getStrength()) / 100.01))
+                * this.getAttackMultiplier();
         int minDamage = (int) Math.round(baseDamage * 0.75);
         int maxDamage = (int) Math.round(baseDamage * 1.25);
-        return (int) (Math.random() * (maxDamage - minDamage + 1) + minDamage);
+        Random random = new Random();
+        int randomDamage = random.nextInt(maxDamage - minDamage) + minDamage;
+        return randomDamage;
 
     }
 
@@ -358,5 +398,33 @@ public abstract class Hero extends Entity {
 
     public static double getDefenceMultiplier() {
         return DEFENCE_MULTIPLIER;
+    }
+
+    public static int getFirstSkillLevelRequirement() {
+        return FIRST_SKILL_LEVEL_REQUIREMENT;
+    }
+
+    public static int getSecondSkillLevelRequirement() {
+        return SECOND_SKILL_LEVEL_REQUIREMENT;
+    }
+
+    public static int getThirdSkillLevelRequirement() {
+        return THIRD_SKILL_LEVEL_REQUIREMENT;
+    }
+
+    public static int getMaxLevel() {
+        return MAX_LEVEL;
+    }
+
+    public int getExperienceRequiredToLevel() {
+        return experienceRequiredToLevel;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public static int getExperienceMultiplier() {
+        return EXPERIENCE_MULTIPLIER;
     }
 }

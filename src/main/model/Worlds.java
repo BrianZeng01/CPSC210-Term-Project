@@ -1,10 +1,13 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents all the worlds that user has
-public class Worlds {
+public class Worlds implements Writable {
     private static final int MAX_WORLDS = 3;
 
     protected List<World> worlds;
@@ -86,5 +89,10 @@ public class Worlds {
 
     public int getMaxWorlds() {
         return this.MAX_WORLDS;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        return null;
     }
 }

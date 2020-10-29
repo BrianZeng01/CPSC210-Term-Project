@@ -1,21 +1,25 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // A monster in the game
-public class Monster extends Entity {
+public class Monster extends Entity implements Writable {
     public int lootChance;
     public int exp;
 
     // EFFECTS: Creates a monster with given name, health,
-    //          strength, and sets attackMultipler.
+    //          strength, and sets attackMultiplier.
     public Monster(String name, int health, int strength, int lootChance, int exp) {
         this.name = name;
         this.health = health;
         this.strength = strength;
         this.attackMultiplier = 3;
         this.lootChance = lootChance;
+        this.exp = exp;
     }
 
     // MODIFIES: this
@@ -23,10 +27,7 @@ public class Monster extends Entity {
     // and return true if character still alive, otherwise false
     public Boolean takeDamage(int damage) {
         this.health -= damage;
-        if (this.isDead()) {
-            return false;
-        }
-        return true;
+        return !this.isDead();
     }
 
     // EFFECTS: returns a value calculated by it's strength
@@ -38,15 +39,15 @@ public class Monster extends Entity {
     //          how many hp potions, mp potions, and accessory id dropped.
     //          note that a -1 accessoryId means no accessory dropped.
     public List<Integer> dropLoot() {
-        Integer hpPotions = (int) Math.random() * (1 + getLootChance());
-        Integer mpPotions = (int) Math.random() * (1 + getLootChance());
+        Integer hpPotions = (int) Math.round(Math.random() * (1 + getLootChance()));
+        Integer mpPotions = (int) Math.round(Math.random() * (1 + getLootChance()));
         int highestAccessoryId = 5;
         int lowestAccessoryId = 1;
         Integer accessoryId;
         // AccessoryIds are subject to change when new items added
         if ((Math.random() * 10) < getLootChance()) {
-            accessoryId = (int) Math.random()
-                    * (highestAccessoryId - lowestAccessoryId) + lowestAccessoryId;
+            accessoryId = (int) Math.round(Math.random()
+                    * (highestAccessoryId - lowestAccessoryId) + lowestAccessoryId);
         } else {
             accessoryId = -1;
         }
@@ -63,5 +64,10 @@ public class Monster extends Entity {
 
     public int getLootChance() {
         return lootChance;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        return null;
     }
 }

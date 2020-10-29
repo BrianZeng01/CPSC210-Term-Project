@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // A world for the application
-public class World {
+public class World implements Writable {
     protected int worldNumber;
     protected Hero hero;
     protected String difficulty;
@@ -55,5 +58,10 @@ public class World {
 
     public int getWorldNumber() {
         return this.worldNumber;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        return null;
     }
 }

@@ -1,10 +1,12 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.Random;
 
 // Abstract for possible Characters
-public abstract class Hero extends Entity {
-
+public abstract class Hero extends Entity implements Writable {
     private static final int BASE_STATS = 1;
     private static final int BASE_HEALTH_AND_MANA = 100;
     private static final int HEALTH_AND_MANA_POTION_VALUE = 25;
@@ -446,5 +448,10 @@ public abstract class Hero extends Entity {
 
     public double getSkillMultiplier() {
         return skillMultiplier;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        return null;
     }
 }

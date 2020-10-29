@@ -1,10 +1,13 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Basic Inventory system for character
-public class Inventory {
+public class Inventory implements Writable {
 
     private static final int MAX_INVENTORY_SLOTS = 3;
     private static final int MAX_EQUIPMENT_SLOTS = 3;
@@ -113,5 +116,10 @@ public class Inventory {
 
     public int getMaxEquipmentSlots() {
         return this.MAX_EQUIPMENT_SLOTS;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        return null;
     }
 }

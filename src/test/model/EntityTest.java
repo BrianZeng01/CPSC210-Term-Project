@@ -10,7 +10,7 @@ public class EntityTest {
 
     @BeforeEach
     public void entityTestSetup() {
-        entity = new Monster("Golem", 150, 5);
+        entity = new Monster("Golem", 150, 5, 1, 50);
     }
 
     @Test

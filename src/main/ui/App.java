@@ -94,7 +94,7 @@ public class App {
             if (command.equals("f")) {
                 Random random = new Random();
                 int str = random.nextInt(20 - 10) + 10;
-                Monster monster = new Monster("Slime", 20, str);
+                Monster monster = new Monster("Slime", 20, str, 1, 50);
                 System.out.println(w.getHero().getName()
                         + ", you've encountered" + " a " + monster.getName() + "!");
                 startFight(w.getHero(), monster);

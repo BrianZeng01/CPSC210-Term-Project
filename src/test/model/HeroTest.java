@@ -15,6 +15,40 @@ public class HeroTest {
     }
 
     @Test
+    public void usedFirstSkillTest() {
+        hero.usedSkill(1);
+        assertEquals(hero.maxMana - hero.getFirstSkillManaCost(), hero.getMana());
+        assertEquals(hero.getMaxFirstSkillCoolDown(), hero.getFirstSkillCoolDown());
+        hero.decreaseCoolDowns();
+        assertEquals(hero.getMaxFirstSkillCoolDown() - 1, hero.getFirstSkillCoolDown());
+        assertEquals(0, hero.getSecondSkillCoolDown());
+        assertEquals(0, hero.getThirdSkillCoolDown());
+    }
+    @Test
+    public void usedSecondSkillTest() {
+        hero.usedSkill(2);
+        assertEquals(hero.maxMana - hero.getSecondSkillManaCost(), hero.getMana());
+        assertEquals(hero.getMaxSecondSkillCoolDown(), hero.getSecondSkillCoolDown());
+        hero.decreaseCoolDowns();
+        assertEquals(hero.getMaxSecondSkillCoolDown() - 1, hero.getSecondSkillCoolDown());
+        assertEquals(0, hero.getFirstSkillCoolDown());
+        assertEquals(0, hero.getThirdSkillCoolDown());
+    }
+
+    @Test
+    public void usedThirdSkillTest() {
+        hero.usedSkill(3);
+        assertEquals(hero.maxMana - hero.getThirdSkillManaCost(), hero.getMana());
+        assertEquals(hero.getMaxThirdSkillCoolDown(), hero.getThirdSkillCoolDown());
+        hero.decreaseCoolDowns();
+        assertEquals(hero.getMaxThirdSkillCoolDown() - 1, hero.getThirdSkillCoolDown());
+        assertEquals(0, hero.getSecondSkillCoolDown());
+        assertEquals(0, hero.getFirstSkillCoolDown());
+        hero.decreaseCoolDowns();
+        assertEquals(hero.getMaxThirdSkillCoolDown() - 2, hero.getThirdSkillCoolDown());
+    }
+
+    @Test
     public void gainExpTest() {
         hero.gainExp(50);
         assertEquals(50, hero.getExperience());
@@ -95,10 +129,9 @@ public class HeroTest {
 
     @Test
     public void basicAttackTest() {
-        int baseDamage = (int) Math.round(hero.getStrength() * ((100 - hero.getStrength()) / 100.01))
-                * hero.getAttackMultiplier();
-        int minDamage = (int) Math.round(baseDamage * 0.75);
-        int maxDamage = (int) Math.round(baseDamage * 1.25);
+        int baseDamage = basicAttackBaseDamage();
+        int minDamage = minDamage(baseDamage);
+        int maxDamage = maxDamage(baseDamage);
         int basicAttackDamage = hero.basicAttack();
         assertTrue(basicAttackDamage >= minDamage && basicAttackDamage <= maxDamage);
     }
@@ -322,4 +355,21 @@ public class HeroTest {
         hero.levelUp();
         assertTrue(hero.hasSkillPoints());
     }
+
+    public int basicAttackBaseDamage() {
+        int baseDamage = (int) Math.round(hero.getStrength() * ((100 - hero.getStrength()) / 100.0001))
+                * hero.getAttackMultiplier();
+        return baseDamage;
+    }
+
+    public int minDamage(int baseDamage) {
+        int minDamage = (int) Math.round(baseDamage * 0.75);
+        return minDamage;
+    }
+
+    public int maxDamage(int baseDamage) {
+        int maxDamage = (int) Math.round(baseDamage * 1.25);
+        return maxDamage;
+    }
+
 }

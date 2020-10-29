@@ -10,6 +10,7 @@ public class WarriorHero extends Hero {
         super(name);
         this.defence = SPECIAL_BASE_STAT;
         this.heroClass = "warrior";
+        this.skillMultiplier = 0.05;
     }
 
     @Override
@@ -17,7 +18,7 @@ public class WarriorHero extends Hero {
         if (getMana() < getFirstSkillManaCost()) {
             return -1;
         }
-        int damage = (int) Math.round(basicAttack() * (1 + (1.05 * getStrength())));
+        int damage = (int) Math.round(basicAttack() * (1 + (getSkillMultiplier() * getStrength())));
 
         super.usedSkill(1);
         return damage;
@@ -28,7 +29,7 @@ public class WarriorHero extends Hero {
         if (getMana() < getSecondSkillManaCost()) {
             return -1;
         }
-        int damage = (int) Math.round(basicAttack() * (1 + (0.1 * getStrength())));
+        int damage = (int) Math.round(basicAttack() * (1 + ((2 * getSkillMultiplier()) * getStrength())));
         super.usedSkill(2);
         return damage;
     }
@@ -41,7 +42,7 @@ public class WarriorHero extends Hero {
 
         int damage;
         if (Math.random() >= 0.5) {
-            damage = (int) Math.round(basicAttack() * 3 * (1 + (0.2 * getStrength())));
+            damage = (int) Math.round(basicAttack() * 3 * (1 + ((4 * getSkillMultiplier()) * getStrength())));
         } else {
             damage = 0;
         }

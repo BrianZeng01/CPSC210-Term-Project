@@ -10,6 +10,7 @@ public class ArcherHero extends Hero {
         super(name);
         this.agility = SPECIAL_BASE_STAT;
         this.heroClass = "archer";
+        this.skillMultiplier = 0.25;
     }
 
     @Override
@@ -17,7 +18,7 @@ public class ArcherHero extends Hero {
         if (getMana() < getFirstSkillManaCost()) {
             return -1;
         }
-        int damage = (int) Math.round(basicAttack() * (1 + (1.25 * getAgility())));
+        int damage = (int) Math.round(basicAttack() * (1 + ((1 + getSkillMultiplier()) * getAgility())));
 
         super.usedSkill(1);
         return damage;
@@ -28,7 +29,7 @@ public class ArcherHero extends Hero {
         if (getMana() < getSecondSkillManaCost()) {
             return -1;
         }
-        int damage = (int) Math.round(basicAttack() * (1 + (1.5 * getAgility())));
+        int damage = (int) Math.round(basicAttack() * (1 + ((1 + (2 * getSkillMultiplier())) * getAgility())));
         super.usedSkill(2);
         return damage;
     }
@@ -41,7 +42,7 @@ public class ArcherHero extends Hero {
 
         int damage;
         if (Math.random() >= 0.5) {
-            damage = (int) Math.round(basicAttack() * 3 * (1 + (1.5 * getAgility())));
+            damage = (int) Math.round(basicAttack() * 3 * (1 + ((1 + (2 * getSkillMultiplier())) * getAgility())));
         } else {
             damage = 0;
         }

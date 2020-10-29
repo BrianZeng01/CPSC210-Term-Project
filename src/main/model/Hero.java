@@ -11,9 +11,9 @@ public abstract class Hero extends Entity {
     private static final int MAX_HEALTH_AND_MANA_INCREMENT = 10;
     private static final int SKILL_POINTS_GRANTED_PER_LEVEL = 5;
     private static final double DEFENCE_MULTIPLIER = 2.75;
-    private static final int FIRST_SKILL_COOL_DOWN = 2;
-    private static final int SECOND_SKILL_COOL_DOWN = 3;
-    private static final int THIRD_SKILL_COOL_DOWN = 4;
+    private static final int MAX_FIRST_SKILL_COOL_DOWN = 2;
+    private static final int MAX_SECOND_SKILL_COOL_DOWN = 3;
+    private static final int MAX_THIRD_SKILL_COOL_DOWN = 4;
     private static final int FIRST_SKILL_MANA_COST = 50;
     private static final int SECOND_SKILL_MANA_COST = 75;
     private static final int THIRD_SKILL_MANA_COST = 100;
@@ -22,6 +22,7 @@ public abstract class Hero extends Entity {
     private static final int THIRD_SKILL_LEVEL_REQUIREMENT = 3;
     private static final int MAX_LEVEL = 5;
     private static final int EXPERIENCE_MULTIPLIER = 3;
+    protected double skillMultiplier;
     protected int experienceRequiredToLevel;
     protected int experience;
     protected String heroClass;
@@ -108,13 +109,13 @@ public abstract class Hero extends Entity {
     public void usedSkill(int skillNumber) {
         if (skillNumber == 1) {
             this.mana -= this.getFirstSkillManaCost();
-            this.firstSkillCoolDown = this.getFirstSkillCoolDown();
+            this.firstSkillCoolDown = this.getMaxFirstSkillCoolDown();
         } else if (skillNumber == 2) {
             this.mana -= this.getSecondSkillManaCost();
-            this.firstSkillCoolDown = this.getSecondSkillCoolDown();
+            this.secondSkillCoolDown = this.getMaxSecondSkillCoolDown();
         } else {
             this.mana -= this.getThirdSkillManaCost();
-            this.firstSkillCoolDown = this.getThirdSkillCoolDown();
+            this.thirdSkillCoolDown = this.getMaxThirdSkillCoolDown();
         }
     }
 
@@ -145,7 +146,7 @@ public abstract class Hero extends Entity {
 
     // EFFECTS: Returns a semi random value calculated off hero's strength
     public int basicAttack() {
-        int baseDamage = (int) Math.round(this.getStrength() * ((100 - this.getStrength()) / 100.01))
+        int baseDamage = (int) Math.round(this.getStrength() * ((100 - this.getStrength()) / 100.0001))
                 * this.getAttackMultiplier();
         int minDamage = (int) Math.round(baseDamage * 0.75);
         int maxDamage = (int) Math.round(baseDamage * 1.25);
@@ -372,16 +373,28 @@ public abstract class Hero extends Entity {
         return this.heroClass;
     }
 
-    public static int getFirstSkillCoolDown() {
-        return FIRST_SKILL_COOL_DOWN;
+    public static int getMaxFirstSkillCoolDown() {
+        return MAX_FIRST_SKILL_COOL_DOWN;
     }
 
-    public static int getSecondSkillCoolDown() {
-        return SECOND_SKILL_COOL_DOWN;
+    public static int getMaxSecondSkillCoolDown() {
+        return MAX_SECOND_SKILL_COOL_DOWN;
     }
 
-    public static int getThirdSkillCoolDown() {
-        return THIRD_SKILL_COOL_DOWN;
+    public static int getMaxThirdSkillCoolDown() {
+        return MAX_THIRD_SKILL_COOL_DOWN;
+    }
+
+    public int getFirstSkillCoolDown() {
+        return firstSkillCoolDown;
+    }
+
+    public int getSecondSkillCoolDown() {
+        return secondSkillCoolDown;
+    }
+
+    public int getThirdSkillCoolDown() {
+        return thirdSkillCoolDown;
     }
 
     public static int getFirstSkillManaCost() {
@@ -426,5 +439,9 @@ public abstract class Hero extends Entity {
 
     public static int getExperienceMultiplier() {
         return EXPERIENCE_MULTIPLIER;
+    }
+
+    public double getSkillMultiplier() {
+        return skillMultiplier;
     }
 }

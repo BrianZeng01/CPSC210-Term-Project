@@ -14,8 +14,11 @@ public class EntityTest {
     }
 
     @Test
-    public void getNameTest() {
+    public void gettersTest() {
         assertEquals("Golem", entity.getName());
+        assertEquals(5,entity.getStrength());
+        assertEquals(150,entity.getHealth());
+        assertEquals(3,entity.getAttackMultiplier());
     }
 
     @Test

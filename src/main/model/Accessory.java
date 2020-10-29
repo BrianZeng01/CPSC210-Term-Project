@@ -7,15 +7,17 @@ public class Accessory {
     public int addedDefence;
     public int addedAgility;
     public int addedIntelligence;
+    public int accessoryId;
 
     // EFFECTS: Constructs accessory with name and given attributes
     public Accessory(String name, int strength,
-                     int defence, int agility, int intelligence) {
+                     int defence, int agility, int intelligence, int accessoryId) {
         this.accessoryName = name;
         this.addedStrength = strength;
         this.addedDefence = defence;
         this.addedAgility = agility;
         this.addedIntelligence = intelligence;
+        this.accessoryId = accessoryId;
     }
 
     public String getAccessoryName() {
@@ -38,4 +40,7 @@ public class Accessory {
         return this.addedIntelligence;
     }
 
+    public int getAccessoryId() {
+        return this.accessoryId;
+    }
 }

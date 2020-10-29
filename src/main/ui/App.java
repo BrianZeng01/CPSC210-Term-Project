@@ -29,7 +29,7 @@ public class App {
         worlds.createWorld("My World", "My Hero",
                 "warrior", "easy");
         worlds.getWorld(1).getHero().levelUp();
-        Accessory a = new Accessory("Pendant",3,2,1,4);
+        Accessory a = new Accessory("Pendant",3,2,1,4, 1);
         worlds.getWorld(1).getHero().getInventory().pickUpAccessory(a);
     }
 

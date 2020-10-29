@@ -147,7 +147,7 @@ public class HeroTest {
 
     @Test
     public void equipAccessoryEnoughRoomTest() {
-        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4,1);
         hero.getInventory().pickUpAccessory(accessory);
         assertTrue(hero.equipAccessory(accessory));
         assertEquals(hero.getBaseStats() + 1, hero.getStrength());
@@ -158,8 +158,8 @@ public class HeroTest {
 
     @Test
     public void equipAccessoryEnoughRoomMultipleTest() {
-        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
-        Accessory accessory2 = new Accessory("Pendant", 1,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4,1);
+        Accessory accessory2 = new Accessory("Pendant", 1,2,3,4,2);
         hero.getInventory().pickUpAccessory(accessory);
         hero.getInventory().pickUpAccessory(accessory2);
         assertTrue(hero.equipAccessory(accessory));
@@ -173,20 +173,20 @@ public class HeroTest {
     @Test
     public void equipAccessoryNotEnoughRoomTest() {
         for (int i = 0 ; i < hero.getInventory().getMaxEquipmentSlots(); i ++) {
-            Accessory accessory = new Accessory("Pendant", 1,2,3,4);
+            Accessory accessory = new Accessory("Pendant", 1,2,3,4,i);
             hero.getInventory().pickUpAccessory(accessory);
             assertTrue(hero.equipAccessory(accessory));
         }
         assertEquals(hero.getInventory().getMaxEquipmentSlots(),
                 hero.getInventory().getNumberOfAccessoriesInEquipmentSlots());
-        Accessory accessory2 = new Accessory("Pendant", 1,2,3,4);
+        Accessory accessory2 = new Accessory("Pendant", 1,2,3,4,2);
         hero.getInventory().pickUpAccessory(accessory2);
         assertFalse(hero.equipAccessory(accessory2));
     }
 
     @Test
     public void unequipAccessoryEnoughRoomTest() {
-        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4,1);
         hero.getInventory().pickUpAccessory(accessory);
         hero.equipAccessory(accessory);
         assertTrue(hero.unequipAccessory(accessory));
@@ -200,8 +200,8 @@ public class HeroTest {
 
     @Test
     public void unequipAccessoryEnoughRoomMultipleTest() {
-        Accessory accessory = new Accessory("Pendant", 2,2,3,4);
-        Accessory accessory2 = new Accessory("Pendant", 1,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 2,2,3,4, 1);
+        Accessory accessory2 = new Accessory("Pendant", 1,2,3,4,2);
         hero.getInventory().pickUpAccessory(accessory);
         hero.getInventory().pickUpAccessory(accessory2);
         hero.equipAccessory(accessory);
@@ -221,12 +221,12 @@ public class HeroTest {
 
     @Test
     public void unequipAccessoryNotEnoughRoomTest() {
-        Accessory equipedAccessory = new Accessory( "test" ,1,2,2,2);
+        Accessory equipedAccessory = new Accessory( "test" ,1,2,2,2,0);
         hero.getInventory().pickUpAccessory(equipedAccessory);
         hero.equipAccessory(equipedAccessory);
 
         for (int i = 0 ; i < hero.getInventory().getMaxInventorySlots(); i ++) {
-            Accessory accessory = new Accessory("Pendant", 1,2,3,4);
+            Accessory accessory = new Accessory("Pendant", 1,2,3,4,i);
             hero.getInventory().pickUpAccessory(accessory);
         }
         assertEquals(hero.getInventory().getMaxInventorySlots(),

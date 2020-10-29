@@ -10,33 +10,17 @@ public class AccessoryTest {
 
     @BeforeEach
     public void accessoryTestSetup() {
-        accessory = new Accessory("Bracelet", 1,2,3,4);
+        accessory = new Accessory("Bracelet", 1,2,3,4, 1);
     }
 
     @Test
-    public void getAccessoryNameTest() {
+    public void gettersTest() {
         assertEquals("Bracelet", accessory.getAccessoryName());
-    }
-
-    @Test
-    public void getAddedStrengthTest() {
         assertEquals(1, accessory.getAddedStrength());
-    }
-
-    @Test
-    public void getAddedDefenceTest() {
         assertEquals(2, accessory.getAddedDefence());
-    }
-
-    @Test
-    public void getAddedAgilityTest() {
         assertEquals(3, accessory.getAddedAgility());
-    }
-
-    @Test
-    public void getAddedIntelligenceTest() {
         assertEquals(4, accessory.getAddedIntelligence());
+        assertEquals(1, accessory.getAccessoryId());
     }
-
 
 }

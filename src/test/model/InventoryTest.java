@@ -23,7 +23,7 @@ public class InventoryTest {
 
     @Test
     public void pickUpAccessoryEnoughRoomTest() {
-        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4,1);
         assertTrue(inventory.pickUpAccessory(accessory));
         assertEquals(1, inventory.getNumberOfAccessoriesInInventorySlots());
     }
@@ -31,17 +31,17 @@ public class InventoryTest {
     @Test
     public void pickUpAccessoryNotEnoughRoomTest() {
         for (int i = 0 ; i < inventory.getMaxInventorySlots(); i++) {
-            Accessory accessory = new Accessory("Pendant", i,2,3,4);
+            Accessory accessory = new Accessory("Pendant", i,2,3,4, i);
             assertTrue(inventory.pickUpAccessory(accessory));
         }
         assertEquals(inventory.getMaxInventorySlots(), inventory.getNumberOfAccessoriesInInventorySlots());
-        Accessory accessory = new Accessory("Pendant", 20,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 20,2,3,4,0);
         assertFalse(inventory.pickUpAccessory(accessory));
     }
 
     @Test
     public void dumpAccessoryTest () {
-        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4,1);
         inventory.pickUpAccessory(accessory);
         assertEquals(1, inventory.getNumberOfAccessoriesInInventorySlots());
         inventory.dumpAccessory(accessory);
@@ -50,8 +50,8 @@ public class InventoryTest {
 
     @Test
     public void dumpAccessoryManyTest () {
-        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
-        Accessory accessory2 = new Accessory("Necklace", 1,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4,1);
+        Accessory accessory2 = new Accessory("Necklace", 1,2,3,4,2);
         inventory.pickUpAccessory(accessory);
         inventory.pickUpAccessory(accessory2);
         assertEquals(2, inventory.getNumberOfAccessoriesInInventorySlots());
@@ -62,7 +62,7 @@ public class InventoryTest {
 
     @Test
     public void moveToEquipmentSlotsNotFullTest() {
-        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4,1);
         inventory.pickUpAccessory(accessory);
         inventory.moveToEquipmentSlots(accessory);
         assertEquals(0, inventory.getNumberOfAccessoriesInInventorySlots());
@@ -71,8 +71,8 @@ public class InventoryTest {
 
     @Test
     public void moveToEquipmentSlotsManyTest() {
-        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
-        Accessory accessory2 = new Accessory("Pendant2", 2,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4,1);
+        Accessory accessory2 = new Accessory("Pendant2", 2,2,3,4,2);
         inventory.pickUpAccessory(accessory);
         inventory.pickUpAccessory(accessory2);
         inventory.moveToEquipmentSlots(accessory);
@@ -88,7 +88,7 @@ public class InventoryTest {
     }
 
     @Test public void moveToInventorySlotsNotFullTest() {
-        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4,1);
         inventory.pickUpAccessory(accessory);
         inventory.moveToEquipmentSlots(accessory);
         assertEquals(0, inventory.getNumberOfAccessoriesInInventorySlots());
@@ -101,8 +101,8 @@ public class InventoryTest {
 
     @Test
     public void moveToInventorySlotsManyTest() {
-        Accessory accessory = new Accessory("Pendant", 1,2,3,4);
-        Accessory accessory2 = new Accessory("Pendant2", 2,2,3,4);
+        Accessory accessory = new Accessory("Pendant", 1,2,3,4,1);
+        Accessory accessory2 = new Accessory("Pendant2", 2,2,3,4,2);
         inventory.pickUpAccessory(accessory);
         inventory.pickUpAccessory(accessory2);
         inventory.moveToEquipmentSlots(accessory);

@@ -15,7 +15,7 @@ public class MageHero extends Hero {
 
     @Override
     public int firstSkill() {
-        if (getMana() < getFirstSkillManaCost()) {
+        if (getMana() < getThirdSkillManaCost() || getLevel() < getFirstSkillLevelRequirement()) {
             return -1;
         }
         int damage = (int) Math.round(basicAttack() * (1 + ((1 + getSkillMultiplier()) * getIntelligence())));
@@ -26,7 +26,7 @@ public class MageHero extends Hero {
 
     @Override
     public int secondSkill() {
-        if (getMana() < getSecondSkillManaCost()) {
+        if (getMana() < getThirdSkillManaCost() || getLevel() < getSecondSkillLevelRequirement()) {
             return -1;
         }
         int damage = (int) Math.round(basicAttack() * (1 + ((1 + (2 * getSkillMultiplier())) * getIntelligence())));
@@ -36,7 +36,7 @@ public class MageHero extends Hero {
 
     @Override
     public int thirdSkill() {
-        if (getMana() < getThirdSkillManaCost()) {
+        if (getMana() < getThirdSkillManaCost() || getLevel() < getThirdSkillLevelRequirement()) {
             return -1;
         }
 

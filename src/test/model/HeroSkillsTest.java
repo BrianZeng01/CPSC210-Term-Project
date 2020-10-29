@@ -39,6 +39,12 @@ abstract class HeroSkillsTest {
     }
 
     @Test
+    public void firstSkillInsufficientLevelTest() {
+        hero.setLevelForTest(hero.getFirstSkillLevelRequirement() - 1);
+        assertEquals(-1, hero.firstSkill());
+    }
+
+    @Test
     public void secondSkillTest() {
         int baseDamage = basicAttackBaseDamage();
         int maxBaseDamage = maxDamage(baseDamage);
@@ -68,6 +74,12 @@ abstract class HeroSkillsTest {
     }
 
     @Test
+    public void secondSkillInsufficientLevelTest() {
+        hero.setLevelForTest(hero.getSecondSkillLevelRequirement() - 1);
+        assertEquals(-1, hero.secondSkill());
+    }
+
+    @Test
     public void thirdSkillTest() {
         int baseDamage = basicAttackBaseDamage();
         int maxBaseDamage = maxDamage(baseDamage);
@@ -93,6 +105,12 @@ abstract class HeroSkillsTest {
     @Test
     public void thirdSkillNoManaTest() {
         hero.spendMana(hero.getMaxMana());
+        assertEquals(-1, hero.thirdSkill());
+    }
+
+    @Test
+    public void thirdSkillInsufficientLevelTest() {
+        hero.setLevelForTest(hero.getThirdSkillLevelRequirement() - 1);
         assertEquals(-1, hero.thirdSkill());
     }
 

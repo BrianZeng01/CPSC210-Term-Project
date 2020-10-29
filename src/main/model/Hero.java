@@ -88,20 +88,17 @@ public abstract class Hero extends Entity {
                 this.experienceRequiredToLevel * getExperienceMultiplier();
     }
 
-    // REQUIRES: Sufficient Mana
     // MODIFIES: this
-    // EFFECTS: Uses skill and returns damage output, or -1 if insufficient mana
+    // EFFECTS: Uses skill and returns damage output, or -1 if insufficient mana/level
     public abstract int firstSkill();
 
-    // REQUIRES: Sufficient Mana
     // MODIFIES: this
-    // EFFECTS: Uses skill and returns damage output, or -1 if insufficient mana
+    // EFFECTS: Uses skill and returns damage output, or -1 if insufficient mana/level
     public abstract int secondSkill();
 
 
-    // REQUIRES: Sufficient Mana
     // MODIFIES: this
-    // EFFECTS: Uses skill and returns damage output, or -1 if insufficient mana
+    // EFFECTS: Uses skill and returns damage output, or -1 if insufficient mana/level
     public abstract int thirdSkill();
 
     // MODIFIES: this
@@ -295,6 +292,12 @@ public abstract class Hero extends Entity {
     public void increaseIntelligence() {
         this.intelligence++;
         this.skillPoints--;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the level of hero for testing purposes
+    public void setLevelForTest(int level) {
+        this.level = level;
     }
 
     public Inventory getInventory() {

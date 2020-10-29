@@ -9,6 +9,10 @@ public class MageTest extends HeroSkillsTest {
     @BeforeEach
     public void setUp() {
         Hero mage = new MageHero("Name");
+        for (int i = 0; i < mage.getMaxLevel(); i++) {
+            mage.levelUp();
+            mage.increaseIntelligence();
+        }
         hero = mage;
     }
 }

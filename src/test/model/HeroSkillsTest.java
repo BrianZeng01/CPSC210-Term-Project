@@ -99,6 +99,8 @@ abstract class HeroSkillsTest {
 
         int actualDamage = hero.thirdSkill();
         assertTrue((actualDamage <= maxSkillDamage && actualDamage >= minSkillDamage) || actualDamage == 0);
+        actualDamage = 0;
+        assertTrue(actualDamage == 0);
         assertEquals(hero.getMaxThirdSkillCoolDown(), hero.getThirdSkillCoolDown());
     }
 

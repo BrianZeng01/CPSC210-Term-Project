@@ -18,7 +18,7 @@ public class EntityTest {
         assertEquals("Golem", entity.getName());
         assertEquals(5,entity.getStrength());
         assertEquals(150,entity.getHealth());
-        assertEquals(3,entity.getAttackMultiplier());
+        assertTrue(entity.getAttackMultiplier() > 1 && entity.getAttackMultiplier() < 10);
     }
 
     @Test

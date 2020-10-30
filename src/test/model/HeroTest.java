@@ -75,7 +75,7 @@ public class HeroTest {
     @Test
     public void incrementExperienceRequiredMaxLevelTest() {
         for (int i = 1; i < hero.getMaxLevel(); i++) {
-            hero.gainExp(hero.getExperienceRequiredToLevel());
+            hero.gainExp(hero.getExperienceRequiredToLevel()-hero.getExperience());
         }
         int experienceRequired = hero.getExperienceRequiredToLevel();
         int maxExp = hero.getExperience();

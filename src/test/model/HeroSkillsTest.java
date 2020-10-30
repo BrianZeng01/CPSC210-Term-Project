@@ -117,7 +117,7 @@ abstract class HeroSkillsTest {
     }
 
     public int basicAttackBaseDamage() {
-        int baseDamage = (int) Math.round(hero.getStrength() * ((100 - hero.getStrength()) / 100.0001))
+        int baseDamage = (int) Math.round(hero.getStrength() * ((100 - (1.5 * hero.getStrength())) / 100.0001))
                 * hero.getAttackMultiplier();
         return baseDamage;
     }

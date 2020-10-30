@@ -88,9 +88,12 @@ public abstract class Hero extends Entity implements Writable {
 
     // MODIFIES: this
     // EFFECTS: Increases experience required to level by some multiplier
+    //          unless hero is maxlevel
     public void incrementExperienceRequiredToLevel() {
-        this.experienceRequiredToLevel =
-                this.experienceRequiredToLevel * getExperienceMultiplier();
+        if (getLevel() < getMaxLevel()) {
+            this.experienceRequiredToLevel =
+                    this.experienceRequiredToLevel * getExperienceMultiplier();
+        }
     }
 
     // MODIFIES: this

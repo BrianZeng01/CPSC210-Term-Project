@@ -36,7 +36,7 @@ public class World implements Writable {
 
     // MODIFIES: this
     // EFFECTS: Moves onto next round by incrementing round by one
-    protected void nextRound() {
+    public void nextRound() {
         this.round++;
     }
 

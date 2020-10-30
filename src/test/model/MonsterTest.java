@@ -25,7 +25,7 @@ public class MonsterTest {
         List<Integer> loot = monster.dropLoot();
         assertTrue(loot.get(0) >= 0 && loot.get(0) < 15);
         assertTrue(loot.get(1) >= 0 && loot.get(1) < 15);
-        assertTrue(loot.get(2) == -1 || loot.get(2) < 0);
+        assertTrue(loot.get(2) == -1 || loot.get(2) > 0);
     }
     @Test
     public void takeDamageAliveTest() {

@@ -142,7 +142,7 @@ public class App {
         for (int i = 1; i <= 5; i++) {
             if (command.equals(Integer.toString(i))) {
                 if (w.getRound() >= i) {
-                    startFight(w.getHero(), jsonReader.reconstructMonster(i, w.getDifficulty()));
+                    startFight(w.getHero(), jsonReader.reconstructMonster(i, w.getDifficulty()), w, i);
                     return true;
                 } else {
                     System.out.println("You haven't reached this area yet!");
@@ -175,7 +175,7 @@ public class App {
 
     // MODIFIES: this
     // EFFECTS: Simulates a fight a against a monster
-    public void startFight(Hero hero, Monster monster) {
+    public void startFight(Hero hero, Monster monster, World world, int round) {
         int turn = 1;
         hero.recover();
         while (true) {
@@ -191,7 +191,8 @@ public class App {
             } else {
                 hero.decreaseCoolDowns();
             }
-            if (isFightOver(hero, monster)) {
+            if (isFightOver(hero, monster, world, round)) {
+                System.out.println("======================================");
                 break;
             }
 
@@ -269,13 +270,13 @@ public class App {
     // MODIFIES: this
     // EFFECTS: Returns true if either monster or hero is head
     //          and prints relevant statement, else false
-    public Boolean isFightOver(Hero hero, Monster monster) {
+    public Boolean isFightOver(Hero hero, Monster monster, World world, int round) {
         if (monster.isDead()) {
             System.out.println("======================================");
             victoryLoot(hero.getInventory(), monster.dropLoot());
             hero.gainExp(monster.getExp());
             System.out.println("+" + monster.getExp() + " Experience");
-            System.out.println("======================================");
+            nextRound(world,round);
             return true;
         } else {
             int monsterDamage = monster.basicAttack();
@@ -289,10 +290,17 @@ public class App {
             System.out.println("Defeat...");
             System.out.println("The " + monster.getName() + " glares down at your broken body.");
             System.out.println("Out of pity they allow you live another day.");
-            System.out.println("======================================");
             return true;
         }
         return false;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Increments to next round in world if on correct round.
+    public void nextRound(World w, int round) {
+        if (round == w.getRound()) {
+            w.nextRound();
+        }
     }
 
     // MODIFIES: this

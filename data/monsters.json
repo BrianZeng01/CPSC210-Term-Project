@@ -15,21 +15,21 @@
   },
   "3": {
     "name": "Skeleton",
-    "health": 160,
+    "health": 250,
     "strength": 4,
     "experience": 120,
     "lootChance": 2
   },
   "4": {
     "name": "Giant",
-    "health": 300,
+    "health": 450,
     "strength": 5,
     "experience": 150,
     "lootChance": 2
   },
   "5": {
     "name": "Golem",
-    "health": 500,
+    "health": 700,
     "strength": 7,
     "experience": 200,
     "lootChance": 3

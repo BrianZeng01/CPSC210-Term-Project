@@ -163,7 +163,7 @@ public class App {
         System.out.println("==================================");
         System.out.println("The Fractured Lands");
         System.out.println("Select a destination\n");
-        System.out.println("Map Progress: " + w.getRound() + "/5");
+        System.out.println("Map Progress: " + (w.getRound() - 1) + "/5");
 
         System.out.println("1 -> Dark Swamp");
         System.out.println("2 -> Frosty Forest");

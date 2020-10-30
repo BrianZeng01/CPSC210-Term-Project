@@ -54,7 +54,7 @@ public abstract class Hero extends Entity implements Writable {
         this.experience = 0;
         this.experienceRequiredToLevel = 100;
         this.inventory = new Inventory();
-        this.attackMultiplier = 5;
+        this.attackMultiplier = 4;
         this.maxHealth = BASE_HEALTH_AND_MANA;
         this.maxMana = BASE_HEALTH_AND_MANA;
         this.health = BASE_HEALTH_AND_MANA;

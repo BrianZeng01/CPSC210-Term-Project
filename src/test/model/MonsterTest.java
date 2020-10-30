@@ -48,8 +48,11 @@ public class MonsterTest {
 
     @Test
     public void basicAttack() {
-        int damage = monster.getStrength() * monster.getAttackMultiplier();
-        assertEquals(damage, monster.basicAttack());
+        int baseDamage = monster.getStrength() * monster.getAttackMultiplier();
+        int minDamage = (int) Math.round(baseDamage * 0.75);
+        int maxDamage = (int) Math.round(baseDamage * 1.25);
+        int basicAttackDamage = monster.basicAttack();
+        assertTrue(basicAttackDamage >= minDamage && basicAttackDamage <= maxDamage);
     }
 
 }

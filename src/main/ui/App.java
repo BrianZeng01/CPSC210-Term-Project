@@ -1,7 +1,11 @@
 package ui;
 
 import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,35 +18,34 @@ import java.util.Scanner;
 public class App {
     private Worlds worlds;
     private Scanner input;
-    String command;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private static final String DATA_SOURCE = "./data/application.json";
+    private String command;
 
     // EFFECTS: Starts the application
     public App() {
+        jsonWriter = new JsonWriter(DATA_SOURCE);
+        jsonReader = new JsonReader(DATA_SOURCE);
         runApp();
-    }
-
-    // MODIFIES: this
-    // EFFECTS: Creates a sample world for purposes of displaying
-    //          User Stories
-    public void sampleWorld() {
-        worlds = new Worlds();
-        worlds.createWorld("My World", "My Hero",
-                "warrior", "easy");
-        worlds.getWorld(1).getHero().levelUp();
-        Accessory a = new Accessory("Pendant",3,2,1,4, 1);
-        worlds.getWorld(1).getHero().getInventory().pickUpAccessory(a);
     }
 
     // MODIFIES: this
     // EFFECTS: Acts as a user interface in the console to
     //          process inputs.
     public void runApp() {
-        sampleWorld();
+        try {
+            worlds = jsonReader.read();
+        } catch (IOException e) {
+            System.out.printf("Data files could not be read");
+            e.printStackTrace();
+            return;
+        }
         input = new Scanner(System.in);
         command = null;
 
         mainMenu();
-
+        saveApplication();
         System.out.println("Exiting Application");
     }
 
@@ -82,7 +85,7 @@ public class App {
             System.out.println("Worlds at max capacity, delete a world"
                     + " to make more!");
         }
-        System.out.println("q => quit");
+        System.out.println("q => Quit and Save");
     }
 
     // EFFECTS: Processes input given in world menu
@@ -436,4 +439,16 @@ public class App {
         }
     }
 
+    // EFFECTS: Saves all application data to file
+    public void saveApplication() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(worlds);
+            jsonWriter.close();
+            System.out.println("Auto-Saving data");
+        } catch (FileNotFoundException e) {
+            System.out.println("Data could not be saved!");
+            e.printStackTrace();
+        }
+    }
 }

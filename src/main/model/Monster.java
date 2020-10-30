@@ -5,9 +5,10 @@ import persistence.Writable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 // A monster in the game
-public class Monster extends Entity implements Writable {
+public class Monster extends Entity {
     public int lootChance;
     public int exp;
 
@@ -32,7 +33,12 @@ public class Monster extends Entity implements Writable {
 
     // EFFECTS: returns a value calculated by it's strength
     public int basicAttack() {
-        return this.getAttackMultiplier() * this.getStrength();
+        int baseDamage = this.getStrength() * this.getAttackMultiplier();
+        int minDamage = (int) Math.round(baseDamage * 0.75);
+        int maxDamage = (int) Math.round(baseDamage * 1.25);
+        Random random = new Random();
+        int randomDamage = random.nextInt(maxDamage - minDamage) + minDamage;
+        return randomDamage;
     }
 
     // EFFECTS: [Hp Potion, Mp Potion, accessoryId] In order, the integers will represent
@@ -66,8 +72,4 @@ public class Monster extends Entity implements Writable {
         return lootChance;
     }
 
-    @Override
-    public JSONObject toJson() {
-        return null;
-    }
 }

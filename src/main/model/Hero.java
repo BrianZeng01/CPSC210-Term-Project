@@ -2,7 +2,9 @@ package model;
 
 import org.json.JSONObject;
 import persistence.Writable;
+import persistence.JsonReader;
 
+import java.util.List;
 import java.util.Random;
 
 // Abstract for possible Characters

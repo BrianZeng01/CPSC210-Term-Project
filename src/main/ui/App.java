@@ -46,7 +46,6 @@ public class App {
         command = null;
 
         mainMenu();
-        saveApplication();
         System.out.println("Exiting Application");
     }
 
@@ -70,6 +69,7 @@ public class App {
                 invalidInput();
             }
         }
+        saveApplication();
     }
 
     // EFFECTS: Displays options in the main menu
@@ -96,16 +96,7 @@ public class App {
             worldMenuOptions(w);
             command = input.nextLine();
 
-            if (command.equals("f")) {
-                try {
-                    w.getHero().recover();
-                    Monster monster = jsonReader.reconstructMonster(2, "easy");
-                    startFight(w.getHero(), monster);
-                    w.getHero().recover();
-                } catch (IOException e) {
-                    System.out.println("Error generating Monster");
-                }
-            } else if (command.equals("m")) {
+            if (command.equals("m")) {
                 mapMenu(w);
             } else if (command.equals("c")) {
                 characterMenu(w.getHero());
@@ -123,7 +114,7 @@ public class App {
         menuHeader("World Menu for " + w.getWorldName());
         System.out.println("m => View the Map");
         System.out.println("c => Modify/View Character");
-        System.out.println("b => Go Back to Main Menu");
+        System.out.println("b => Exit & Save World");
         System.out.println("----------------------------------");
         System.out.println("Round:" + w.getRound());
         System.out.println("Difficulty:" + w.getDifficulty());
@@ -137,25 +128,34 @@ public class App {
             command = input.nextLine();
 
             try {
-                if (command.equals("1")) {
-                    startFight(w.getHero(), jsonReader.reconstructMonster(1, w.getDifficulty()));
-                } else if (command.equals("2")) {
-                    startFight(w.getHero(), jsonReader.reconstructMonster(2, w.getDifficulty()));
-                } else if (command.equals("3")) {
-                    startFight(w.getHero(), jsonReader.reconstructMonster(3, w.getDifficulty()));
-                } else if (command.equals("4")) {
-                    startFight(w.getHero(), jsonReader.reconstructMonster(4, w.getDifficulty()));
-                } else if (command.equals("5")) {
-                    startFight(w.getHero(), jsonReader.reconstructMonster(5, w.getDifficulty()));
-                } else if (command.equals("b")) {
+                if (!processMapInput(w, command)) {
                     break;
-                } else {
-                    invalidInput();
                 }
             } catch (IOException e) {
                 System.out.println("Could not generate monster");
             }
         }
+    }
+
+    // EFFECTS: Processes the user input on map and returns true if success, otherwise false
+    public Boolean processMapInput(World w, String command) throws IOException {
+        for (int i = 1; i <= 5; i++) {
+            if (command.equals(Integer.toString(i))) {
+                if (w.getRound() >= i) {
+                    startFight(w.getHero(), jsonReader.reconstructMonster(i, w.getDifficulty()));
+                    return true;
+                } else {
+                    System.out.println("You haven't reached this area yet!");
+                    return true;
+                }
+            }
+        }
+        if (command.equals("b")) {
+            return false;
+        } else {
+            invalidInput();
+        }
+        return true;
     }
 
     // EFFECTS: Displays the map
@@ -197,6 +197,7 @@ public class App {
 
             turn++;
         }
+        saveApplication();
     }
 
     // MODIFIES: this
@@ -301,8 +302,8 @@ public class App {
         System.out.println("Rewards:");
         inv.setHealthPotions(inv.getHealthPotions() + loot.get(0));
         inv.setManaPotions(inv.getManaPotions() + loot.get(1));
-        System.out.println(loot.get(0) + "Health Potions");
-        System.out.println(loot.get(1) + "Mana Potions");
+        System.out.println(loot.get(0) + " Health Potions");
+        System.out.println(loot.get(1) + " Mana Potions");
         if (loot.get(2) != -1) {
             if (inv.inventorySlotsIsFull()) {
                 System.out.println("No more space in inventory, accessory discarded :(");
@@ -585,7 +586,12 @@ public class App {
     // EFFECTS: Uses firstSkill if not on cool down and sufficient mana,
     //          Deals damage to monster and returns true upon success, otherwise false
     public Boolean tryFirstSkill(Hero hero, Monster monster) {
-        if (hero.getFirstSkillCoolDown() > 0) {
+
+        if (hero.getLevel() < hero.getFirstSkillLevelRequirement()) {
+            System.out.println("Need to be level " + hero.getFirstSkillLevelRequirement()
+                    + " to use this skill.");
+            return false;
+        } else if (hero.getFirstSkillCoolDown() > 0) {
             System.out.println("First Skill is still on CoolDown");
             return false;
         } else if (hero.getMana() < hero.getFirstSkillManaCost()) {
@@ -603,7 +609,12 @@ public class App {
     // EFFECTS: Uses secondSkill if not on cool down and sufficient mana,
     //          Deals damage to monster and returns true upon success, otherwise false
     public Boolean trySecondSkill(Hero hero, Monster monster) {
-        if (hero.getSecondSkillCoolDown() > 0) {
+
+        if (hero.getLevel() < hero.getSecondSkillLevelRequirement()) {
+            System.out.println("Need to be level " + hero.getSecondSkillLevelRequirement()
+                    + " to use this skill.");
+            return false;
+        } else if (hero.getSecondSkillCoolDown() > 0) {
             System.out.println("Second Skill is still on CoolDown");
             return false;
         } else if (hero.getMana() < hero.getSecondSkillManaCost()) {
@@ -621,7 +632,11 @@ public class App {
     // EFFECTS: Uses thirdSkill if not on cool down and sufficient mana,
     //          Deals damage to monster and returns true upon success, otherwise false
     public Boolean tryThirdSkill(Hero hero, Monster monster) {
-        if (hero.getThirdSkillCoolDown() > 0) {
+        if (hero.getLevel() < hero.getThirdSkillLevelRequirement()) {
+            System.out.println("Need to be level " + hero.getThirdSkillLevelRequirement()
+                    + " to use this skill.");
+            return false;
+        } else if (hero.getThirdSkillCoolDown() > 0) {
             System.out.println("Third Skill is still on CoolDown");
             return false;
         } else if (hero.getMana() < hero.getThirdSkillManaCost()) {

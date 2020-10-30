@@ -17,7 +17,7 @@ public abstract class Hero extends Entity implements Writable {
     private static final double DEFENCE_MULTIPLIER = 2.75;
     private static final int MAX_FIRST_SKILL_COOL_DOWN = 2;
     private static final int MAX_SECOND_SKILL_COOL_DOWN = 3;
-    private static final int MAX_THIRD_SKILL_COOL_DOWN = 4;
+    private static final int MAX_THIRD_SKILL_COOL_DOWN = 6;
     private static final int FIRST_SKILL_MANA_COST = 50;
     private static final int SECOND_SKILL_MANA_COST = 75;
     private static final int THIRD_SKILL_MANA_COST = 100;
@@ -148,7 +148,7 @@ public abstract class Hero extends Entity implements Writable {
 
     // EFFECTS: Returns a semi random value calculated off hero's strength
     public int basicAttack() {
-        int baseDamage = (int) Math.round(this.getStrength() * ((100 - this.getStrength()) / 100.0001))
+        int baseDamage = (int) Math.round(this.getStrength() * ((100 - (1.5 * this.getStrength())) / 100.0001))
                 * this.getAttackMultiplier();
         int minDamage = (int) Math.round(baseDamage * 0.75);
         int maxDamage = (int) Math.round(baseDamage * 1.25);

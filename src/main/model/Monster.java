@@ -14,11 +14,17 @@ public class Monster extends Entity {
 
     // EFFECTS: Creates a monster with given name, health,
     //          strength, and sets attackMultiplier.
-    public Monster(String name, int health, int strength, int lootChance, int exp) {
+    public Monster(String name, int health, int strength, int lootChance, int exp, String difficulty) {
         this.name = name;
         this.health = health;
         this.strength = strength;
-        this.attackMultiplier = 3;
+        if (difficulty.equals("hard")) {
+            this.attackMultiplier = 5;
+        } else if (difficulty.equals("medium")) {
+            this.attackMultiplier = 4;
+        } else {
+            this.attackMultiplier = 3;
+        }
         this.lootChance = lootChance;
         this.exp = exp;
     }

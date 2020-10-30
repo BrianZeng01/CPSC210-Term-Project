@@ -1,6 +1,7 @@
 package ui;
 
 import model.*;
+import org.json.JSONArray;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -37,7 +38,7 @@ public class App {
         try {
             worlds = jsonReader.read();
         } catch (IOException e) {
-            System.out.printf("Data files could not be read");
+            System.out.print("Data files could not be read");
             e.printStackTrace();
             return;
         }
@@ -53,6 +54,7 @@ public class App {
     public void mainMenu() {
         while (true) {
             mainMenuOptions();
+            System.out.println("==================================");
             command = input.nextLine();
             if (command.equals("q")) {
                 break;
@@ -95,13 +97,16 @@ public class App {
             command = input.nextLine();
 
             if (command.equals("f")) {
-                Random random = new Random();
-                int str = random.nextInt(20 - 10) + 10;
-                Monster monster = new Monster("Slime", 20, str, 1, 50);
-                System.out.println(w.getHero().getName()
-                        + ", you've encountered" + " a " + monster.getName() + "!");
-                startFight(w.getHero(), monster);
-                w.getHero().recover();
+                try {
+                    w.getHero().recover();
+                    Monster monster = jsonReader.reconstructMonster(2, "easy");
+                    startFight(w.getHero(), monster);
+                    w.getHero().recover();
+                } catch (IOException e) {
+                    System.out.println("Error generating Monster");
+                }
+            } else if (command.equals("m")) {
+                mapMenu(w);
             } else if (command.equals("c")) {
                 characterMenu(w.getHero());
             } else if (command.equals("b")) {
@@ -110,88 +115,218 @@ public class App {
                 invalidInput();
             }
         }
+        saveApplication();
     }
 
     // EFFECTS: Displays the options for world menu
     public void worldMenuOptions(World w) {
         menuHeader("World Menu for " + w.getWorldName());
-        System.out.println("f => Fight a monster");
-        System.out.println("c => Modifiy/View Character");
+        System.out.println("m => View the Map");
+        System.out.println("c => Modify/View Character");
         System.out.println("b => Go Back to Main Menu");
-        System.out.println("------------------");
+        System.out.println("----------------------------------");
         System.out.println("Round:" + w.getRound());
         System.out.println("Difficulty:" + w.getDifficulty());
+        System.out.println("==================================");
+    }
 
+    // EFFECTS: Processes the input in the map menu
+    public void mapMenu(World w) {
+        while (true) {
+            mapMenuOptions(w);
+            command = input.nextLine();
+
+            try {
+                if (command.equals("1")) {
+                    startFight(w.getHero(), jsonReader.reconstructMonster(1, w.getDifficulty()));
+                } else if (command.equals("2")) {
+                    startFight(w.getHero(), jsonReader.reconstructMonster(2, w.getDifficulty()));
+                } else if (command.equals("3")) {
+                    startFight(w.getHero(), jsonReader.reconstructMonster(3, w.getDifficulty()));
+                } else if (command.equals("4")) {
+                    startFight(w.getHero(), jsonReader.reconstructMonster(4, w.getDifficulty()));
+                } else if (command.equals("5")) {
+                    startFight(w.getHero(), jsonReader.reconstructMonster(5, w.getDifficulty()));
+                } else if (command.equals("b")) {
+                    break;
+                } else {
+                    invalidInput();
+                }
+            } catch (IOException e) {
+                System.out.println("Could not generate monster");
+            }
+        }
+    }
+
+    // EFFECTS: Displays the map
+    public void mapMenuOptions(World w) {
+        System.out.println("==================================");
+        System.out.println("The Fractured Lands");
+        System.out.println("Select a destination\n");
+        System.out.println("Map Progress: " + w.getRound() + "/5");
+
+        System.out.println("1 -> Dark Swamp");
+        System.out.println("2 -> Frosty Forest");
+        System.out.println("3 -> Graveyard");
+        System.out.println("4 -> The Hills");
+        System.out.println("5 -> The Serpent's Pass");
+        System.out.println("b -> Go Back");
     }
 
     // MODIFIES: this
     // EFFECTS: Simulates a fight a against a monster
     public void startFight(Hero hero, Monster monster) {
         int turn = 1;
+        hero.recover();
         while (true) {
-            if (isFightOver(hero, monster)) {
-                break;
-            }
             fightOptions(turn, hero, monster);
 
             command = input.nextLine();
-            if (command.equals("a")) {
-                monster.takeDamage(hero.basicAttack());
-            } else if (command.equals("h") && hero.getInventory().getHealthPotions() > 0) {
-                hero.drinkHealthPotion();
-            } else if (command.equals("m") && hero.getInventory().getManaPotions() > 0) {
-                hero.drinkManaPotion();
-            } else if (command.equals("f")) {
+            if (command.equals("f")) {
                 System.out.println("Running away!");
                 break;
-            } else {
-                invalidInput();
-                continue;
             }
-            hero.takeDamage(monster.basicAttack());
+            if (!processFightInputs(hero, monster, command)) {
+                continue;
+            } else {
+                hero.decreaseCoolDowns();
+            }
+            if (isFightOver(hero, monster)) {
+                break;
+            }
+
             turn++;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Processes a potential skill cast returning true if processed
+    public Boolean processSkillInputs(Hero hero, Monster monster, String command) {
+        if (command.equals("1")) {
+            return tryFirstSkill(hero, monster);
+        } else if (command.equals("2")) {
+            return trySecondSkill(hero, monster);
+        } else if (command.equals("3")) {
+            return tryThirdSkill(hero, monster);
+        } else {
+            return false;
+        }
+    }
+
+
+
+    // MODIFIES: this
+    // EFFECTS: Processes User input during fight returns true if processed
+    public Boolean processFightInputs(Hero hero, Monster monster, String command) {
+        if (processSkillInputs(hero, monster, command)) {
+            return true;
+        } else if (command.equals("a")) {
+            int damageDealt = hero.basicAttack();
+            monster.takeDamage(damageDealt);
+            System.out.println("You did " + damageDealt + " damage!");
+            return true;
+        } else if (command.equals("h") && hero.getInventory().getHealthPotions() > 0) {
+            hero.drinkHealthPotion();
+            System.out.println("You gained " + hero.getHealthAndManaPotionValue() + " health!");
+            return true;
+        } else if (command.equals("m") && hero.getInventory().getManaPotions() > 0) {
+            hero.drinkManaPotion();
+            System.out.println("You gained " + hero.getHealthAndManaPotionValue() + " mana!");
+            return true;
+        } else {
+            invalidInput();
+            return false;
         }
     }
 
     // EFFECTS: Displays options during fight
     public void fightOptions(int turn, Hero hero, Monster monster) {
         Inventory inv = hero.getInventory();
+        System.out.println("==================================");
         System.out.println("TURN " + turn);
         System.out.println(hero.getName() + " Health: " + hero.getHealth());
+        System.out.println(hero.getName() + " Mana: " + hero.getMana());
         System.out.println(monster.getName() + " Health : " + monster.getHealth());
-        System.out.println("------------");
+        System.out.println("----------------------------------");
+        System.out.println("1 => First Skill || Mana Cost: " + hero.getFirstSkillManaCost()
+                 + " || Cool Down: " + hero.getFirstSkillCoolDown());
+        System.out.println("2 => Second Skill || Mana Cost: " + hero.getSecondSkillManaCost()
+                + " || Cool Down: " + hero.getSecondSkillCoolDown());
+        System.out.println("3 => Third Skill || Mana Cost: " + hero.getThirdSkillManaCost()
+                + " || Cool Down: " + hero.getThirdSkillCoolDown());
         System.out.println("a => Basic Attack");
         if (inv.getHealthPotions() > 0) {
-            System.out.println("h => Drink Health Potion: "
-                    + inv.getHealthPotions() + "Remaining");
+            System.out.println("h => Drink Health Potion: " + inv.getHealthPotions() + "Remaining");
         }
         if (inv.getManaPotions() > 0) {
-            System.out.println("m => Drink Mana Potion: "
-                    + inv.getManaPotions() + "Remaining");
+            System.out.println("m => Drink Mana Potion: " + inv.getManaPotions() + "Remaining");
         }
         System.out.println("f => Flee");
-
+        System.out.println("==================================");
     }
 
+    // MODIFIES: this
     // EFFECTS: Returns true if either monster or hero is head
     //          and prints relevant statement, else false
     public Boolean isFightOver(Hero hero, Monster monster) {
         if (monster.isDead()) {
-            System.out.println("You've won the fight");
+            System.out.println("======================================");
+            victoryLoot(hero.getInventory(), monster.dropLoot());
+            hero.gainExp(monster.getExp());
+            System.out.println("+" + monster.getExp() + " Experience");
+            System.out.println("======================================");
             return true;
+        } else {
+            int monsterDamage = monster.basicAttack();
+            int initialHealth = hero.getHealth();
+            hero.takeDamage(monsterDamage);
+            System.out.println("The " + monster.getName() + " did "
+                    + (initialHealth - hero.getHealth()) + " damage to you!");
         }
         if (hero.isDead()) {
-            System.out.println("You've died!");
+            System.out.println("======================================");
+            System.out.println("Defeat...");
+            System.out.println("The " + monster.getName() + " glares down at your broken body.");
+            System.out.println("Out of pity they allow you live another day.");
+            System.out.println("======================================");
             return true;
         }
         return false;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Picks up loot from a dead monster
+    public void victoryLoot(Inventory inv, List<Integer> loot) {
+        System.out.println("Victory!");
+        System.out.println("Rewards:");
+        inv.setHealthPotions(inv.getHealthPotions() + loot.get(0));
+        inv.setManaPotions(inv.getManaPotions() + loot.get(1));
+        System.out.println(loot.get(0) + "Health Potions");
+        System.out.println(loot.get(1) + "Mana Potions");
+        if (loot.get(2) != -1) {
+            if (inv.inventorySlotsIsFull()) {
+                System.out.println("No more space in inventory, accessory discarded :(");
+                return;
+            }
+            JSONArray arr = new JSONArray();
+            arr.put(Integer.toString(loot.get(2)));
+            try {
+                Accessory a = jsonReader.convertIds(arr).get(0);
+                inv.pickUpAccessory(a);
+                System.out.println("You've found a " + a.getAccessoryName() + "!");
+            } catch (IOException e) {
+                System.out.println("Failed to generate an accessory upon victory.");
+                e.printStackTrace();
+            }
+        }
+    }
+
     // EFFECTS: Processes given inputs in hero menu
     public void characterMenu(Hero hero) {
         while (true) {
+            System.out.println("==================================");
             characterStats(hero);
-            System.out.println("--------------");
+            System.out.println("----------------------------------");
             characterMenuOptions(hero);
             command = input.nextLine();
 
@@ -215,6 +350,7 @@ public class App {
             System.out.println("s => Increase Stats");
         }
         System.out.println("b => Go Back to World Menu");
+        System.out.println("==================================");
 
     }
 
@@ -230,6 +366,7 @@ public class App {
         System.out.println("INTELLIGENCE: " + hero.getIntelligence());
         System.out.println("MAX HEALTH: " + hero.getMaxHealth());
         System.out.println("MAX MANA: " + hero.getMaxMana());
+        System.out.println("EXPERIENCE: " + hero.getExperience() + "/" + hero.getExperienceRequiredToLevel());
     }
 
     // MODIFIES: this
@@ -269,6 +406,7 @@ public class App {
         System.out.println("a => Increase Agility +1");
         System.out.println("i => Increase Intelligence +1");
         System.out.println("b => Go Back to Character Menu");
+        System.out.println("==================================");
     }
 
     // EFFECTS: Processes given input in inventory menu
@@ -277,7 +415,7 @@ public class App {
         while (true) {
             menuHeader("Inventory");
             System.out.println("b -> Go Back to Character Menu");
-            System.out.println("---------------");
+            System.out.println("----------------------------------");
             inventoryDisplay(hero.getInventory());
             command = input.nextLine();
             if (command.equals("b")) {
@@ -290,15 +428,18 @@ public class App {
 
     // EFFECTS: Displays items in inventory
     public void inventoryDisplay(Inventory inv) {
+        System.out.println(inv.getHealthPotions() + " Health Potions");
+        System.out.println(inv.getManaPotions() + " Mana Potions");
         System.out.println("<<INVENTORYSLOTS>>");
         for (Accessory a: inv.getInventorySlots()) {
             accessoryDisplay(a);
         }
-
+        System.out.println("----------------------------------");
         System.out.println("<<EQUIPMENTSLOTS>>");
         for (Accessory a: inv.getEquipmentSlots()) {
             accessoryDisplay(a);
         }
+        System.out.println("==================================");
     }
 
     // EFFECTS: Displays given accessory
@@ -400,8 +541,9 @@ public class App {
 
     // EFFECTS: Displays a menu header with given title
     public void menuHeader(String title) {
+        System.out.println("==================================");
         System.out.println(title);
-        System.out.println("------------------");
+        System.out.println("----------------------------------");
         System.out.println("Enter one of the following:");
     }
 
@@ -436,6 +578,60 @@ public class App {
             return worlds.getWorld(num) != null;
         } catch (NumberFormatException e) {
             return false;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Uses firstSkill if not on cool down and sufficient mana,
+    //          Deals damage to monster and returns true upon success, otherwise false
+    public Boolean tryFirstSkill(Hero hero, Monster monster) {
+        if (hero.getFirstSkillCoolDown() > 0) {
+            System.out.println("First Skill is still on CoolDown");
+            return false;
+        } else if (hero.getMana() < hero.getFirstSkillManaCost()) {
+            System.out.println("Not Enough Mana to use First Skill!");
+            return false;
+        } else {
+            int damageDealt = hero.firstSkill();
+            monster.takeDamage(damageDealt);
+            System.out.println("You've used your first skill and did " + damageDealt + " damage!");
+            return true;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Uses secondSkill if not on cool down and sufficient mana,
+    //          Deals damage to monster and returns true upon success, otherwise false
+    public Boolean trySecondSkill(Hero hero, Monster monster) {
+        if (hero.getSecondSkillCoolDown() > 0) {
+            System.out.println("Second Skill is still on CoolDown");
+            return false;
+        } else if (hero.getMana() < hero.getSecondSkillManaCost()) {
+            System.out.println("Not Enough Mana to use Second Skill!");
+            return false;
+        } else {
+            int damageDealt = hero.secondSkill();
+            monster.takeDamage(damageDealt);
+            System.out.println("You've used your second skill and did " + damageDealt + " damage!");
+            return true;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Uses thirdSkill if not on cool down and sufficient mana,
+    //          Deals damage to monster and returns true upon success, otherwise false
+    public Boolean tryThirdSkill(Hero hero, Monster monster) {
+        if (hero.getThirdSkillCoolDown() > 0) {
+            System.out.println("Third Skill is still on CoolDown");
+            return false;
+        } else if (hero.getMana() < hero.getThirdSkillManaCost()) {
+            System.out.println("Not Enough Mana to use Third Skill!");
+            return false;
+        } else {
+            int damageDealt = hero.thirdSkill();
+            monster.takeDamage(damageDealt);
+            System.out.println("You've used your third skill and did " + damageDealt + " damage!");
+            return true;
         }
     }
 

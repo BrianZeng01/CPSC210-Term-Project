@@ -3,30 +3,35 @@
       "name": "Slime",
       "health": 100,
       "strength": 3,
+      "experience": 50,
       "lootChance": 1
     },
   "2": {
     "name": "Dire Wolf",
     "health": 100,
     "strength": 5,
+    "experience": 75,
     "lootChance": 1
   },
   "3": {
     "name": "Skeleton",
     "health": 180,
     "strength": 6,
+    "experience": 120,
     "lootChance": 2
   },
   "4": {
     "name": "Giant",
     "health": 300,
     "strength": 6,
+    "experience": 150,
     "lootChance": 2
   },
   "5": {
     "name": "Golem",
     "health": 500,
     "strength": 10,
+    "experience": 200,
     "lootChance": 3
   }
 }

@@ -12,7 +12,7 @@ public class MonsterTest {
 
     @BeforeEach
     public void monsterTestSetup() {
-        monster = new Monster("Slime", 50, 3, 1, 50);
+        monster = new Monster("Slime", 50, 3, 1, 50, "medium");
     }
 
     @Test

@@ -16,7 +16,8 @@ import java.util.stream.Stream;
 // Copied format from JsonSerializationDemo
 public class JsonReader {
     private String source;
-    protected String accessoryFile = "./data/accessories.json";
+    private String accessoryFile = "./data/accessories.json";
+    private String monsterFile = "./data/monsters.json";
 
     // EFFECTS: constructs reader to read from source file
     public JsonReader(String source) {
@@ -147,4 +148,19 @@ public class JsonReader {
                 addedIntelligence,accessoryId);
     }
 
+    // EFFECTS: Creates the relevant monster in the given round and returns it
+    public Monster reconstructMonster(int round, String difficulty) throws IOException {
+        String jsonData = readFile(monsterFile);
+        JSONObject monstersJson = new JSONObject(jsonData);
+        String r = Integer.toString(round);
+        JSONObject monsterData = monstersJson.getJSONObject(r);
+        String name = monsterData.getString("name");
+        int strength = monsterData.getInt("strength");
+        int health = monsterData.getInt("health");
+        int experience = monsterData.getInt("experience");
+        int lootChance = monsterData.getInt("lootChance");
+        Monster m = new Monster(name,health,strength,lootChance,experience,difficulty);
+
+        return m;
+    }
 }

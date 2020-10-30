@@ -101,4 +101,19 @@ public class JsonReaderTest {
             fail("Should not throw an exception");
         }
     }
+
+    @Test
+    public void reconstructMonsterTest() {
+        try {
+            JsonReader reader = new JsonReader("./data/testReaderWorlds.json");
+            Monster m = reader.reconstructMonster(2, "medium");
+            assertEquals("Dire Wolf", m.getName());
+            assertEquals(100, m.getHealth());
+            assertEquals(5, m.getStrength());
+            assertEquals(75, m.getExp());
+            assertEquals(1, m.getLootChance());
+        } catch (IOException e) {
+            fail("Should of worked");
+        }
+    }
 }

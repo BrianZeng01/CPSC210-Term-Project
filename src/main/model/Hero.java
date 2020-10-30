@@ -76,6 +76,7 @@ public abstract class Hero extends Entity implements Writable {
     //          and increase experience cap to level. Do nothing if already max level
     public void gainExp(int experienceGained) {
         if (this.getLevel() >= this.MAX_LEVEL) {
+            this.experience = this.experienceRequiredToLevel;
             return;
         }
         this.experience += experienceGained;
@@ -192,6 +193,9 @@ public abstract class Hero extends Entity implements Writable {
     public void recover() {
         this.health = this.getMaxHealth();
         this.mana = this.getMaxMana();
+        this.firstSkillCoolDown = 0;
+        this.secondSkillCoolDown = 0;
+        this.thirdSkillCoolDown = 0;
     }
 
     // MODIFIES: this

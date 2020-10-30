@@ -15,7 +15,7 @@ public class WarriorHero extends Hero {
 
     @Override
     public int firstSkill() {
-        if (getMana() < getThirdSkillManaCost() || getLevel() < getFirstSkillLevelRequirement()) {
+        if (getMana() < getFirstSkillManaCost() || getLevel() < getFirstSkillLevelRequirement()) {
             return -1;
         }
         int damage = (int) Math.round(basicAttack() * (1 + (getSkillMultiplier() * getStrength())));
@@ -26,7 +26,7 @@ public class WarriorHero extends Hero {
 
     @Override
     public int secondSkill() {
-        if (getMana() < getThirdSkillManaCost() || getLevel() < getSecondSkillLevelRequirement()) {
+        if (getMana() < getSecondSkillManaCost() || getLevel() < getSecondSkillLevelRequirement()) {
             return -1;
         }
         int damage = (int) Math.round(basicAttack() * (1 + ((2 * getSkillMultiplier()) * getStrength())));

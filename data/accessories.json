@@ -1,11 +1,11 @@
 {
   "1": {
-    "accessoryId": "1",
+    "accessoryId": 1,
     "name": "Broken Ring",
-    "addedStrength": "1",
-    "addedDefence": "1",
-    "addedAgility": "1",
-    "addedIntelligence": "1"
+    "addedStrength": 1,
+    "addedDefence": 1,
+    "addedAgility": 1,
+    "addedIntelligence": 1
   },
   "2": {
     "accessoryId": 2,

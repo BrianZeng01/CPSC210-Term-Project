@@ -60,8 +60,29 @@ public class World implements Writable {
         return this.worldNumber;
     }
 
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
+    }
+
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject jsonWorld = new JSONObject();
+        JSONObject worldData = new JSONObject();
+        JSONObject heroData = this.getHero().toJson();
+        JSONObject inventoryData = this.getHero().getInventory().toJson();
+
+        worldData.put("worldNumber", this.getWorldNumber());
+        worldData.put("worldName", this.getWorldName());
+        worldData.put("difficulty", this.getDifficulty());
+        worldData.put("round", this.getRound());
+
+        jsonWorld.put("worldData", worldData);
+        jsonWorld.put("heroData", heroData);
+        jsonWorld.put("inventoryData", inventoryData);
+        return jsonWorld;
     }
 }

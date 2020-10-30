@@ -115,8 +115,10 @@ public class JsonReader {
         List<Accessory> equipmentSlots = convertIds(inventoryData.getJSONArray("equipmentSlots"));
         baseInventory.setHealthPotions(inventoryData.getInt("healthPotions"));
         baseInventory.setManaPotions(inventoryData.getInt("manaPotions"));
+        baseInventory.setInventorySlots(inventorySlots);
+        baseInventory.setEquipmentSlots(equipmentSlots);
 
-        return null;
+        return baseInventory;
     }
 
     // EFFECTS: Converts all the ids into accessories and returns it
@@ -125,8 +127,8 @@ public class JsonReader {
         String jsonData = readFile(accessoryFile);
         JSONObject accessoryJson = new JSONObject(jsonData);
         for (int i = 0; i < ids.length(); i++) {
-            String accId = ids.getString(0);
-            slots.add(reconstructAccessory(accessoryJson.getJSONObject("accId")));
+            String accId = Integer.toString(ids.getInt(i));
+            slots.add(reconstructAccessory(accessoryJson.getJSONObject(accId)));
         }
 
         return slots;

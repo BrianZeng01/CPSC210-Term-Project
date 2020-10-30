@@ -3,7 +3,7 @@
     "worldData": {
       "worldNumber": 1,
       "worldName": "Sandbox World",
-      "difficulty": "Medium",
+      "difficulty": "medium",
       "round": 3
     },
     "heroData": {

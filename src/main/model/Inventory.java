@@ -118,8 +118,38 @@ public class Inventory implements Writable {
         return this.MAX_EQUIPMENT_SLOTS;
     }
 
+    public void setHealthPotions(int healthPotions) {
+        this.healthPotions = healthPotions;
+    }
+
+    public void setManaPotions(int manaPotions) {
+        this.manaPotions = manaPotions;
+    }
+
+    public void setInventorySlots(List<Accessory> inventorySlots) {
+        this.inventorySlots = inventorySlots;
+    }
+
+    public void setEquipmentSlots(List<Accessory> equipmentSlots) {
+        this.equipmentSlots = equipmentSlots;
+    }
+
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject jsonInv = new JSONObject();
+        List<Integer> inventorySlots = new ArrayList<>();
+        List<Integer> equipmentSlots = new ArrayList<>();
+        for (Accessory a: this.getInventorySlots()) {
+            inventorySlots.add(a.getAccessoryId());
+        }
+        for (Accessory a: this.getEquipmentSlots()) {
+            equipmentSlots.add(a.getAccessoryId());
+        }
+        jsonInv.put("healthPotions", this.getHealthPotions());
+        jsonInv.put("manaPotions", this.getManaPotions());
+        jsonInv.put("equipmentSlots", equipmentSlots);
+        jsonInv.put("inventorySlots", inventorySlots);
+
+        return jsonInv;
     }
 }

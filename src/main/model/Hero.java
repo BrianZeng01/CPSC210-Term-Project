@@ -450,8 +450,66 @@ public abstract class Hero extends Entity implements Writable {
         return skillMultiplier;
     }
 
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public void setExperienceRequiredToLevel(int experienceRequiredToLevel) {
+        this.experienceRequiredToLevel = experienceRequiredToLevel;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public void setDefence(int defence) {
+        this.defence = defence;
+    }
+
+    public void setAgility(int agility) {
+        this.agility = agility;
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+    }
+
+    public void setMaxMana(int maxMana) {
+        this.maxMana = maxMana;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void setSkillPoints(int skillPoints) {
+        this.skillPoints = skillPoints;
+    }
+
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject jsonHero = new JSONObject();
+        jsonHero.put("name", this.getName());
+        jsonHero.put("heroClass", this.getHeroClass());
+        jsonHero.put("level", this.getLevel());
+        jsonHero.put("experience", this.getExperience());
+        jsonHero.put("experienceRequiredToLevel", this.getExperienceRequiredToLevel());
+        jsonHero.put("maxHealth", this.getMaxHealth());
+        jsonHero.put("maxMana", this.getMaxMana());
+        jsonHero.put("skillPoints", this.getSkillPoints());
+        jsonHero.put("strength", this.getStrength());
+        jsonHero.put("defence", this.getDefence());
+        jsonHero.put("agility", this.getAgility());
+        jsonHero.put("intelligence", this.getIntelligence());
+
+        return jsonHero;
     }
 }

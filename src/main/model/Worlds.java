@@ -56,6 +56,13 @@ public class Worlds implements Writable {
         return true;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Adds given world to worlds, world generated from saved files
+    public void addWorld(World w) {
+        this.worlds.add(w);
+        this.usedWorldNumbers.add(Integer.valueOf(w.getWorldNumber()));
+    }
+
     // EFFECTS: Checks if worlds list is full returns true if full
     //          otherwise false
     public Boolean worldsIsFull() {
@@ -93,6 +100,13 @@ public class Worlds implements Writable {
 
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject jsonWorlds = new JSONObject();
+        for (World w: worlds) {
+            String worldNumber = Integer.toString(w.getWorldNumber());
+            JSONObject jsonWorld = w.toJson();
+            jsonWorlds.put(worldNumber, jsonWorld);
+        }
+
+        return jsonWorlds;
     }
 }

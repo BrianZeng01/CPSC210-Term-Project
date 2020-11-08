@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// The main menu panel for this game
 public class MainMenuPanel {
     // https://digitalmoons.itch.io/parallax-forest-background?download
     // Image made by: Digital Moons
@@ -33,7 +34,8 @@ public class MainMenuPanel {
         panel.setVisible(true);
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: Initializes the display of the main menu
     public void init() {
         constraints.gridwidth = 4;
         addTitle();
@@ -44,11 +46,27 @@ public class MainMenuPanel {
         constraints.gridwidth = 4;
         constraints.anchor = GridBagConstraints.CENTER;
         addWorldCreation();
+        test();
         addApplicationExit();
 
 
     }
 
+    public void test() {
+        JButton b = new JButton("Test");
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.removeAll();
+                panel.add(new CreateWorldPanel(worlds));
+                panel.updateUI();
+            }
+        });
+        panel.add(b);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Displays the main menu title
     public void addTitle() {
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -58,6 +76,8 @@ public class MainMenuPanel {
         panel.add(label,constraints);
     }
 
+    // MODIFIES: this
+    // EFFECTS: Displays all the saved worlds
     public void addWorldSelection() {
         int height = 2;
         for (World w: worlds.getWorlds()) {
@@ -76,6 +96,7 @@ public class MainMenuPanel {
         }
     }
 
+    // EFFECTS: Returns a formatted button for world selection options
     public JButton selectWorldButton(World w) {
         JButton b = new JButton(w.getWorldName());
         b.setBorderPainted(false);
@@ -102,6 +123,8 @@ public class MainMenuPanel {
         return b;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Displays a delete button beside each world
     public JButton deleteWorldButton(int worldNumber) {
         JButton b = new JButton("X");
         b.setForeground(Color.gray);
@@ -121,6 +144,8 @@ public class MainMenuPanel {
         return b;
     }
 
+    // MODIFIES this:
+    // EFFECTS: Displays the correct message/button for world creation
     public void addWorldCreation() {
         constraints.gridy = 5;
         if (!worlds.worldsIsFull()) {
@@ -139,9 +164,13 @@ public class MainMenuPanel {
         }
     }
 
+
+
+    // MODIFIES: this
+    // EFFECTS: Closes and saves the application
     public void addApplicationExit() {
         constraints.gridy = 6;
-        JButton b = new JButton("Exit");
+        JButton b = new JButton("Save and Exit");
         b.setBorderPainted(false);
         b.setFocusPainted(false);
         b.setContentAreaFilled(false);

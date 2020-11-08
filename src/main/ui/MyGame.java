@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+// The frame and main container of the game
 public class MyGame extends JFrame {
     private Worlds worlds;
     private MainMenuPanel panel;
@@ -30,8 +31,7 @@ public class MyGame extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: Acts as a user interface in the console to
-    //          process inputs.
+    // EFFECTS: Loads up saved data and starts menu
     public void runGame() {
         try {
             worlds = jsonReader.read();
@@ -45,15 +45,13 @@ public class MyGame extends JFrame {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: Displays the main menu
     public void mainMenu() {
         panel = new MainMenuPanel(worlds,DEFAULT_WIDTH,DEFAULT_HEIGHT);
         add(panel.getPanel());
         setVisible(true);
         pack();
 
-    }
-
-
-    public void addGamePanel() {
     }
 }

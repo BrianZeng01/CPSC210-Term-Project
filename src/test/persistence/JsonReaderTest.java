@@ -109,7 +109,7 @@ public class JsonReaderTest {
             Monster m = reader.reconstructMonster(2, "medium");
             assertEquals("Dire Wolf", m.getName());
             assertEquals(90, m.getHealth());
-            assertEquals(3, m.getStrength());
+            assertEquals(5, m.getStrength());
             assertEquals(75, m.getExp());
             assertEquals(1, m.getLootChance());
         } catch (IOException e) {

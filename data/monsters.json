@@ -9,7 +9,7 @@
   "2": {
     "name": "Dire Wolf",
     "health": 90,
-    "strength": 3,
+    "strength": 5,
     "experience": 75,
     "lootChance": 1
   },

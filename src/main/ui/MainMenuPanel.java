@@ -58,7 +58,7 @@ public class MainMenuPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.removeAll();
-                panel.add(new CreateWorldPanel(worlds));
+                panel.add(new CreateWorldPanel(worlds, panel.getWidth(), panel.getHeight()));
                 panel.updateUI();
             }
         });

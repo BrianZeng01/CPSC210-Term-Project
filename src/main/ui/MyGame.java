@@ -47,13 +47,6 @@ public class MyGame extends JFrame {
 
     public void mainMenu() {
         panel = new MainMenuPanel(worlds,DEFAULT_WIDTH,DEFAULT_HEIGHT);
-        JButton b = new JButton("Exit");
-        b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
         add(panel.getPanel());
         setVisible(true);
         pack();

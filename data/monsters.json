@@ -21,14 +21,14 @@
     "lootChance": 2
   },
   "4": {
-    "name": "Giant",
+    "name": "Golem",
     "health": 450,
     "strength": 5,
     "experience": 150,
     "lootChance": 2
   },
   "5": {
-    "name": "Golem",
+    "name": "Night King",
     "health": 700,
     "strength": 7,
     "experience": 200,

@@ -43,13 +43,13 @@ public class MyGame extends JFrame {
             return;
         }
 
-        mainMenu();
+        init();
 
     }
 
     // MODIFIES: this
     // EFFECTS: Displays the main menu
-    public void mainMenu() {
+    public void init() {
         panel = new MainMenuPanel(worlds,DEFAULT_WIDTH,DEFAULT_HEIGHT,this);
         add(panel.getPanel());
         pack();
@@ -66,5 +66,9 @@ public class MyGame extends JFrame {
             System.out.println("Data could not be saved!");
             e.printStackTrace();
         }
+    }
+
+    public Worlds getWorlds() {
+        return worlds;
     }
 }

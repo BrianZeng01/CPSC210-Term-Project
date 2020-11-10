@@ -99,7 +99,7 @@ public class MainMenuPanel {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                enterWorld(w);
             }
         });
         // Hover effect copied from :https://stackoverflow.com/questions/22638926/how-to-put-hover-effect-on-jbutton
@@ -126,10 +126,9 @@ public class MainMenuPanel {
         b.setContentAreaFilled(false);
         b.setFont(new Font("delete" + worldNumber, Font.BOLD, 44));
         b.addActionListener(e -> {
-            worlds.deleteWorld(worldNumber);
             panel.remove(selectWorld);
             panel.remove(b);
-            panel.updateUI();
+            deleteWorldVerification(worldNumber);
         });
         b.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -141,6 +140,18 @@ public class MainMenuPanel {
             }
         });
         return b;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Removes the world with the given world number and updates panel
+    public void deleteWorldVerification(int worldNumber) {
+        worlds.deleteWorld(worldNumber);
+        JLabel msg = new JLabel("Save and Exit to confirm world deletion");
+        msg.setFont(new Font("msg", Font.PLAIN, 24));
+        constraints.gridy += 1;
+        panel.add(msg,constraints);
+        panel.updateUI();
+
     }
 
     // MODIFIES this:
@@ -208,6 +219,12 @@ public class MainMenuPanel {
             }
         });
         panel.add(b,constraints);
+    }
+
+    public void enterWorld(World w) {
+        frame.remove(getPanel());
+        frame.add(new WorldPanel(w,panel.getWidth(), panel.getHeight(), frame));
+        frame.pack();
     }
 
     public JPanel getPanel() {

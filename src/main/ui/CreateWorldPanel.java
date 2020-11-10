@@ -16,9 +16,11 @@ public class CreateWorldPanel extends JPanel {
     protected String heroName = "Placeholder Hero Name";
     protected String selectedHeroClass;
     protected String selectedDifficulty;
+    private MyGame frame;
 
     // EFFECTS: Displays the create world screen with some default inputs
-    public CreateWorldPanel(Worlds worlds, int width, int height) {
+    public CreateWorldPanel(Worlds worlds, int width, int height, MyGame frame) {
+        this.frame = frame;
         this.selectedHeroClass = "warrior";
         this.selectedDifficulty = "easy";
         this.worlds = worlds;
@@ -35,6 +37,7 @@ public class CreateWorldPanel extends JPanel {
 
         submitNewWorldButton();
         backToMainMenuButton();
+        updateUI();
     }
 
     // MODIFIES: this
@@ -161,11 +164,11 @@ public class CreateWorldPanel extends JPanel {
         });
         b.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                b.setFont(new Font("main", 3, 32));
+                b.setForeground(Color.RED);
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                b.setFont(new Font("main", Font.BOLD, 32));
+                b.setForeground(Color.WHITE);
             }
         });
         add(b,constraints);
@@ -187,12 +190,12 @@ public class CreateWorldPanel extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: Goes back to the main menu
+    // EFFECTS: Goes back to the main menu by changing panels on frame
     public void backToMainMenu() {
-        removeAll();
-        MainMenuPanel main = new MainMenuPanel(worlds, getWidth(), getHeight());
-        add(main.getPanel());
-        updateUI();
+        frame.remove(this);
+        MainMenuPanel main = new MainMenuPanel(worlds, getWidth(), getHeight(),frame);
+        frame.add(main.getPanel());
+        frame.pack();
     }
 
     // MODIFIES: this, radio

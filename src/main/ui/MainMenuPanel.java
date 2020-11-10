@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 // The main menu panel for this game
 public class MainMenuPanel {
@@ -16,10 +17,12 @@ public class MainMenuPanel {
     private JPanel panel;
     private GridBagConstraints constraints = new GridBagConstraints();
     private Worlds worlds;
+    private MyGame frame;
 
-    public MainMenuPanel(Worlds worlds, int width, int height) {
+    public MainMenuPanel(Worlds worlds, int width, int height, MyGame frame) {
         backgroundImage = Toolkit.getDefaultToolkit().getImage(BACKGROUND_FILE);
         this.worlds = worlds;
+        this.frame = frame;
         // Paint methods from:https://www.tutorialspoint.com/how-to-add-background-image-to-jframe-in-java
         panel = new JPanel() {
             @Override
@@ -46,24 +49,12 @@ public class MainMenuPanel {
         constraints.gridwidth = 4;
         constraints.anchor = GridBagConstraints.CENTER;
         addWorldCreation();
-        test();
         addApplicationExit();
 
 
     }
 
-    public void test() {
-        JButton b = new JButton("Test");
-        b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panel.removeAll();
-                panel.add(new CreateWorldPanel(worlds, panel.getWidth(), panel.getHeight()));
-                panel.updateUI();
-            }
-        });
-        panel.add(b);
-    }
+
 
     // MODIFIES: this
     // EFFECTS: Displays the main menu title
@@ -87,12 +78,13 @@ public class MainMenuPanel {
             constraints.anchor = GridBagConstraints.EAST;
             constraints.weightx = 1;
             height++;
-            panel.add(selectWorldButton(w),constraints);
+            JButton selectButton = selectWorldButton(w);
+            panel.add(selectButton,constraints);
 
             constraints.gridx = 2;
             constraints.gridwidth = 1;
             constraints.anchor = GridBagConstraints.WEST;
-            panel.add(deleteWorldButton(w.getWorldNumber()), constraints);
+            panel.add(deleteWorldButton(w.getWorldNumber(), selectButton), constraints);
         }
     }
 
@@ -107,6 +99,7 @@ public class MainMenuPanel {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // TODO
             }
         });
         // Hover effect copied from :https://stackoverflow.com/questions/22638926/how-to-put-hover-effect-on-jbutton
@@ -125,13 +118,19 @@ public class MainMenuPanel {
 
     // MODIFIES: this
     // EFFECTS: Displays a delete button beside each world
-    public JButton deleteWorldButton(int worldNumber) {
+    public JButton deleteWorldButton(int worldNumber, JButton selectWorld) {
         JButton b = new JButton("X");
         b.setForeground(Color.gray);
         b.setBorderPainted(false);
         b.setFocusPainted(false);
         b.setContentAreaFilled(false);
         b.setFont(new Font("delete" + worldNumber, Font.BOLD, 44));
+        b.addActionListener(e -> {
+            worlds.deleteWorld(worldNumber);
+            panel.remove(selectWorld);
+            panel.remove(b);
+            panel.updateUI();
+        });
         b.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b.setForeground(new Color(255,51,51));
@@ -149,13 +148,7 @@ public class MainMenuPanel {
     public void addWorldCreation() {
         constraints.gridy = 5;
         if (!worlds.worldsIsFull()) {
-            JButton create = new JButton("Create new World");
-            create.setForeground(Color.WHITE);
-            create.setBorderPainted(false);
-            create.setFocusPainted(false);
-            create.setContentAreaFilled(false);
-            create.setFont(new Font("createWorld", Font.BOLD, 44));
-            panel.add(create,constraints);
+            panel.add(createNewWorldButton(),constraints);
         } else {
             JLabel create = new JLabel("Worlds at max Capacity, delete a world to create more!");
             create.setFont(new Font("createWorldFull", Font.BOLD, 22));
@@ -164,7 +157,31 @@ public class MainMenuPanel {
         }
     }
 
+    // EFFECTS: this
+    // MODIFIES: Returns a create world button to the panel
+    public JButton createNewWorldButton() {
+        JButton b = new JButton("Create a New World!");
+        b.setForeground(Color.WHITE);
+        b.setBorderPainted(false);
+        b.setFocusPainted(false);
+        b.setContentAreaFilled(false);
+        b.setFont(new Font("createWorld", Font.BOLD, 40));
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createWorldPanel();
+            }
+        });
+        return b;
+    }
 
+    // MODIFIES: this
+    // EFFECTS: Displays the create world panel on the frame and removes this one
+    public void createWorldPanel() {
+        frame.remove(getPanel());
+        frame.add(new CreateWorldPanel(worlds,panel.getWidth(),panel.getHeight(),frame));
+        frame.pack();
+    }
 
     // MODIFIES: this
     // EFFECTS: Closes and saves the application
@@ -178,7 +195,7 @@ public class MainMenuPanel {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                frame.saveAndExit();
             }
         });
         b.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -51,7 +51,7 @@ public class MyGame extends JFrame {
     // EFFECTS: Displays the main menu
     public void init() {
         panel = new MainMenuPanel(worlds,DEFAULT_WIDTH,DEFAULT_HEIGHT,this);
-        add(panel.getPanel());
+        add(panel);
         pack();
         setVisible(true);
     }

@@ -13,35 +13,34 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 // The main menu panel for this game
-public class MainMenuPanel {
+public class MainMenuPanel extends JPanel {
     // https://digitalmoons.itch.io/parallax-forest-background?download
     // Image made by: Digital Moons
     private static final String BACKGROUND_FILE = "./res/images/mainMenuBackground.png";
     protected Image backgroundImage;
-    private JPanel panel;
     private GridBagConstraints constraints = new GridBagConstraints();
     private Worlds worlds;
     private MyGame frame;
 
     // EFFECTS: Creates a new main menu panel with given fields
     public MainMenuPanel(Worlds worlds, int width, int height, MyGame frame) {
-        backgroundImage = Toolkit.getDefaultToolkit().getImage(BACKGROUND_FILE);
         this.worlds = worlds;
         this.frame = frame;
-        // Paint methods from:https://www.tutorialspoint.com/how-to-add-background-image-to-jframe-in-java
-        panel = new JPanel() {
-            @Override
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(backgroundImage, 0, 0, this);
-            }
-        };
-        panel.setLayout(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(width,height));
+
+        setLayout(new GridBagLayout());
+        setPreferredSize(new Dimension(width,height));
         constraints.weightx = 1.0;
         constraints.weighty = 1.0;
         init();
-        panel.setVisible(true);
+        setVisible(true);
+    }
+
+    // Paint methods from:https://www.tutorialspoint.com/how-to-add-background-image-to-jframe-in-java
+    @Override
+    protected void paintComponent(Graphics g) {
+        backgroundImage = Toolkit.getDefaultToolkit().getImage(BACKGROUND_FILE);
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0, this);
     }
 
     // MODIFIES: this
@@ -67,7 +66,7 @@ public class MainMenuPanel {
         JLabel label = new JLabel("Fractured Forest");
         label.setFont(new Font("title",3,96));
         label.setForeground(new Color(178,102,255));
-        panel.add(label,constraints);
+        add(label,constraints);
     }
 
     // MODIFIES: this
@@ -82,12 +81,12 @@ public class MainMenuPanel {
             constraints.weightx = 1;
             height++;
             JButton selectButton = selectWorldButton(w);
-            panel.add(selectButton,constraints);
+            add(selectButton,constraints);
 
             constraints.gridx = 2;
             constraints.gridwidth = 1;
             constraints.anchor = GridBagConstraints.WEST;
-            panel.add(deleteWorldButton(w.getWorldNumber(), selectButton), constraints);
+            add(deleteWorldButton(w.getWorldNumber(), selectButton), constraints);
         }
     }
 
@@ -129,8 +128,8 @@ public class MainMenuPanel {
         b.setContentAreaFilled(false);
         b.setFont(new Font("delete" + worldNumber, Font.BOLD, 44));
         b.addActionListener(e -> {
-            panel.remove(selectWorld);
-            panel.remove(b);
+            remove(selectWorld);
+            remove(b);
             deleteWorldVerification(worldNumber);
         });
         b.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -152,8 +151,8 @@ public class MainMenuPanel {
         JLabel msg = new JLabel("Save and Exit to confirm world deletion");
         msg.setFont(new Font("msg", Font.PLAIN, 24));
         constraints.gridy += 1;
-        panel.add(msg,constraints);
-        panel.updateUI();
+        add(msg,constraints);
+        updateUI();
 
     }
 
@@ -162,12 +161,12 @@ public class MainMenuPanel {
     public void addWorldCreation() {
         constraints.gridy = 5;
         if (!worlds.worldsIsFull()) {
-            panel.add(createNewWorldButton(),constraints);
+            add(createNewWorldButton(),constraints);
         } else {
             JLabel create = new JLabel("Worlds at max Capacity, delete a world to create more!");
             create.setFont(new Font("createWorldFull", Font.BOLD, 22));
             create.setForeground(Color.BLACK);
-            panel.add(create,constraints);
+            add(create,constraints);
         }
     }
 
@@ -192,8 +191,8 @@ public class MainMenuPanel {
     // MODIFIES: this
     // EFFECTS: Displays the create world panel on the frame and removes this one
     public void createWorldPanel() {
-        frame.remove(getPanel());
-        frame.add(new CreateWorldPanel(worlds,panel.getWidth(),panel.getHeight(),frame));
+        frame.remove(this);
+        frame.add(new CreateWorldPanel(worlds,getWidth(),getHeight(),frame));
         frame.pack();
     }
 
@@ -221,16 +220,13 @@ public class MainMenuPanel {
                 b.setFont(new Font("exit", Font.BOLD, 44));
             }
         });
-        panel.add(b,constraints);
+        add(b,constraints);
     }
 
     public void enterWorld(World w) {
-        frame.remove(getPanel());
-        frame.add(new WorldPanel(w,panel.getWidth(), panel.getHeight(), frame));
+        frame.remove(this);
+        frame.add(new WorldPanel(w,getWidth(), getHeight(), frame));
         frame.pack();
     }
 
-    public JPanel getPanel() {
-        return panel;
-    }
 }

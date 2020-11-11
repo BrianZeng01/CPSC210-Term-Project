@@ -42,7 +42,8 @@ public class MageHero extends Hero {
 
         int damage;
         if (Math.random() >= 0.5) {
-            damage = (int) Math.round(basicAttack() * 1.5 * (1 + ((1 + (2 * getSkillMultiplier())) * getIntelligence())));
+            damage = (int) Math.round(basicAttack() * 1.5
+                    * (1 + ((1 + (2 * getSkillMultiplier())) * getIntelligence())));
         } else {
             damage = 0;
         }

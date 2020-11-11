@@ -194,8 +194,7 @@ public class CreateWorldPanel extends JPanel {
     // EFFECTS: Goes back to the main menu by changing panels on frame
     public void backToMainMenu() {
         frame.remove(this);
-        MainMenuPanel main = new MainMenuPanel(worlds, getWidth(), getHeight(),frame);
-        frame.add(main.getPanel());
+        frame.add(new MainMenuPanel(worlds, getWidth(), getHeight(),frame));
         frame.pack();
     }
 

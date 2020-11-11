@@ -92,7 +92,8 @@ public class WorldPanel extends JPanel {
             BufferedImage fileImage = ImageIO.read(new File("./res/images/heroes/"
                     + hero.getHeroClass() + ".png"));
             heroImage = new JLabel(new ImageIcon(fileImage));
-            heroImage.setBackground(Color.WHITE);
+            heroImage.setBackground(new Color(161, 95, 227));
+            heroImage.setOpaque(true);
             add(heroImage,constraints);
         } catch (IOException e) {
             System.out.println("Hero image not loading");
@@ -384,6 +385,8 @@ public class WorldPanel extends JPanel {
             BufferedImage fileImage = ImageIO.read(new File("./res/images/monsters/"
                     + name + ".png"));
             monster = new JLabel(new ImageIcon(fileImage));
+            monster.setBackground(new Color(161, 95, 227));
+            monster.setOpaque(true);
         } catch (IOException e) {
             System.out.println("Monster image not loading");
             e.printStackTrace();
@@ -449,8 +452,7 @@ public class WorldPanel extends JPanel {
     public void backToMainMenu() {
         frame.remove(this);
         frame.save();
-        MainMenuPanel main = new MainMenuPanel(frame.getWorlds(), getWidth(), getHeight(),frame);
-        frame.add(main.getPanel());
+        frame.add(new MainMenuPanel(frame.getWorlds(), getWidth(), getHeight(),frame));
         frame.pack();
     }
 

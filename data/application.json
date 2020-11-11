@@ -1,32 +1,62 @@
-{"1": {
- "heroData": {
-  "strength": 14,
-  "level": 5,
-  "skillPoints": 15,
-  "defence": 12,
-  "maxMana": 200,
-  "name": "MyHero",
-  "heroClass": "warrior",
-  "maxHealth": 200,
-  "experience": 300,
-  "experienceRequiredToLevel": 300,
-  "agility": 11,
-  "intelligence": 12
+{
+ "1": {
+  "heroData": {
+   "strength": 14,
+   "level": 5,
+   "skillPoints": 15,
+   "defence": 12,
+   "maxMana": 200,
+   "name": "MyHero",
+   "heroClass": "warrior",
+   "maxHealth": 200,
+   "experience": 300,
+   "experienceRequiredToLevel": 300,
+   "agility": 11,
+   "intelligence": 12
+  },
+  "worldData": {
+   "difficulty": "medium",
+   "worldName": "Sandbox World",
+   "round": 6,
+   "worldNumber": 1
+  },
+  "inventoryData": {
+   "inventorySlots": [3],
+   "equipmentSlots": [
+    3,
+    1,
+    1
+   ],
+   "healthPotions": 15,
+   "manaPotions": 12
+  }
  },
- "worldData": {
-  "difficulty": "medium",
-  "worldName": "Sandbox World",
-  "round": 6,
-  "worldNumber": 1
- },
- "inventoryData": {
-  "inventorySlots": [3],
-  "equipmentSlots": [
-   3,
-   1,
-   1
-  ],
-  "healthPotions": 15,
-  "manaPotions": 12
+ "2": {
+  "heroData": {
+   "strength": 1,
+   "level": 1,
+   "skillPoints": 0,
+   "defence": 5,
+   "maxMana": 100,
+   "name": "Placeholder Hero Name",
+   "heroClass": "warrior",
+   "maxHealth": 100,
+   "experience": 0,
+   "experienceRequiredToLevel": 100,
+   "agility": 1,
+   "intelligence": 1
+  },
+  "worldData": {
+   "difficulty": "easy",
+   "worldName": "Placeholder World Name",
+   "round": 1,
+   "worldNumber": 2
+  },
+  "inventoryData": {
+   "inventorySlots": [],
+   "equipmentSlots": [],
+   "healthPotions": 5,
+   "manaPotions": 5
+  }
  }
-}}
+}

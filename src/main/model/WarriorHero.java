@@ -42,7 +42,7 @@ public class WarriorHero extends Hero {
 
         int damage;
         if (Math.random() >= 0.5) {
-            damage = (int) Math.round(basicAttack() * 3 * (1 + ((4 * getSkillMultiplier()) * getStrength())));
+            damage = (int) Math.round(basicAttack() * 1.5 * (1 + ((4 * getSkillMultiplier()) * getStrength())));
         } else {
             damage = 0;
         }

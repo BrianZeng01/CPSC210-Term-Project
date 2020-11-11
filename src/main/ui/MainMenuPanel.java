@@ -2,17 +2,21 @@ package ui;
 
 import model.*;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 
 // The main menu panel for this game
 public class MainMenuPanel {
     // https://digitalmoons.itch.io/parallax-forest-background?download
     // Image made by: Digital Moons
-    private static final String BACKGROUND_FILE = "./data/images/mainMenuBackground.png";
+    private static final String BACKGROUND_FILE = "./res/images/mainMenuBackground.png";
     protected Image backgroundImage;
     private JPanel panel;
     private GridBagConstraints constraints = new GridBagConstraints();
@@ -53,11 +57,7 @@ public class MainMenuPanel {
         constraints.anchor = GridBagConstraints.CENTER;
         addWorldCreation();
         addApplicationExit();
-
-
     }
-
-
 
     // MODIFIES: this
     // EFFECTS: Displays the main menu title

@@ -4,6 +4,9 @@ import model.*;
 import persistence.JsonReader;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -44,6 +47,7 @@ public class WorldPanel extends JPanel {
     // MODIFIES: this
     // EFFECTS: Intializes the panel's components
     public void init() {
+        openingSound();
         constraints.insets = new Insets(10,10,10,10);
         generateHeroImage();
         constraints.gridheight = 1;
@@ -60,6 +64,22 @@ public class WorldPanel extends JPanel {
         map();
     }
 
+    // Tutorial from:  https://www.youtube.com/watch?v=qPVkRtuf9CQ
+    // EFFECTS: Plays the opening sound
+    public void openingSound() {
+        try {
+            String filePath = "./res/sounds/appear.wav";
+            File file = new File(filePath);
+            AudioInputStream sound = AudioSystem.getAudioInputStream(file);
+            Clip clip = AudioSystem.getClip();
+            clip.open(sound);
+            clip.start();
+        } catch (Exception e) {
+            System.out.println("sound error");
+            e.printStackTrace();
+        }
+    }
+
     // MODIFIES: this
     // EFFECTS: Generates the image of the hero based off it's class
     public void generateHeroImage() {
@@ -69,7 +89,7 @@ public class WorldPanel extends JPanel {
         constraints.gridwidth = 6;
         try {
             // Buffering method from: https://stackoverflow.com/questions/299495/how-to-add-an-image-to-a-jpanel
-            BufferedImage fileImage = ImageIO.read(new File("./data/images/heroes/"
+            BufferedImage fileImage = ImageIO.read(new File("./res/images/heroes/"
                     + hero.getHeroClass() + ".png"));
             heroImage = new JLabel(new ImageIcon(fileImage));
             heroImage.setBackground(Color.WHITE);
@@ -174,7 +194,7 @@ public class WorldPanel extends JPanel {
     public JButton generateAccessory(int id) {
         JButton b = new JButton("MissingImage");
         try {
-            BufferedImage fileImage = ImageIO.read(new File("./data/images/accessories/"
+            BufferedImage fileImage = ImageIO.read(new File("./res/images/accessories/"
                     + "accessory" + id + ".png"));
             ImageIcon icon = new ImageIcon(fileImage);
             Image rescaledImage = icon.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
@@ -361,7 +381,7 @@ public class WorldPanel extends JPanel {
     public JLabel generateMonsterImage(String name) {
         JLabel monster = null;
         try {
-            BufferedImage fileImage = ImageIO.read(new File("./data/images/monsters/"
+            BufferedImage fileImage = ImageIO.read(new File("./res/images/monsters/"
                     + name + ".png"));
             monster = new JLabel(new ImageIcon(fileImage));
         } catch (IOException e) {

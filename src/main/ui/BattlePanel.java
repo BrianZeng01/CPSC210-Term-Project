@@ -4,10 +4,14 @@ import model.*;
 import org.json.JSONArray;
 import persistence.JsonReader;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -243,11 +247,28 @@ public class BattlePanel extends JPanel {
             return;
         }
         hero.takeDamage(monster.basicAttack());
+        takeDamageSound();
         if (hero.isDead()) {
             backToWorld();
         } else {
             hero.decreaseCoolDowns();
             reloadPanel();
+        }
+    }
+
+    // Tutorial from:  https://www.youtube.com/watch?v=qPVkRtuf9CQ
+    // EFFECTS: Plays the sound of hero taking damage
+    public void takeDamageSound() {
+        try {
+            String filePath = "./res/sounds/jab.wav";
+            File file = new File(filePath);
+            AudioInputStream sound = AudioSystem.getAudioInputStream(file);
+            Clip clip = AudioSystem.getClip();
+            clip.open(sound);
+            clip.start();
+        } catch (Exception e) {
+            System.out.println("sound error");
+            e.printStackTrace();
         }
     }
 

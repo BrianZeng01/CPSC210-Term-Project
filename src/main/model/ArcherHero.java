@@ -42,7 +42,7 @@ public class ArcherHero extends Hero {
 
         int damage;
         if (Math.random() >= 0.5) {
-            damage = (int) Math.round(basicAttack() * 3 * (1 + ((1 + (2 * getSkillMultiplier())) * getAgility())));
+            damage = (int) Math.round(basicAttack() * 1.5 * (1 + ((1 + (2 * getSkillMultiplier())) * getAgility())));
         } else {
             damage = 0;
         }

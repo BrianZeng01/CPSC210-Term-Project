@@ -87,14 +87,14 @@ abstract class HeroSkillsTest {
         int maxSkillDamage;
         int minSkillDamage;
         if (hero.getHeroClass().equals("warrior")) {
-            maxSkillDamage = (int) Math.round(maxBaseDamage * 3 * (1 + ((4 * hero.getSkillMultiplier()) * hero.getStrength())));
-            minSkillDamage = (int) Math.round(minBaseDamage * 3 * (1 + ((4 * hero.getSkillMultiplier()) * hero.getStrength())));
+            maxSkillDamage = (int) Math.round(maxBaseDamage * 1.5 * (1 + ((4 * hero.getSkillMultiplier()) * hero.getStrength())));
+            minSkillDamage = (int) Math.round(minBaseDamage * 1.5 * (1 + ((4 * hero.getSkillMultiplier()) * hero.getStrength())));
         } else if (hero.getHeroClass().equals("archer")) {
-            maxSkillDamage = (int) Math.round(maxBaseDamage * 3 * (1 + ((1 + (2 * hero.getSkillMultiplier())) * hero.getAgility())));
-            minSkillDamage = (int) Math.round(minBaseDamage * 3 * (1 + ((1 + (2 * hero.getSkillMultiplier())) * hero.getAgility())));
+            maxSkillDamage = (int) Math.round(maxBaseDamage * 1.5 * (1 + ((1 + (2 * hero.getSkillMultiplier())) * hero.getAgility())));
+            minSkillDamage = (int) Math.round(minBaseDamage * 1.5 * (1 + ((1 + (2 * hero.getSkillMultiplier())) * hero.getAgility())));
         } else {
-            maxSkillDamage = (int) Math.round(maxBaseDamage * 3 * (1 + ((1 + (2 * hero.getSkillMultiplier())) * hero.getIntelligence())));
-            minSkillDamage = (int) Math.round(minBaseDamage * 3 * (1 + ((1 + (2 * hero.getSkillMultiplier())) * hero.getIntelligence())));
+            maxSkillDamage = (int) Math.round(maxBaseDamage * 1.5 * (1 + ((1 + (2 * hero.getSkillMultiplier())) * hero.getIntelligence())));
+            minSkillDamage = (int) Math.round(minBaseDamage * 1.5 * (1 + ((1 + (2 * hero.getSkillMultiplier())) * hero.getIntelligence())));
         }
 
         int actualDamage = hero.thirdSkill();

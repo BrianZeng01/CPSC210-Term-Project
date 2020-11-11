@@ -32,6 +32,8 @@ public class WorldPanel extends JPanel {
         this.frame = frame;
         this.jsonReader = new JsonReader(MONSTERS_FILE);
         this.constraints = new GridBagConstraints();
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
         setLayout(new GridBagLayout());
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(width, height));
@@ -332,11 +334,34 @@ public class WorldPanel extends JPanel {
     // MODIFIES: this
     // EFFECTS: Begins the battle at selected round
     public void startBattle() {
+        hero.recover();
+        Monster monster = null;
+        try {
+            monster = jsonReader.reconstructMonster(selectedRound,world.getDifficulty());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to load monster");
+        }
+        JLabel monsterImage = generateMonsterImage(monster.getName());
         frame.remove(this);
-        frame.add(new BattlePanel(world, getWidth(), getHeight(),heroImage, selectedRound, frame));
+        frame.add(new BattlePanel(world, getWidth(), getHeight(),hero, monster, monsterImage,
+                heroImage, selectedRound, frame));
         frame.pack();
     }
 
+    // EFFECTS: Returns an image of the given monster as a JLabel
+    public JLabel generateMonsterImage(String name) {
+        JLabel monster = null;
+        try {
+            BufferedImage fileImage = ImageIO.read(new File("./data/images/monsters/"
+                    + name + ".png"));
+            monster = new JLabel(new ImageIcon(fileImage));
+        } catch (IOException e) {
+            System.out.println("Monster image not loading");
+            e.printStackTrace();
+        }
+        return monster;
+    }
 
     // MODIFIES: this
     // EFFECTS: Returns a radio button for given round

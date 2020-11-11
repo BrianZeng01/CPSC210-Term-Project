@@ -34,6 +34,8 @@ public class MainMenuPanel {
         };
         panel.setLayout(new GridBagLayout());
         panel.setPreferredSize(new Dimension(width,height));
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
         init();
         panel.setVisible(true);
     }

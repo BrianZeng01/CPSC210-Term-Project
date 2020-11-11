@@ -24,7 +24,7 @@ public class MyGame extends JFrame {
 
     // EFFECTS: Starts the application
     public MyGame() {
-        setTitle("Cool name");
+        setTitle("Fractured Forest");
         setMinimumSize(new Dimension(600,450));
         setLayout(new BorderLayout());
         jsonWriter = new JsonWriter(DATA_SOURCE);
@@ -56,12 +56,20 @@ public class MyGame extends JFrame {
         setVisible(true);
     }
 
+    // EFFECTS: Exits the game after saving
     public void saveAndExit() {
+        save();
+        System.exit(0);
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Saves the state of the game
+    public void save() {
         try {
             jsonWriter.open();
             jsonWriter.write(worlds);
             jsonWriter.close();
-            System.exit(0);
         } catch (FileNotFoundException e) {
             System.out.println("Data could not be saved!");
             e.printStackTrace();

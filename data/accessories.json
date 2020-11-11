@@ -1,7 +1,7 @@
 {
   "1": {
     "accessoryId": 1,
-    "name": "Broken Ring",
+    "name": "Ring",
     "addedStrength": 1,
     "addedDefence": 1,
     "addedAgility": 1,
@@ -9,7 +9,7 @@
   },
   "2": {
     "accessoryId": 2,
-    "name": "Emerald Necklace",
+    "name": "Necklace",
     "addedStrength": 2,
     "addedDefence": 3,
     "addedAgility": 1,
@@ -17,26 +17,10 @@
   },
   "3": {
     "accessoryId": 3,
-    "name": "Golden Bracelet",
+    "name": "Glove",
     "addedStrength": 4,
     "addedDefence": 2,
     "addedAgility": 1,
-    "addedIntelligence": 1
-  },
-  "4": {
-    "accessoryId": 4,
-    "name": "Silver Pendant",
-    "addedStrength": 2,
-    "addedDefence": 2,
-    "addedAgility": 2,
-    "addedIntelligence": 3
-  },
-  "5": {
-    "accessoryId": 5,
-    "name": "Ruby Ring",
-    "addedStrength": 1,
-    "addedDefence": 6,
-    "addedAgility": 2,
     "addedIntelligence": 1
   }
 }

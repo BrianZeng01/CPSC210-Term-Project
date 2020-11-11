@@ -29,7 +29,7 @@ public class JsonWriter {
     // EFFECTS: writes JSON representation of workroom to file
     public void write(Worlds worlds) {
         JSONObject json = worlds.toJson();
-        saveToFile(json.toString());
+        saveToFile(json.toString(1));
     }
 
     // MODIFIES: this

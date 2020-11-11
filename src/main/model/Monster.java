@@ -53,7 +53,7 @@ public class Monster extends Entity {
     public List<Integer> dropLoot() {
         Integer hpPotions = (int) Math.round(Math.random() * (1 + getLootChance()));
         Integer mpPotions = (int) Math.round(Math.random() * (1 + getLootChance()));
-        int highestAccessoryId = 5;
+        int highestAccessoryId = 3;
         int lowestAccessoryId = 1;
         Integer accessoryId;
         // AccessoryIds are subject to change when new items added

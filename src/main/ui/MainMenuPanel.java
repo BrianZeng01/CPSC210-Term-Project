@@ -61,7 +61,7 @@ public class MainMenuPanel {
     public void addTitle() {
         constraints.gridx = 0;
         constraints.gridy = 0;
-        JLabel label = new JLabel("Game Title");
+        JLabel label = new JLabel("Fractured Forest");
         label.setFont(new Font("title",3,96));
         label.setForeground(new Color(178,102,255));
         panel.add(label,constraints);

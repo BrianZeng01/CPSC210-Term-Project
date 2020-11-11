@@ -121,8 +121,8 @@ public class JsonWriterTest {
             Accessory equippedAccessory = inv.getEquipmentSlots().get(1);
             Accessory invAccessory = inv.getInventorySlots().get(0);
             assertEquals(1,invAccessory.getAccessoryId());
-            assertEquals("Broken Ring",invAccessory.getAccessoryName());
-            assertEquals("Golden Bracelet", equippedAccessory.getAccessoryName());
+            assertEquals("Ring",invAccessory.getAccessoryName());
+            assertEquals("Glove", equippedAccessory.getAccessoryName());
             assertEquals(3,equippedAccessory.getAccessoryId());
             assertEquals(4,equippedAccessory.getAddedStrength());
             assertEquals(2,equippedAccessory.getAddedDefence());

@@ -4,13 +4,10 @@ import model.*;
 import org.json.JSONArray;
 import persistence.JsonReader;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -105,13 +102,16 @@ public class BattlePanel extends JPanel {
         constraints.gridy = 15;
         constraints.gridheight = 3;
         constraints.gridwidth = 1;
-        add(attackButton("basic attack"),constraints);
+        add(attackButton("0","basic attack"),constraints);
         constraints.gridx = 1;
-        add(attackButton("first skill"),constraints);
+        add(attackButton("1","1st skill:" + hero.getFirstSkillManaCost()
+                + "MP CD(" + hero.getFirstSkillCoolDown() + ")"),constraints);
         constraints.gridx = 2;
-        add(attackButton("second skill"),constraints);
+        add(attackButton("2","2nd skill:" + hero.getSecondSkillManaCost()
+                + "MP CD(" + hero.getSecondSkillCoolDown() + ")"),constraints);
         constraints.gridx = 3;
-        add(attackButton("third skill"),constraints);
+        add(attackButton("3","3rd skill:" + hero.getThirdSkillManaCost()
+                + "MP CD(" + hero.getThirdSkillCoolDown() + ")"),constraints);
         constraints.gridx = 4;
         add(drinkHealthButton(),constraints);
         constraints.gridx = 5;
@@ -122,20 +122,20 @@ public class BattlePanel extends JPanel {
     }
 
     // EFFECTS: Returns a button corresponding to the given attack input
-    public JButton attackButton(String attack) {
-        JButton b = new JButton(attack);
+    public JButton attackButton(String attack, String text) {
+        JButton b = new JButton(text);
         b.setForeground(Color.WHITE);
         b.setBackground(Color.lightGray);
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (attack.equals("basic attack")) {
+                if (attack.equals("0")) {
                     basicAttack();
-                } else if (attack.equals("first skill") && tryFirstSkill()) {
+                } else if (attack.equals("1") && tryFirstSkill()) {
                     firstSkill();
-                } else if (attack.equals("second skill") && trySecondSkill()) {
+                } else if (attack.equals("2") && trySecondSkill()) {
                     secondSkill();
-                } else if (attack.equals("third skill") && tryThirdSkill()) {
+                } else if (attack.equals("3") && tryThirdSkill()) {
                     thirdSkill();
                 }
             }
@@ -240,11 +240,13 @@ public class BattlePanel extends JPanel {
         monster.takeDamage(heroDamage);
         if (monster.isDead()) {
             victory();
+            return;
         }
         hero.takeDamage(monster.basicAttack());
         if (hero.isDead()) {
             backToWorld();
         } else {
+            hero.decreaseCoolDowns();
             reloadPanel();
         }
     }

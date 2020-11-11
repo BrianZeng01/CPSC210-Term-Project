@@ -95,6 +95,14 @@ public class WorldPanel extends JPanel {
         inventoryLabel("Inventory:");
         constraints.gridx = 1;
         inventorySlots(inv);
+        constraints.gridx += 1;
+        JLabel hp = new JLabel("HP Potions:" + inv.getHealthPotions());
+        hp.setForeground(Color.WHITE);
+        add(hp, constraints);
+        constraints.gridx += 1;
+        JLabel mp = new JLabel("MP Potions:" + inv.getManaPotions());
+        mp.setForeground(Color.WHITE);
+        add(mp,constraints);
 
     }
 

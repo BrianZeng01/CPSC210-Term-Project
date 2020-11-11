@@ -19,13 +19,13 @@ public class MyGame extends JFrame {
     protected JsonWriter jsonWriter;
     protected JsonReader jsonReader;
     private static final String DATA_SOURCE = "./data/application.json";
-    private static final int DEFAULT_WIDTH = 1200;
+    private static final int DEFAULT_WIDTH = 1400;
     private static final int DEFAULT_HEIGHT = 900;
 
     // EFFECTS: Starts the application
     public MyGame() {
         setTitle("Fractured Forest");
-        setMinimumSize(new Dimension(600,450));
+        setMinimumSize(new Dimension(900,750));
         setLayout(new BorderLayout());
         jsonWriter = new JsonWriter(DATA_SOURCE);
         jsonReader = new JsonReader(DATA_SOURCE);

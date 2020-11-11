@@ -1,9 +1,7 @@
 package ui;
 
-import model.Accessory;
-import model.Hero;
-import model.Inventory;
-import model.World;
+import model.*;
+import persistence.JsonReader;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,22 +13,35 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// Represents the main screen when entering world
 public class WorldPanel extends JPanel {
+    private static final String MONSTERS_FILE = "./data/monsters.json";
     private World world;
+    private JsonReader jsonReader;
     private Hero hero;
     private MyGame frame;
     protected GridBagConstraints constraints;
+    protected int selectedRound;
     protected JLabel heroImage;
 
+    // Creates a new world Panel
     public WorldPanel(World world, int width, int height, MyGame frame) {
         this.world = world;
+        this.selectedRound = 1;
         this.hero = world.getHero();
         this.frame = frame;
+        this.jsonReader = new JsonReader(MONSTERS_FILE);
         this.constraints = new GridBagConstraints();
         setLayout(new GridBagLayout());
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(width, height));
 
+        init();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Intializes the panel's components
+    public void init() {
         constraints.insets = new Insets(10,10,10,10);
         generateHeroImage();
         constraints.gridheight = 1;
@@ -41,10 +52,9 @@ public class WorldPanel extends JPanel {
         backToMainMenuButton();
         constraints.anchor = GridBagConstraints.WEST;
         heroInformation();
-        constraints.gridx = 4;
+        constraints.gridx = 8;
         constraints.gridy = 0;
-        constraints.gridwidth = 3;
-        constraints.gridheight = 10;
+        constraints.insets = new Insets(10,40,10,10);
         map();
     }
 
@@ -169,6 +179,7 @@ public class WorldPanel extends JPanel {
     // MODIFIES: this
     // EFFECTS: Displays all the hero information
     public void heroInformation() {
+        constraints.gridwidth = 2;
         constraints.gridx = 6;
         constraints.gridy = 0;
         statsLabel("Name: " + hero.getName());
@@ -189,6 +200,7 @@ public class WorldPanel extends JPanel {
     // MODIFIES: this
     // EFFECTS: Displays the heros attributes with a button to increase
     public void heroAttributes() {
+        constraints.gridwidth = 1;
         constraints.gridy = 6;
         statsLabel("Strength: " + hero.getStrength());
         constraints.gridx += 1;
@@ -211,11 +223,6 @@ public class WorldPanel extends JPanel {
         constraints.gridx -= 1;
         constraints.gridy = 10;
         statsLabel("Skill Points: " + hero.getSkillPoints());
-    }
-
-    // MODIFIES: this
-    // EFFECTS: Displays the button to increase strength
-    public void increaseStrengthButton() {
     }
 
     // EFFECTS: Returns a formatted attribute button for given attribute
@@ -245,13 +252,6 @@ public class WorldPanel extends JPanel {
         add(b,constraints);
     }
 
-    // MODIFIES: this
-    // EFFECTS: Reloads the world panel with changed data
-    public void updatePanel() {
-        frame.remove(this);
-        frame.add(new WorldPanel(world, getWidth(),getHeight(),frame));
-        frame.pack();
-    }
 
     // MODIFIES: this
     // EFFECTS: Displays a label with the given text
@@ -265,9 +265,104 @@ public class WorldPanel extends JPanel {
     // MODIFIES: this
     // EFFECTS: Displays the map options
     public void map() {
-
+        mapHeader();
+        ButtonGroup reachedRounds = new ButtonGroup();
+        for (int i = 1; i <= 5; i++) {
+            try {
+                Monster m = jsonReader.reconstructMonster(i, world.getDifficulty());
+                if (i <= world.getRound()) {
+                    JRadioButton battleButton = generateBattleButton(i, m);
+                    if (i == 1) {
+                        battleButton.setSelected(true);
+                    }
+                    add(battleButton, constraints);
+                    reachedRounds.add(battleButton);
+                } else {
+                    add(generateBattleLabel(i, m), constraints);
+                }
+                constraints.gridy += 1;
+            } catch (IOException e) {
+                System.out.println("Failed to load Monster for round" + i);
+                e.printStackTrace();
+            }
+        }
+        enterBattleButton();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Displays a header for the map portion of panel
+    public void mapHeader() {
+        JLabel title = new JLabel("Battle Grounds");
+        JLabel difficulty = new JLabel("Difficulty: " + world.getDifficulty());
+        JLabel round = new JLabel("Round: " + world.getRound() + "/5");
+
+        constraints.gridy = 0;
+        add(formattedMapHeaderLabel(title),constraints);
+        constraints.gridy += 1;
+        add(formattedMapHeaderLabel(difficulty),constraints);
+        constraints.gridy += 1;
+        add(formattedMapHeaderLabel(round),constraints);
+        constraints.gridy += 1;
+    }
+
+    // EFFECTS: Returns a JLabel reformatted
+    public JLabel formattedMapHeaderLabel(JLabel label) {
+        label.setForeground(new Color(154, 66, 234));
+        label.setFont(new Font("mapHeader", Font.PLAIN, 24));
+
+        return label;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Displays the button to enter a battle
+    public void enterBattleButton() {
+        JButton b = new JButton("Fight!");
+        b.setBackground(Color.WHITE);
+        b.setForeground(Color.red);
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startBattle();
+            }
+        });
+
+        add(b,constraints);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Begins the battle at selected round
+    public void startBattle() {
+        frame.remove(this);
+        frame.add(new BattlePanel(world, getWidth(), getHeight(),heroImage, selectedRound, frame));
+        frame.pack();
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: Returns a radio button for given round
+    public JRadioButton generateBattleButton(int round, Monster m) {
+        JRadioButton b = new JRadioButton(m.getName());
+        b.setBackground(Color.DARK_GRAY);
+        b.setForeground(Color.WHITE);
+
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedRound = round;
+            }
+        });
+        return b;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Returns a Label for given round
+    public JLabel generateBattleLabel(int round, Monster m) {
+        JLabel battleLabel = new JLabel(m.getName());
+        battleLabel.setBackground(Color.DARK_GRAY);
+        battleLabel.setForeground(Color.lightGray);
+
+        return battleLabel;
+    }
 
     // MODIFIES: this
     // EFFECTS: Displays the button to go back to main menu
@@ -305,4 +400,13 @@ public class WorldPanel extends JPanel {
         frame.add(main.getPanel());
         frame.pack();
     }
+
+    // MODIFIES: this
+    // EFFECTS: Reloads the world panel with changed data
+    public void updatePanel() {
+        frame.remove(this);
+        frame.add(new WorldPanel(world, getWidth(),getHeight(),frame));
+        frame.pack();
+    }
+
 }

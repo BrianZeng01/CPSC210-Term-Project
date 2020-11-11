@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Represents the panel to create a new world
 public class CreateWorldPanel extends JPanel {
     private GridBagConstraints constraints;
     protected Worlds worlds;

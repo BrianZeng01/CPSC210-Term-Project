@@ -19,6 +19,7 @@ public class MainMenuPanel {
     private Worlds worlds;
     private MyGame frame;
 
+    // EFFECTS: Creates a new main menu panel with given fields
     public MainMenuPanel(Worlds worlds, int width, int height, MyGame frame) {
         backgroundImage = Toolkit.getDefaultToolkit().getImage(BACKGROUND_FILE);
         this.worlds = worlds;

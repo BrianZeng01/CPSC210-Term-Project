@@ -41,3 +41,12 @@ As a user, I want to be able to...
 - World auto-saves after each round * Phase 2
 - Reload the worlds I have created * Phase 2
 
+## Credits
+- Digital Moons ; Main menu Background <br>
+  https://digitalmoons.itch.io/parallax-forest-background?download
+- ssugmi ; Accessory icons <br>
+https://ssugmi.itch.io/16x16-rpg-assets
+- Ækashics ; All character art
+https://aekashics.itch.io/aekashics-librarium-librarium-static-batch-megapack
+- Alfantin ; Battleground background
+https://edermunizz.itch.io/free-pixel-art-forest

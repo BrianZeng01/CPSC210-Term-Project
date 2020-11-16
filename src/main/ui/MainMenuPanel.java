@@ -96,7 +96,7 @@ public class MainMenuPanel extends JPanel {
         b.setBorderPainted(false);
         b.setFocusPainted(false);
         b.setContentAreaFilled(false);
-        b.setForeground(new Color(153,51,255));
+        b.setForeground(new Color(179, 118, 239));
         b.setFont(new Font(w.getWorldName(), Font.PLAIN,40));
         b.addActionListener(new ActionListener() {
             @Override

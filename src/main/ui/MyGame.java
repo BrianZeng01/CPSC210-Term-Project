@@ -1,21 +1,17 @@
 package ui;
 
-import model.World;
 import model.Worlds;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 // The frame and main container of the game
 public class MyGame extends JFrame {
     private Worlds worlds;
-    private MainMenuPanel panel;
     protected JsonWriter jsonWriter;
     protected JsonReader jsonReader;
     private static final String DATA_SOURCE = "./data/application.json";
@@ -50,7 +46,7 @@ public class MyGame extends JFrame {
     // MODIFIES: this
     // EFFECTS: Displays the main menu
     public void init() {
-        panel = new MainMenuPanel(worlds,DEFAULT_WIDTH,DEFAULT_HEIGHT,this);
+        JPanel panel = new MainMenuPanel(worlds,DEFAULT_WIDTH,DEFAULT_HEIGHT,this);
         add(panel);
         pack();
         setVisible(true);
@@ -74,6 +70,10 @@ public class MyGame extends JFrame {
             System.out.println("Data could not be saved!");
             e.printStackTrace();
         }
+    }
+
+    public JsonReader getJsonReader() {
+        return jsonReader;
     }
 
     public Worlds getWorlds() {

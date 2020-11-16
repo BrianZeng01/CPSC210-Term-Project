@@ -1,4 +1,16 @@
-# A Classic RPG Game (name to be determined)
+# A Classic RPG Game (Fractured Forest)
+
+## Credits
+- Digital Moons ; Main menu Background <br>
+  https://digitalmoons.itch.io/parallax-forest-background?download
+- ssugmi ; Accessory icons <br>
+https://ssugmi.itch.io/16x16-rpg-assets
+- Ækashics ; All character art
+https://aekashics.itch.io/aekashics-librarium-librarium-static-batch-megapack
+- Alfantin ; Battleground background
+https://edermunizz.itch.io/free-pixel-art-forest
+- N/A ; sound effects
+http://soundbible.com/
 
 ## Description
 
@@ -32,18 +44,15 @@ As a user, I want to be able to...
 - World auto-saves after each round * Phase 2
 - Reload the worlds I have created * Phase 2
 
-## Credits
-- Digital Moons ; Main menu Background <br>
-  https://digitalmoons.itch.io/parallax-forest-background?download
-- ssugmi ; Accessory icons <br>
-https://ssugmi.itch.io/16x16-rpg-assets
-- Ækashics ; All character art
-https://aekashics.itch.io/aekashics-librarium-librarium-static-batch-megapack
-- Alfantin ; Battleground background
-https://edermunizz.itch.io/free-pixel-art-forest
-- N/A ; sound effects
-http://soundbible.com/
 
 ## Phase 4: Task 2
 Type Hierarchy implemented in the model class eg. Entity <-- Hero <-- WarriorHero
 
+## Phase 4: Task 3
+
+Improvement Possibilities
+-I think I would consider the idea of having a bidirectional
+ relationship between Hero and World as well as Inventory and 
+ Hero. This may reduce the amount of methods and make things feel 
+ more tied together. I found myself using the World.getHero() and 
+ Hero.getInventory() method a lot as well as jumping between World,Hero,and Inventory.

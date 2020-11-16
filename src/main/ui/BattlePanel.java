@@ -19,7 +19,6 @@ import java.util.List;
 public class BattlePanel extends JPanel {
     private static final String MONSTERS_FILE = "./data/monsters.json";
     private World world;
-    private JsonReader jsonReader;
     private Hero hero;
     private Monster monster;
     private MyGame frame;
@@ -37,7 +36,6 @@ public class BattlePanel extends JPanel {
         this.hero = hero;
         this.monster = monster;
         this.frame = frame;
-        this.jsonReader = new JsonReader(MONSTERS_FILE);
         this.constraints = new GridBagConstraints();
         constraints.weightx = 1.0;
         constraints.weighty = 1.0;
@@ -289,7 +287,7 @@ public class BattlePanel extends JPanel {
             JSONArray arr = new JSONArray();
             arr.put(Integer.toString(loot.get(2)));
             try {
-                Accessory a = jsonReader.convertIds(arr).get(0);
+                Accessory a = frame.getJsonReader().convertIds(arr).get(0);
                 inv.pickUpAccessory(a);
             } catch (IOException e) {
                 System.out.println("Failed to generate an accessory upon victory.");

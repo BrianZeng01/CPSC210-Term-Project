@@ -4,9 +4,6 @@ import model.*;
 import persistence.JsonReader;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,13 +11,11 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 // Represents the main screen when entering world
 public class WorldPanel extends JPanel {
     private static final String MONSTERS_FILE = "./data/monsters.json";
     private World world;
-    private JsonReader jsonReader;
     private Hero hero;
     private MyGame frame;
     protected GridBagConstraints constraints;
@@ -33,7 +28,6 @@ public class WorldPanel extends JPanel {
         this.selectedRound = 1;
         this.hero = world.getHero();
         this.frame = frame;
-        this.jsonReader = new JsonReader(MONSTERS_FILE);
         this.constraints = new GridBagConstraints();
         constraints.weightx = 1.0;
         constraints.weighty = 1.0;
@@ -288,7 +282,7 @@ public class WorldPanel extends JPanel {
         ButtonGroup reachedRounds = new ButtonGroup();
         for (int i = 1; i <= 5; i++) {
             try {
-                Monster m = jsonReader.reconstructMonster(i, world.getDifficulty());
+                Monster m = frame.getJsonReader().reconstructMonster(i, world.getDifficulty());
                 if (i <= world.getRound()) {
                     JRadioButton battleButton = generateBattleButton(i, m);
                     if (i == 1) {
@@ -355,7 +349,7 @@ public class WorldPanel extends JPanel {
         hero.recover();
         Monster monster = null;
         try {
-            monster = jsonReader.reconstructMonster(selectedRound,world.getDifficulty());
+            monster = frame.getJsonReader().reconstructMonster(selectedRound,world.getDifficulty());
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Failed to load monster");

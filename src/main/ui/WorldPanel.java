@@ -47,7 +47,6 @@ public class WorldPanel extends JPanel {
     // MODIFIES: this
     // EFFECTS: Intializes the panel's components
     public void init() {
-        openingSound();
         constraints.insets = new Insets(10,10,10,10);
         generateHeroImage();
         constraints.gridheight = 1;
@@ -64,21 +63,7 @@ public class WorldPanel extends JPanel {
         map();
     }
 
-    // Tutorial from:  https://www.youtube.com/watch?v=qPVkRtuf9CQ
-    // EFFECTS: Plays the opening sound
-    public void openingSound() {
-        try {
-            String filePath = "./res/sounds/appear.wav";
-            File file = new File(filePath);
-            AudioInputStream sound = AudioSystem.getAudioInputStream(file);
-            Clip clip = AudioSystem.getClip();
-            clip.open(sound);
-            clip.start();
-        } catch (Exception e) {
-            System.out.println("sound error");
-            e.printStackTrace();
-        }
-    }
+
 
     // MODIFIES: this
     // EFFECTS: Generates the image of the hero based off it's class
@@ -353,6 +338,7 @@ public class WorldPanel extends JPanel {
         JButton b = new JButton("Fight!");
         b.setBackground(Color.WHITE);
         b.setForeground(Color.red);
+        b.setFont(new Font("fight", Font.BOLD, 24));
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

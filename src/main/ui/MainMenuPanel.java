@@ -174,11 +174,20 @@ public class MainMenuPanel extends JPanel {
     // MODIFIES: Returns a create world button to the panel
     public JButton createNewWorldButton() {
         JButton b = new JButton("Create a New World!");
-        b.setForeground(Color.WHITE);
+        b.setForeground(Color.BLACK);
         b.setBorderPainted(false);
         b.setFocusPainted(false);
         b.setContentAreaFilled(false);
         b.setFont(new Font("createWorld", Font.BOLD, 40));
+        b.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                b.setForeground(new Color(116, 222, 78));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                b.setForeground(Color.BLACK);
+            }
+        });
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -226,7 +235,25 @@ public class MainMenuPanel extends JPanel {
     public void enterWorld(World w) {
         frame.remove(this);
         frame.add(new WorldPanel(w,getWidth(), getHeight(), frame));
+        openingSound();
         frame.pack();
+    }
+
+
+    // Tutorial from:  https://www.youtube.com/watch?v=qPVkRtuf9CQ
+    // EFFECTS: Plays the opening sound
+    public void openingSound() {
+        try {
+            String filePath = "./res/sounds/appear.wav";
+            File file = new File(filePath);
+            AudioInputStream sound = AudioSystem.getAudioInputStream(file);
+            Clip clip = AudioSystem.getClip();
+            clip.open(sound);
+            clip.start();
+        } catch (Exception e) {
+            System.out.println("sound error");
+            e.printStackTrace();
+        }
     }
 
 }

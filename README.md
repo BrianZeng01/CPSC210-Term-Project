@@ -32,6 +32,9 @@ As a user, I want to be able to...
 - World auto-saves after each round * Phase 2
 - Reload the worlds I have created * Phase 2
 
+## Phase 4
+Type Hierarchy implemented in the model class eg. Entity <-- Hero <-- WarriorHero
+
 ## Credits
 - Digital Moons ; Main menu Background <br>
   https://digitalmoons.itch.io/parallax-forest-background?download

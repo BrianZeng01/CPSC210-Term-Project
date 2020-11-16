@@ -69,7 +69,7 @@
    "name": "MrMagic",
    "heroClass": "mage",
    "maxHealth": 100,
-   "experience": 0,
+   "experience": 50,
    "experienceRequiredToLevel": 100,
    "agility": 1,
    "intelligence": 5
@@ -77,14 +77,14 @@
   "worldData": {
    "difficulty": "easy",
    "worldName": "Test 2",
-   "round": 1,
+   "round": 2,
    "worldNumber": 3
   },
   "inventoryData": {
    "inventorySlots": [],
    "equipmentSlots": [],
-   "healthPotions": 5,
-   "manaPotions": 5
+   "healthPotions": 2,
+   "manaPotions": 7
   }
  }
 }

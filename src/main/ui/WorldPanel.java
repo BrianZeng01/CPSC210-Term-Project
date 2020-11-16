@@ -91,7 +91,9 @@ public class WorldPanel extends JPanel {
             // Buffering method from: https://stackoverflow.com/questions/299495/how-to-add-an-image-to-a-jpanel
             BufferedImage fileImage = ImageIO.read(new File("./res/images/heroes/"
                     + hero.getHeroClass() + ".png"));
-            heroImage = new JLabel(new ImageIcon(fileImage));
+            ImageIcon icon = new ImageIcon(fileImage);
+            Image rescaledImage = icon.getImage().getScaledInstance(600,400, Image.SCALE_SMOOTH);
+            heroImage = new JLabel(new ImageIcon(rescaledImage));
             heroImage.setBackground(new Color(161, 95, 227));
             heroImage.setOpaque(true);
             add(heroImage,constraints);
@@ -136,6 +138,7 @@ public class WorldPanel extends JPanel {
         add(slot,constraints);
     }
 
+    // MODIFIES: this
     // EFFECTS: Displays Jbutton accessories
     public void inventorySlots(Inventory inv) {
         for (Accessory a : inv.getInventorySlots()) {
@@ -143,9 +146,9 @@ public class WorldPanel extends JPanel {
             add(formattedEquipmentButton(b,a, false),constraints);
             constraints.gridx += 1;
         }
-
     }
 
+    // MODIFIES: this
     // EFFECTS: Displays Jbutton accessories
     public void equipmentSlots(Inventory inv) {
         for (Accessory a : inv.getEquipmentSlots()) {

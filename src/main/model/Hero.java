@@ -11,8 +11,10 @@ import java.util.Random;
 public abstract class Hero extends Entity implements Writable {
     private static final int BASE_STATS = 1;
     private static final int BASE_HEALTH_AND_MANA = 100;
-    private static final int HEALTH_AND_MANA_POTION_VALUE = 30;
-    private static final int MAX_HEALTH_AND_MANA_INCREMENT = 15;
+    private static final int HEALTH_AND_MANA_POTION_VALUE = 25;
+    private static final int MAX_HEALTH_AND_MANA_INCREMENT = 20;
+    private static final int POTION_INCREMENT = 3;
+    private static final int REGEN_FACTOR = 2;
     private static final int SKILL_POINTS_GRANTED_PER_LEVEL = 5;
     private static final double DEFENCE_MULTIPLIER = 6;
     private static final int MAX_FIRST_SKILL_COOL_DOWN = 2;
@@ -24,7 +26,7 @@ public abstract class Hero extends Entity implements Writable {
     private static final int FIRST_SKILL_LEVEL_REQUIREMENT = 1;
     private static final int SECOND_SKILL_LEVEL_REQUIREMENT = 2;
     private static final int THIRD_SKILL_LEVEL_REQUIREMENT = 3;
-    private static final int MAX_LEVEL = 5;
+    private static final int MAX_LEVEL = 6;
     private static final int EXPERIENCE_MULTIPLIER = 3;
     protected double skillMultiplier;
     protected int experienceRequiredToLevel;
@@ -125,8 +127,22 @@ public abstract class Hero extends Entity implements Writable {
     }
 
     // MODIFIES: this
+    // EFFECTS: Applies effects that happens each turn
+    public void nextTurn() {
+        this.regen();
+        this.decreaseCoolDowns();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Auto regenerates hero after turn ends
+    private void regen() {
+        increaseMana(this.getRegenFactor() * this.getLevel());
+        increaseHealth(this.getRegenFactor() * this.getLevel());
+    }
+
+    // MODIFIES: this
     // EFFECTS: Decrease all skills cooldowns by one due to next turn
-    public void decreaseCoolDowns() {
+    private void decreaseCoolDowns() {
         if (this.firstSkillCoolDown > 0) {
             this.firstSkillCoolDown -= 1;
         }
@@ -237,12 +253,9 @@ public abstract class Hero extends Entity implements Writable {
     public Boolean drinkManaPotion() {
         if (this.getInventory().getManaPotions() > 0) {
             this.getInventory().useManaPotion();
-            int possibleNewMana = this.mana + this.getHealthAndManaPotionValue();
-            if (possibleNewMana > maxMana) {
-                this.mana = maxMana;
-            } else {
-                this.mana = possibleNewMana;
-            }
+            int increaseBy = this.getHealthAndManaPotionValue()
+                    + (this.getLevel() - 1) * this.getPotionIncrement();
+            this.increaseMana(increaseBy);
             return true;
         }
         return false;
@@ -256,15 +269,35 @@ public abstract class Hero extends Entity implements Writable {
     public Boolean drinkHealthPotion() {
         if (this.getInventory().getHealthPotions() > 0) {
             this.getInventory().useHealthPotion();
-            int possibleNewHealth = this.getHealth() + this.getHealthAndManaPotionValue();
-            if (possibleNewHealth > maxHealth) {
-                this.health = maxHealth;
-            } else {
-                this.health = possibleNewHealth;
-            }
+            int increaseBy = this.getHealthAndManaPotionValue()
+                    + (this.getLevel() - 1) * this.getPotionIncrement();
+            this.increaseHealth(increaseBy);
             return true;
         }
         return false;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Heals the hero by increaseBy
+    private void increaseHealth(int increaseBy) {
+        int possibleNewHealth = this.getHealth() + increaseBy;
+        if (possibleNewHealth > maxHealth) {
+            this.health = maxHealth;
+        } else {
+            this.health = possibleNewHealth;
+        }
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: increase mana by increaseBy
+    private void increaseMana(int increaseBy) {
+        int possibleNewMana = this.getMana() + increaseBy;
+        if (possibleNewMana > maxMana) {
+            this.mana = maxMana;
+        } else {
+            this.mana = possibleNewMana;
+        }
     }
 
     // EFFECTS: Checks if Character is dead, returns true if dead, otherwise false
@@ -501,6 +534,14 @@ public abstract class Hero extends Entity implements Writable {
 
     public void setSkillPoints(int skillPoints) {
         this.skillPoints = skillPoints;
+    }
+
+    public static int getPotionIncrement() {
+        return POTION_INCREMENT;
+    }
+
+    public static int getRegenFactor() {
+        return REGEN_FACTOR;
     }
 
     @Override

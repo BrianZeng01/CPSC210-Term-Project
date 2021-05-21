@@ -189,7 +189,7 @@ public class App {
             if (!processFightInputs(hero, monster, command)) {
                 continue;
             } else {
-                hero.decreaseCoolDowns();
+                hero.nextTurn();
             }
             if (isFightOver(hero, monster, world, round)) {
                 System.out.println("======================================");

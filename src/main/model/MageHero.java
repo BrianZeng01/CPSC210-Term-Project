@@ -10,7 +10,7 @@ public class MageHero extends Hero {
         super(name);
         this.intelligence = SPECIAL_BASE_STAT;
         this.heroClass = "mage";
-        this.skillMultiplier = 0.25;
+        this.skillMultiplier = 0.21;
     }
 
     @Override

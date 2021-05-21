@@ -280,7 +280,7 @@ public class WorldPanel extends JPanel {
     public void map() {
         mapHeader();
         ButtonGroup reachedRounds = new ButtonGroup();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 8; i++) {
             try {
                 Monster m = frame.getJsonReader().reconstructMonster(i, world.getDifficulty());
                 if (i <= world.getRound()) {
@@ -307,7 +307,7 @@ public class WorldPanel extends JPanel {
     public void mapHeader() {
         JLabel title = new JLabel("Battle Grounds");
         JLabel difficulty = new JLabel("Difficulty: " + world.getDifficulty());
-        JLabel round = new JLabel("Round: " + world.getRound() + "/5");
+        JLabel round = new JLabel("Round: " + world.getRound() + "/8");
 
         constraints.gridy = 0;
         add(formattedMapHeaderLabel(title),constraints);

@@ -19,7 +19,7 @@ public class HeroTest {
         hero.usedSkill(1);
         assertEquals(hero.maxMana - hero.getFirstSkillManaCost(), hero.getMana());
         assertEquals(hero.getMaxFirstSkillCoolDown(), hero.getFirstSkillCoolDown());
-        hero.decreaseCoolDowns();
+        hero.nextTurn();
         assertEquals(hero.getMaxFirstSkillCoolDown() - 1, hero.getFirstSkillCoolDown());
         assertEquals(0, hero.getSecondSkillCoolDown());
         assertEquals(0, hero.getThirdSkillCoolDown());
@@ -29,7 +29,7 @@ public class HeroTest {
         hero.usedSkill(2);
         assertEquals(hero.maxMana - hero.getSecondSkillManaCost(), hero.getMana());
         assertEquals(hero.getMaxSecondSkillCoolDown(), hero.getSecondSkillCoolDown());
-        hero.decreaseCoolDowns();
+        hero.nextTurn();
         assertEquals(hero.getMaxSecondSkillCoolDown() - 1, hero.getSecondSkillCoolDown());
         assertEquals(0, hero.getFirstSkillCoolDown());
         assertEquals(0, hero.getThirdSkillCoolDown());
@@ -40,11 +40,11 @@ public class HeroTest {
         hero.usedSkill(3);
         assertEquals(hero.maxMana - hero.getThirdSkillManaCost(), hero.getMana());
         assertEquals(hero.getMaxThirdSkillCoolDown(), hero.getThirdSkillCoolDown());
-        hero.decreaseCoolDowns();
+        hero.nextTurn();
         assertEquals(hero.getMaxThirdSkillCoolDown() - 1, hero.getThirdSkillCoolDown());
         assertEquals(0, hero.getSecondSkillCoolDown());
         assertEquals(0, hero.getFirstSkillCoolDown());
-        hero.decreaseCoolDowns();
+        hero.nextTurn();
         assertEquals(hero.getMaxThirdSkillCoolDown() - 2, hero.getThirdSkillCoolDown());
     }
 

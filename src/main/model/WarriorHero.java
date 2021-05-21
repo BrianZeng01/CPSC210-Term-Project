@@ -10,7 +10,7 @@ public class WarriorHero extends Hero {
         super(name);
         this.defence = SPECIAL_BASE_STAT;
         this.heroClass = "warrior";
-        this.skillMultiplier = 0.05;
+        this.skillMultiplier = 0.07;
     }
 
     @Override

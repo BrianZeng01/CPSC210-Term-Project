@@ -1,7 +1,7 @@
 {
   "1": {
       "name": "Slime",
-      "health": 65,
+      "health": 50,
       "strength": 2,
       "experience": 50,
       "lootChance": 1
@@ -17,29 +17,42 @@
     "name": "Skeleton",
     "health": 375,
     "strength": 5,
-    "experience": 120,
+    "experience": 100,
     "lootChance": 2
   },
   "4": {
     "name": "Golem",
     "health": 750,
     "strength": 5,
-    "experience": 150,
+    "experience": 125,
     "lootChance": 2
   },
   "5": {
     "name": "Night King",
     "health": 1200,
     "strength": 7,
-    "experience": 200,
-    "lootChance": 3
+    "experience": 175,
+    "lootChance": 2
   },
   "6": {
-    "name": "King Slime",
+    "name": "Slime Golem",
     "health": 2000,
-    "strength": 9,
+    "strength": 8,
     "experience": 250,
     "lootChance": 3
+  },
+  "7": {
+    "name": "Titan",
+    "health": 2400,
+    "strength": 9,
+    "experience": 350,
+    "lootChance": 3
+  },
+  "8": {
+    "name": "Dragon",
+    "health": 3000,
+    "strength": 9,
+    "experience": 500,
+    "lootChance": 3
   }
-
 }

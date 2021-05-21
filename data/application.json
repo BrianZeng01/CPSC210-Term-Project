@@ -1,28 +1,32 @@
 {"1": {
  "heroData": {
-  "strength": 1,
-  "level": 1,
+  "strength": 29,
+  "level": 5,
   "skillPoints": 0,
-  "defence": 5,
-  "maxMana": 100,
+  "defence": 13,
+  "maxMana": 170,
   "name": "Placeholder Hero Name",
   "heroClass": "warrior",
-  "maxHealth": 100,
-  "experience": 50,
-  "experienceRequiredToLevel": 100,
-  "agility": 1,
-  "intelligence": 1
+  "maxHealth": 170,
+  "experience": 5350,
+  "experienceRequiredToLevel": 8100,
+  "agility": 4,
+  "intelligence": 6
  },
  "worldData": {
   "difficulty": "hard",
   "worldName": "Placeholder World Name",
-  "round": 2,
+  "round": 9,
   "worldNumber": 1
  },
  "inventoryData": {
-  "inventorySlots": [],
-  "equipmentSlots": [],
-  "healthPotions": 0,
-  "manaPotions": 5
+  "inventorySlots": [2],
+  "equipmentSlots": [
+   2,
+   2,
+   3
+  ],
+  "healthPotions": 9,
+  "manaPotions": 24
  }
 }}

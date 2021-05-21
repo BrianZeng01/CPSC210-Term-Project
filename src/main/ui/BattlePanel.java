@@ -253,7 +253,7 @@ public class BattlePanel extends JPanel {
         if (hero.isDead()) {
             backToWorld();
         } else {
-            hero.decreaseCoolDowns();
+            hero.nextTurn();
             reloadPanel();
         }
     }

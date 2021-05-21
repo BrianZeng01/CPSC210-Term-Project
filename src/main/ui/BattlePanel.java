@@ -265,6 +265,7 @@ public class BattlePanel extends JPanel {
         hero.takeDamage(monster.basicAttack());
         takeDamageSound();
         if (hero.isDead()) {
+            battleEndDisplay(false,null);
             backToWorld();
         } else {
             hero.nextTurn();
@@ -312,8 +313,31 @@ public class BattlePanel extends JPanel {
                 e.printStackTrace();
             }
         }
+        battleEndDisplay(true, loot);
         backToWorld();
-        return;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Displays prompt at the end of the battle
+    public void battleEndDisplay(boolean victory, List<Integer> loot) {
+        if (victory) {
+            String itemMsg = loot.get(2) != -1 ? "New Item Acquired!\n" : "";
+            JOptionPane.showConfirmDialog(this,
+                    "Rewards: \n"
+                            + "Health Potions: "
+                            + loot.get(0) + "\n"
+                            + "Mana Potions: "
+                            + loot.get(1)
+                            + "\n"
+                            + itemMsg
+                            + "Experience Gained: " + monster.getExp(),
+                    "Victory!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
+        } else {
+            JOptionPane.showConfirmDialog(this,
+                    "Better luck next time :(",
+                    "Defeat!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
+        }
+
     }
 
     // MODIFIES: this

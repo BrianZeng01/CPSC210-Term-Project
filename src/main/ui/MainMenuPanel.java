@@ -130,7 +130,7 @@ public class MainMenuPanel extends JPanel {
         b.addActionListener(e -> {
             int res = JOptionPane.showConfirmDialog(null,
                     "Are you sure you want to Delete " + selectWorld.getText(),
-                    "DELETE WORLD", JOptionPane.YES_NO_OPTION);
+                    "DELETE WORLD", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
             if (res == 0) {
                 deleteWorldVerification(worldNumber, selectWorld, b);
             }

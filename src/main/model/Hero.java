@@ -11,10 +11,10 @@ import java.util.Random;
 public abstract class Hero extends Entity implements Writable {
     private static final int BASE_STATS = 1;
     private static final int BASE_HEALTH_AND_MANA = 100;
-    private static final int HEALTH_AND_MANA_POTION_VALUE = 25;
-    private static final int MAX_HEALTH_AND_MANA_INCREMENT = 10;
+    private static final int HEALTH_AND_MANA_POTION_VALUE = 30;
+    private static final int MAX_HEALTH_AND_MANA_INCREMENT = 15;
     private static final int SKILL_POINTS_GRANTED_PER_LEVEL = 5;
-    private static final double DEFENCE_MULTIPLIER = 2.75;
+    private static final double DEFENCE_MULTIPLIER = 6;
     private static final int MAX_FIRST_SKILL_COOL_DOWN = 2;
     private static final int MAX_SECOND_SKILL_COOL_DOWN = 3;
     private static final int MAX_THIRD_SKILL_COOL_DOWN = 6;

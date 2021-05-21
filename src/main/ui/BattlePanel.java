@@ -58,27 +58,31 @@ public class BattlePanel extends JPanel {
     // EFFECTS: Displays health,mana, and name of both entities, also displays battle log
     public void headerDisplay() {
         constraints.gridwidth = 4;
+        constraints.gridheight = 1;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 0;
         constraints.gridy = 0;
-        add(formattedHeaderLabel(hero.getName()),constraints);
+        add(formattedHeaderLabel(hero.getName(), "hero"),constraints);
         constraints.gridy = 1;
-        add(formattedHeaderLabel("HP: " + Integer.toString(hero.getHealth())),constraints);
+        add(formattedHeaderLabel("HP: " + Integer.toString(hero.getHealth()), "hero"),constraints);
         constraints.gridy = 2;
-        add(formattedHeaderLabel("MP: " + Integer.toString(hero.getMana())),constraints);
+        add(formattedHeaderLabel("MP: " + Integer.toString(hero.getMana()),"hero"),constraints);
         constraints.anchor = GridBagConstraints.EAST;
         constraints.gridx = 4;
         constraints.gridy = 0;
-        add(formattedHeaderLabel(monster.getName()),constraints);
+        add(formattedHeaderLabel(monster.getName(),"monster"),constraints);
         constraints.gridy = 1;
-        add(formattedHeaderLabel(Integer.toString(monster.getHealth()) + " :HP"),constraints);
+        add(formattedHeaderLabel(Integer.toString(monster.getHealth()) + " :HP", "monster"),constraints);
         constraints.gridy = 2;
-        add(formattedHeaderLabel("0 :MP"),constraints);
+        add(formattedHeaderLabel("0 :MP","monster"),constraints);
     }
 
     // EFFECTS: Formats the header labels and returns them
-    public JLabel formattedHeaderLabel(String text) {
+    public JLabel formattedHeaderLabel(String text, String type) {
         JLabel label = new JLabel(text);
+        if (type.equals("monster")) {
+            label.setHorizontalAlignment(SwingConstants.RIGHT);
+        }
         label.setForeground(Color.WHITE);
         label.setBackground(Color.DARK_GRAY);
         label.setOpaque(true);

@@ -8,30 +8,38 @@
     },
   "2": {
     "name": "Dire Wolf",
-    "health": 90,
+    "health": 125,
     "strength": 5,
     "experience": 75,
     "lootChance": 1
   },
   "3": {
     "name": "Skeleton",
-    "health": 250,
-    "strength": 4,
+    "health": 375,
+    "strength": 5,
     "experience": 120,
     "lootChance": 2
   },
   "4": {
     "name": "Golem",
-    "health": 450,
+    "health": 750,
     "strength": 5,
     "experience": 150,
     "lootChance": 2
   },
   "5": {
     "name": "Night King",
-    "health": 700,
+    "health": 1200,
     "strength": 7,
     "experience": 200,
     "lootChance": 3
+  },
+  "6": {
+    "name": "King Slime",
+    "health": 2000,
+    "strength": 9,
+    "experience": 250,
+    "lootChance": 3
   }
+
 }

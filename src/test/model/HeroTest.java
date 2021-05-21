@@ -238,7 +238,8 @@ public class HeroTest {
     @Test
     public void takeDamageAliveTest() {
         int damage = hero.getBaseHealthAndMana() - 1;
-        int damageAfterDefence = (int) Math.round(damage * (100 / (100 + (2.75 * hero.getDefence()))));
+        int damageAfterDefence = (int) Math.round(damage *
+                (100 / (100 + (hero.getDefenceMultiplier() * hero.getDefence()))));
         assertTrue(hero.takeDamage(damage));
         assertEquals(hero.getBaseHealthAndMana()-damageAfterDefence, hero.getHealth());
     }

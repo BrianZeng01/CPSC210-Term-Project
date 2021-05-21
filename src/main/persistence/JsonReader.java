@@ -102,7 +102,7 @@ public class JsonReader {
         if (heroClass.equals("warrior")) {
             newHero = new WarriorHero(name);
         } else if (heroClass.equals("archer")) {
-            newHero = new MageHero(name);
+            newHero = new ArcherHero(name);
         } else {
             newHero = new MageHero(name);
         }

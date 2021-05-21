@@ -62,31 +62,39 @@ public class BattlePanel extends JPanel {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 0;
         constraints.gridy = 0;
-        add(formattedHeaderLabel(hero.getName(), "hero"),constraints);
+        add(formattedHeaderLabel(hero.getName(), "hero", "name"),constraints);
         constraints.gridy = 1;
-        add(formattedHeaderLabel("HP: " + Integer.toString(hero.getHealth()), "hero"),constraints);
+        add(formattedHeaderLabel("HP: " + Integer.toString(hero.getHealth()), "hero", "hp"),constraints);
         constraints.gridy = 2;
-        add(formattedHeaderLabel("MP: " + Integer.toString(hero.getMana()),"hero"),constraints);
+        add(formattedHeaderLabel("MP: " + Integer.toString(hero.getMana()),"hero", "mp"),constraints);
         constraints.anchor = GridBagConstraints.EAST;
         constraints.gridx = 4;
         constraints.gridy = 0;
-        add(formattedHeaderLabel(monster.getName(),"monster"),constraints);
+        add(formattedHeaderLabel(monster.getName(),"monster", "name"),constraints);
         constraints.gridy = 1;
-        add(formattedHeaderLabel(Integer.toString(monster.getHealth()) + " :HP", "monster"),constraints);
+        add(formattedHeaderLabel(Integer.toString(monster.getHealth()) + " :HP", "monster", "hp"),constraints);
         constraints.gridy = 2;
-        add(formattedHeaderLabel("0 :MP","monster"),constraints);
+        add(formattedHeaderLabel("0 :MP","monster", "mp"),constraints);
     }
 
     // EFFECTS: Formats the header labels and returns them
-    public JLabel formattedHeaderLabel(String text, String type) {
+    public JLabel formattedHeaderLabel(String text, String type, String tag) {
         JLabel label = new JLabel(text);
         if (type.equals("monster")) {
             label.setHorizontalAlignment(SwingConstants.RIGHT);
         }
-        label.setForeground(Color.WHITE);
         label.setBackground(Color.DARK_GRAY);
+        if (tag.equals("name")) {
+            label.setFont(new Font("headerLabel", Font.BOLD, 24));
+            label.setForeground(Color.WHITE);
+        } else if (tag.equals("hp")) {
+            label.setFont(new Font("headerLabel", Font.PLAIN, 24));
+            label.setForeground(Color.RED);
+        } else {
+            label.setFont(new Font("headerLabel", Font.PLAIN, 24));
+            label.setForeground(Color.BLUE);
+        }
         label.setOpaque(true);
-        label.setFont(new Font("headerLabel", Font.PLAIN, 24));
         return label;
     }
 
@@ -108,16 +116,19 @@ public class BattlePanel extends JPanel {
         constraints.gridy = 15;
         constraints.gridheight = 3;
         constraints.gridwidth = 1;
-        add(attackButton("0","basic attack"),constraints);
+        add(attackButton("0","Basic Attack", 0),constraints);
         constraints.gridx = 1;
         add(attackButton("1","1st skill:" + hero.getFirstSkillManaCost()
-                + "MP CD(" + hero.getFirstSkillCoolDown() + ")"),constraints);
+                + "MP CD(" + hero.getFirstSkillCoolDown() + ")",
+                hero.getFirstSkillLevelRequirement()),constraints);
         constraints.gridx = 2;
         add(attackButton("2","2nd skill:" + hero.getSecondSkillManaCost()
-                + "MP CD(" + hero.getSecondSkillCoolDown() + ")"),constraints);
+                + "MP CD(" + hero.getSecondSkillCoolDown() + ")",
+                hero.getSecondSkillLevelRequirement()),constraints);
         constraints.gridx = 3;
         add(attackButton("3","3rd skill:" + hero.getThirdSkillManaCost()
-                + "MP CD(" + hero.getThirdSkillCoolDown() + ")"),constraints);
+                + "MP CD(" + hero.getThirdSkillCoolDown() + ")",
+                hero.getThirdSkillLevelRequirement()),constraints);
         constraints.gridx = 4;
         add(drinkHealthButton(),constraints);
         constraints.gridx = 5;
@@ -128,7 +139,10 @@ public class BattlePanel extends JPanel {
     }
 
     // EFFECTS: Returns a button corresponding to the given attack input
-    public JButton attackButton(String attack, String text) {
+    public JButton attackButton(String attack, String text, int levelRequired) {
+        if (hero.getLevel() < levelRequired) {
+            return new JButton("Level " + levelRequired + " Required");
+        }
         JButton b = new JButton(text);
         b.setForeground(Color.WHITE);
         b.setBackground(Color.lightGray);

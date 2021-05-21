@@ -21,7 +21,7 @@ public class MyGame extends JFrame {
     // EFFECTS: Starts the application
     public MyGame() {
         setTitle("Fractured Forest");
-        setMinimumSize(new Dimension(900,750));
+        setMinimumSize(new Dimension(1400,750));
         setLayout(new BorderLayout());
         jsonWriter = new JsonWriter(DATA_SOURCE);
         jsonReader = new JsonReader(DATA_SOURCE);

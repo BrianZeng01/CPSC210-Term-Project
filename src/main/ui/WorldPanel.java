@@ -51,35 +51,10 @@ public class WorldPanel extends JPanel {
         backToMainMenuButton();
         constraints.anchor = GridBagConstraints.WEST;
         heroInformation();
-        constraints.gridx = 8;
+        constraints.gridx = 7;
         constraints.gridy = 0;
         constraints.insets = new Insets(10,40,10,10);
         map();
-    }
-
-
-
-    // MODIFIES: this
-    // EFFECTS: Generates the image of the hero based off it's class
-    public void generateHeroImage() {
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.gridheight = 11;
-        constraints.gridwidth = 6;
-        try {
-            // Buffering method from: https://stackoverflow.com/questions/299495/how-to-add-an-image-to-a-jpanel
-            BufferedImage fileImage = ImageIO.read(new File("./res/images/heroes/"
-                    + hero.getHeroClass() + ".png"));
-            ImageIcon icon = new ImageIcon(fileImage);
-            Image rescaledImage = icon.getImage().getScaledInstance(600,400, Image.SCALE_SMOOTH);
-            heroImage = new JLabel(new ImageIcon(rescaledImage));
-            heroImage.setBackground(new Color(161, 95, 227));
-            heroImage.setOpaque(true);
-            add(heroImage,constraints);
-        } catch (IOException e) {
-            System.out.println("Hero image not loading");
-            e.printStackTrace();
-        }
     }
 
     // MODIFIES: this
@@ -97,7 +72,8 @@ public class WorldPanel extends JPanel {
         inventoryLabel("Inventory:");
         constraints.gridx = 1;
         inventorySlots(inv);
-        constraints.gridx += 1;
+        constraints.gridy = 13;
+        constraints.gridx = 0;
         JLabel hp = new JLabel("HP Potions:" + inv.getHealthPotions());
         hp.setForeground(Color.WHITE);
         add(hp, constraints);
@@ -193,7 +169,7 @@ public class WorldPanel extends JPanel {
     // EFFECTS: Displays all the hero information
     public void heroInformation() {
         constraints.gridwidth = 2;
-        constraints.gridx = 6;
+        constraints.gridx = 5;
         constraints.gridy = 0;
         statsLabel("Name: " + hero.getName());
         constraints.gridy = 1;
@@ -361,20 +337,46 @@ public class WorldPanel extends JPanel {
         frame.pack();
     }
 
-    // EFFECTS: Returns an image of the given monster as a JLabel
-    public JLabel generateMonsterImage(String name) {
-        JLabel monster = null;
+    // MODIFIES: this
+    // EFFECTS: Generates the respective image of the hero or monster
+    // Buffering method from: https://stackoverflow.com/questions/299495/how-to-add-an-image-to-a-jpanel
+    public JLabel generateImage(String type, String name) {
+        JLabel image = null;
+        String path;
+        if (type.equals("hero")) {
+            path = "./res/images/heroes/" + name + ".png";
+        } else {
+            path = "./res/images/monsters/" + name + ".png";
+        }
         try {
-            BufferedImage fileImage = ImageIO.read(new File("./res/images/monsters/"
-                    + name + ".png"));
-            monster = new JLabel(new ImageIcon(fileImage));
-            monster.setBackground(new Color(161, 95, 227));
-            monster.setOpaque(true);
+            BufferedImage fileImage = ImageIO.read(new File(path));
+            ImageIcon icon = new ImageIcon(fileImage);
+            Image rescaledImage = icon.getImage().getScaledInstance(550,550, Image.SCALE_SMOOTH);
+            image = new JLabel(new ImageIcon(rescaledImage));
+            image.setBackground(new Color(161, 95, 227));
+            image.setOpaque(true);
+            return image;
         } catch (IOException e) {
-            System.out.println("Monster image not loading");
+            System.out.println(type + " Image not loading");
             e.printStackTrace();
         }
-        return monster;
+        return image;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Generates the image of the hero based off it's class
+    public void generateHeroImage() {
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridheight = 11;
+        constraints.gridwidth = 5;
+        heroImage = generateImage("hero", hero.getHeroClass());
+        add(heroImage,constraints);
+    }
+
+    // EFFECTS: Returns an image of the given monster as a JLabel
+    public JLabel generateMonsterImage(String name) {
+        return generateImage("monster", name);
     }
 
     // MODIFIES: this

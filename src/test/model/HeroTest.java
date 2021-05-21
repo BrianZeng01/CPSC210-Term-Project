@@ -94,6 +94,20 @@ public class HeroTest {
     }
 
     @Test
+    public void nextTurnTest() {
+        hero.takeDamage(80);
+        hero.firstSkill();
+        hero.spendMana(50);
+        int cd = hero.getFirstSkillCoolDown();
+        int health = hero.getHealth();
+        int mana = hero.getMana();
+        hero.nextTurn();
+        assertEquals(health + hero.getRegenFactor() * hero.getLevel(), hero.getHealth());
+        assertEquals(mana + hero.getRegenFactor() * hero.getLevel(), hero.getMana());
+        assertEquals(cd - 1, hero.getMaxFirstSkillCoolDown() - 1);
+    }
+
+    @Test
     public void levelUpTest() {
         hero.levelUp();
         assertEquals(hero.getSkillPointsGrantedPerLevel(), hero.getSkillPoints());

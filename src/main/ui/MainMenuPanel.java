@@ -128,9 +128,12 @@ public class MainMenuPanel extends JPanel {
         b.setContentAreaFilled(false);
         b.setFont(new Font("delete" + worldNumber, Font.BOLD, 44));
         b.addActionListener(e -> {
-            remove(selectWorld);
-            remove(b);
-            deleteWorldVerification(worldNumber);
+            int res = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to Delete " + selectWorld.getText(),
+                    "DELETE WORLD", JOptionPane.YES_NO_OPTION);
+            if (res == 0) {
+                deleteWorldVerification(worldNumber, selectWorld, b);
+            }
         });
         b.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -146,14 +149,12 @@ public class MainMenuPanel extends JPanel {
 
     // MODIFIES: this
     // EFFECTS: Removes the world with the given world number and updates panel
-    public void deleteWorldVerification(int worldNumber) {
+    public void deleteWorldVerification(int worldNumber, JButton selectWorld, JButton btn) {
+        remove(btn);
+        remove(selectWorld);
         worlds.deleteWorld(worldNumber);
-        JLabel msg = new JLabel("Save and Exit to confirm world deletion");
-        msg.setFont(new Font("msg", Font.PLAIN, 24));
-        constraints.gridy += 1;
-        add(msg,constraints);
+        frame.save();
         updateUI();
-
     }
 
     // MODIFIES this:

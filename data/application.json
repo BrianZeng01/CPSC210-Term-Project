@@ -8,7 +8,7 @@
   "name": "Placeholder Hero Name",
   "heroClass": "warrior",
   "maxHealth": 170,
-  "experience": 5350,
+  "experience": 5850,
   "experienceRequiredToLevel": 8100,
   "agility": 4,
   "intelligence": 6
@@ -20,13 +20,16 @@
   "worldNumber": 1
  },
  "inventoryData": {
-  "inventorySlots": [2],
+  "inventorySlots": [
+   2,
+   1
+  ],
   "equipmentSlots": [
    2,
-   2,
-   3
+   3,
+   2
   ],
-  "healthPotions": 9,
-  "manaPotions": 24
+  "healthPotions": 1,
+  "manaPotions": 17
  }
 }}
